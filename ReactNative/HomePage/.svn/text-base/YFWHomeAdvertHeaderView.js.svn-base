@@ -1,0 +1,46 @@
+import React, { Component } from 'react';
+import {
+    Platform,
+    StyleSheet,
+    Image,
+    View,
+    TouchableOpacity
+} from 'react-native';
+import YFWToast from "../Utils/YFWToast";
+import YFWBaseView from '../BaseVC/YFWBaseView'
+
+
+export default class YFWHomeAdvertHeaderView extends YFWBaseView {
+
+    static defaultProps = {
+        Data:new Array(),
+    }
+
+    render() {
+        var img_url = '';
+        if (this.props.Data.length > 0){
+            img_url = this.props.Data[0].img_url;
+        }
+
+        return (
+            <View style={{flex:1 }}>
+                <TouchableOpacity  style={{flex:1}}  onPress={()=>this.clickItems(this.props.Data[0])}>
+                    <Image style={{flex:1 ,marginTop:10}}
+                           height={100}
+                           source={{uri:img_url}}/>
+                </TouchableOpacity>
+
+            </View>
+
+        );
+    }
+
+    clickItems(badge){
+
+        const { navigate } = this.props.navigation;
+        //navigate('YFWWebView',{state:badge});
+        this.pushNavigation(navigate,badge);
+    }
+
+}
+

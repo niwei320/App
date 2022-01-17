@@ -1,0 +1,230 @@
+{
+  "code": "1",
+  "items": {
+    "main_category": [
+      {
+        "id": "1",
+        "name": "中西药品"
+      },
+      {
+        "id": "3",
+        "name": "养生保健"
+      },
+      {
+        "id": "2",
+        "name": "医疗器械"
+      },
+      {
+        "id": "5",
+        "name": "计生用品"
+      },
+      {
+        "id": "6",
+        "name": "中药饮片"
+      },
+      {
+        "id": "4",
+        "name": "美容护肤"
+      }
+    ],
+    "article": [
+      {
+        "id": "1041125",
+        "summary": "15种治疗脚臭的方法，脚气已经成为一种常见的皮肤病，很多人因为脚气的问题，在出席一些场合中会很尴尬，那么有什么治疗方法吗?下面我们一起来看看。一、白萝卜去脚臭白萝卜半个，切成薄片，放在锅内，然后加适量水，用旺火熬3分钟，再用文火熬5分钟，...",
+        "short_title": "15种治疗脚臭的方法",
+        "title": "15种治疗脚臭的方法",
+        "image": "https://c1.yaofangwang.net/common/images/default/nophoto.png",
+        "url": "https://m.yaofangwang.com/jibing/pfk/1041125.shtml?for=android",
+        "share": "http://m.yaofangwang.com/jibing/pfk/1041125.shtml"
+      },
+      {
+        "id": "1041084",
+        "summary": "治疗胃出血的最佳方法，胃出血俗称上消化道出血，40%以上是由胃、十二指肠溃疡导致，工作过度劳累、日常饮食不规律、情绪异常紧张等导致，那么胃出血有什么治疗方法吗?下面我们一起来看看。根据临床治疗显示，胃出血患者的危害非常严重，长期少量胃出血...",
+        "short_title": "治疗胃出血的最佳方法",
+        "title": "治疗胃出血的最佳方法",
+        "image": "https://c1.yaofangwang.net/common/images/default/nophoto.png",
+        "url": "https://m.yaofangwang.com/jibing/xhk/1041084.shtml?for=android",
+        "share": "http://m.yaofangwang.com/jibing/xhk/1041084.shtml"
+      },
+      {
+        "id": "1041083",
+        "summary": "胃不舒服是什么原因，饮食还有生活习惯都很正常，但是却经常胃不舒服，这是怎么回事?那就要警惕是否是胃部疾病在作怪，下面我们一起来看看。1.饭后饱胀或终日饱胀：肠胃功能紊乱。2.过敏性肠炎：饭后立即腹泻，吃一顿泻一次，稍有受凉或饮食不当就发作...",
+        "short_title": "胃不舒服是什么原因",
+        "title": "胃不舒服是什么原因",
+        "image": "https://c1.yaofangwang.net/common/images/default/nophoto.png",
+        "url": "https://m.yaofangwang.com/jibing/xhk/1041083.shtml?for=android",
+        "share": "http://m.yaofangwang.com/jibing/xhk/1041083.shtml"
+      },
+      {
+        "id": "1041057",
+        "summary": "手上长冻疮怎么办，冻疮形成的原因跟天气以及个人的因素离不开，那么你知道长冻疮怎么办呢?下面我们一起来看看。1.运动治冻疮加强适合自身条件的体育锻炼，如练气功、跳舞、跳绳等活动，或利用每天洗手、脸、脚的间隙，轻轻揉擦皮肤，至微热为止，以促进...",
+        "short_title": "手上长冻疮怎么办",
+        "title": "手上长冻疮怎么办",
+        "image": "https://c1.yaofangwang.net/common/images/default/nophoto.png",
+        "url": "https://m.yaofangwang.com/jibing/pfk/1041057.shtml?for=android",
+        "share": "http://m.yaofangwang.com/jibing/pfk/1041057.shtml"
+      },
+      {
+        "id": "1041138",
+        "summary": "流行性腮腺炎症状，流行性腮腺炎简称流腮，俗称痄腮。四季均有流行，以冬、春季常见。是儿童和青少年期常见的呼吸道传染病。那么它有什么症状呢?下面我们一起来看看。流行性腮腺炎症状1.潜伏期8～30天，平均18天。起病大多较急，无前驱症状。有发热...",
+        "short_title": "流行性腮腺炎症状",
+        "title": "流行性腮腺炎症状",
+        "image": "https://c1.yaofangwang.net/common/images/default/nophoto.png",
+        "url": "https://m.yaofangwang.com/jibing/rk/1041138.shtml?for=android",
+        "share": "http://m.yaofangwang.com/jibing/rk/1041138.shtml"
+      }
+    ],
+    "top_disease": [
+      {
+        "id": "81",
+        "name": "腹痛腹泻",
+        "hot": "0"
+      },
+      {
+        "id": "87",
+        "name": "肺热咳嗽",
+        "hot": "1"
+      },
+      {
+        "id": "70",
+        "name": "胃炎",
+        "hot": "0"
+      },
+      {
+        "id": "88",
+        "name": "哮喘",
+        "hot": "1"
+      },
+      {
+        "id": "91",
+        "name": "高血压",
+        "hot": "0"
+      },
+      {
+        "id": "92",
+        "name": "糖尿病",
+        "hot": "0"
+      },
+      {
+        "id": "99",
+        "name": "中风偏瘫",
+        "hot": "0"
+      },
+      {
+        "id": "128",
+        "name": "风湿病",
+        "hot": "0"
+      },
+      {
+        "id": "148",
+        "name": "乳腺癌",
+        "hot": "0"
+      },
+      {
+        "id": "146",
+        "name": "肝癌",
+        "hot": "0"
+      },
+      {
+        "id": "133",
+        "name": "痛风",
+        "hot": "0"
+      },
+      {
+        "id": "131",
+        "name": "颈椎病",
+        "hot": "0"
+      }
+    ],
+    "top_brand": [
+      {
+        "name": "云南白药",
+        "img_url": "https://c1.yaofangwang.net/Common/images/app/brand/ynby.jpg"
+      },
+      {
+        "name": "仁和",
+        "img_url": "https://c1.yaofangwang.net/Common/images/app/brand/rhjt.jpg"
+      },
+      {
+        "name": "同仁堂",
+        "img_url": "https://c1.yaofangwang.net/Common/images/app/brand/bjtrt.jpg"
+      },
+      {
+        "name": "999",
+        "img_url": "https://c1.yaofangwang.net/Common/images/app/brand/sjyy.jpg"
+      },
+      {
+        "name": "白云山",
+        "img_url": "https://c1.yaofangwang.net/Common/images/app/brand/byszy.jpg"
+      },
+      {
+        "name": "养生堂",
+        "img_url": "https://c1.yaofangwang.net/Common/images/app/brand/yst.jpg"
+      },
+      {
+        "name": "汤臣倍健",
+        "img_url": "https://c1.yaofangwang.net/Common/images/app/brand/tcbj.jpg"
+      },
+      {
+        "name": "太太",
+        "img_url": "https://c1.yaofangwang.net/Common/images/app/brand/tt.jpg"
+      },
+      {
+        "name": "片仔癀",
+        "img_url": "https://c1.yaofangwang.net/Common/images/app/brand/pzh.jpg"
+      },
+      {
+        "name": "善存",
+        "img_url": "https://c1.yaofangwang.net/Common/images/app/brand/sc.jpg"
+      },
+      {
+        "name": "合生元",
+        "img_url": "https://c1.yaofangwang.net/Common/images/app/brand/fghsy.jpg"
+      },
+      {
+        "name": "强生",
+        "img_url": "https://c1.yaofangwang.net/Common/images/app/brand/qs.jpg"
+      }
+    ]
+
+  ,
+    "shop":[
+  {
+    "id": "349513",
+    "title": "上海国大龙汇大药房",
+    "phone": "021-50375982",
+    "address": "上海市浦东新区龙汇75号一层",
+    "contract": "1",
+    "star": "4.8",
+    "latitude": "31.230895",
+    "longitude": "121.638481",
+    "distance": "2.2km",
+    "logo_img_url": "https://c1.yaofangwang.net/Common/Upload/ShopImage/349/349513/8b964f88-c104-4811-b32e-43b81e5a85f75274.jpg_160x80.jpg"
+  },
+  {
+    "id": "92062",
+    "title": "上海龙威大药房有限公司",
+    "phone": "021-51321666",
+    "address": "上海市浦东新区金豫路825号211室",
+    "contract": "1",
+    "star": "4.9",
+    "latitude": "31.250098",
+    "longitude": "121.62799",
+    "distance": "4.4km",
+    "logo_img_url": "https://c1.yaofangwang.net/Common/Upload/ShopImage/92/92062/2a5420eb-09a1-43d5-9573-2f52c6c3b4171999.jpg_160x80.jpg"
+  },
+  {
+    "id": "348557",
+    "title": "上海玉峰大药房有限公司",
+    "phone": "021-68901020",
+    "address": "中国(上海)自由贸易区金沪路69、97号地下一层101室",
+    "contract": "1",
+    "star": "4.9",
+    "latitude": "31.263784",
+    "longitude": "121.617967",
+    "distance": "6.1km",
+    "logo_img_url": "https://c1.yaofangwang.net/Common/Upload/ShopImage/348/348557/822c514d-4d32-4f01-bd09-95555c5740b22292.jpg_160x80.jpg"
+  }
+]
+  }
+}

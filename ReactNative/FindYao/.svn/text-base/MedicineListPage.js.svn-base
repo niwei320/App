@@ -1,0 +1,369 @@
+import React, {Component} from 'react';
+import {
+    Platform,
+    StyleSheet,
+    Text,
+    View,
+    ListView,
+    TouchableOpacity, Modal, Image, FlatList,
+    TouchableHighlight, DrawerLayoutAndroid
+} from 'react-native';
+import Drawer from 'react-native-drawer'
+import YFWToast from "../Utils/YFWToast";
+import {log, logWarm, logErr} from '../Utils/YFWLog'
+import YFWSearchHeader from '../HomePage/YFWHomeSearchHeaderView'
+import {getItem, setItem} from "../Utils/YFWStorage";
+import YFWRequest from "../Utils/YFWRequest";
+import YFWRequestParam from "../Utils/YFWRequestParam";
+
+var Dimensions = require('Dimensions');
+var {width} = Dimensions.get('window');
+
+export default class MedicineListPage extends Component {
+
+
+    constructor(props, context) {
+
+        super(props, context);
+        this.state = {
+            item: null,
+            defaultBtnIsCheck: true,
+            priceBtnIsCheck: false,
+            countBtnIsCheck: false,
+            priceBtnIsPlus: true,
+            countBtnIsPlus: true,
+            checkStatus: "default"
+        }
+    }
+
+    closeControlPanel() {
+        this._drawer.close()
+    };
+
+    openControlPanel() {
+        this._drawer.open()
+    };
+
+    render() {
+        const drawerStyles = {
+            drawer: { shadowColor: '#fc4c4d', shadowOpacity: 1, shadowRadius: 3},
+            main: {paddingLeft: 0},
+        }
+        return <Drawer
+            side="right" //抽屉方向 top／left／right／bottom
+            open={false}//默认是否打开抽屉
+            tapToClose={true}//点击内容处 会关闭抽屉
+            type='overlay' //抽屉出现的方式：overlay：抽屉覆盖内容 static:抽屉一只在内容后面 打开的时内容会滑动，displace：不会覆盖的 进出
+            openDrawerOffset={0.2} // 抽屉占整个屏幕的百分比（1-0.6=0.4）
+            closedDrawerOffset={0}//关闭抽屉后 抽屉在屏幕中的显示比例
+            styles={drawerStyles}//抽屉样式，背景色 透明度，阴影啥的
+            tweenHandler={(ratio) => ({main: { opacity:(2-ratio)/2 }})}//动画渐变效果
+            ref={(ref) => this._drawer = ref}
+            content={this.renderContent()}>
+            {this.renderHearder()}
+            {this.renderTop()}
+            {this.renderList()}
+
+        </Drawer>
+
+    }
+
+    renderContent() {
+
+        return <View style={{flex: 1, backgroundColor: 'white'}}>
+            <View style={styles.contentStyle}>
+                <Text onPress={() => {}} style={{}}>筛选</Text>
+            </View>
+            <View style={styles.contentStyle}>
+                <Text onPress={() => {}} style={{}}>商品名/品牌</Text>
+                <Image style={{width: 20, height: 20, marginRight: 10}}
+                       source={require('../../img/uc_next.png')}></Image>
+            </View>
+            <View style={styles.contentStyle}>
+                <Text onPress={() => {}} style={{}}>厂家</Text>
+                <Image style={{width: 20, height: 20, marginRight: 10}}
+                       source={require('../../img/uc_next.png')}></Image>
+            </View>
+            <View style={styles.contentStyle}>
+                <Text onPress={() => {}} style={{}}>规格</Text>
+                <Image style={{width: 20, height: 20, marginRight: 10}}
+                       source={require('../../img/uc_next.png')}></Image>
+            </View>
+            <View style={styles.contentStyle}>
+                <Text onPress={() => {}} style={{}}>剂型</Text>
+                <Image style={{width: 20, height: 20, marginRight: 10}}
+                       source={require('../../img/uc_next.png')}></Image>
+            </View>
+
+        </View>
+    }
+
+    renderList() {
+        if (this.state.item != null) {
+            let data = this.state.item;
+            return <View style={{flex: 1}}>
+                <FlatList
+                    style={{backgroundColor: 'white'}}
+                    data={data}
+                    extraData={this.state}
+                    keyExtractor={this._extraUniqueKey.bind(this)}
+                    renderItem={({item, index}) => {
+                        return <TouchableOpacity onPress={() => YFWToast("ddd")}>
+                            <View style={{
+                                flexDirection: "row",
+                                borderWidth: 0.5,
+                                borderColor: '#E5E5E5',
+                                padding: 10
+                            }}>
+                                <View style={{flex: 1, alignItems: "center", justifyContent: "center"}}>
+                                    <Image style={{height: 60, width: 60}} source={{uri: item.img_url}}></Image>
+                                </View>
+                                <View style={{flex: 2.5, flexDirection: "column"}}>
+                                    <Text>{item.title}</Text>
+                                    <Text>{item.authorized_code}</Text>
+                                    <View style={{flexDirection: "row", justifyContent: "space-between"}}>
+                                        <Text style={{color: "red"}}>{item.price + "起"}</Text>
+                                        <Text>{item.price_quantity + "家商家在售"}</Text>
+                                    </View>
+                                </View>
+                            </View>
+                        </TouchableOpacity>
+                    }}
+                />
+            </View>
+        }
+    }
+
+    _extraUniqueKey(item, index) {
+        return item.goods_id;
+    }
+
+    _requestData() {
+        let req = new YFWRequest();
+        let paramObj = new YFWRequestParam();
+        let paramMap = new Map();
+        paramMap.set('service', 'get_search_goods');
+        paramMap.set('page_index', '1');
+        paramMap.set('orderby', this.getOrderBy());
+        paramMap.set("category_id", this.props.navigation.state.params.obj.value);
+        let url = paramObj.getURL(paramMap);
+        req.get(url, null).then((res) => {
+            if (res.code === '1') {
+                this.setState(() => ({
+                            item: res.items,
+                        }
+                    )
+                )
+            } else {
+                Toast("--------")
+            }
+        });
+    }
+
+    getOrderBy() {
+        YFWToast(this.state.checkStatus);
+        if (this.state.checkStatus == "default") {
+            return "";
+        } else if (this.state.checkStatus == "price") {
+            YFWToast(this.state.checkStatus + "---" + this.state.priceBtnIsPlus);
+            return this.state.priceBtnIsPlus ? "pricedesc" : "priceasc";
+        } else if (this.state.checkStatus == "count") {
+            return this.state.countBtnIsPlus ? "shopcountdesc" : "shopcountasc";
+        }
+    }
+
+    componentDidMount() {
+        this._requestData();
+    }
+
+    renderTop() {
+        return <View style={{marginTop: 1, height: 50, width: width, flexDirection: "row", backgroundColor: "white",}}>
+
+            <TouchableOpacity style={styles.btnStyle} onPress={() => {
+                this.state.checkStatus = "default";
+                this.setState(() => ({
+                            defaultBtnIsCheck: true,
+                            priceBtnIsCheck: false,
+                            countBtnIsCheck: false,
+                            checkStatus: "default",
+                            item: null
+                        }
+                    )
+                )
+                this._requestData();
+            }}>
+                <Text style={{color: this.state.defaultBtnIsCheck ? "#16c08e" : "#444444"}}>默认</Text>
+                {this.renderDefaultImage()}
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.btnStyle} onPress={() => {
+
+                if (this.state.checkStatus != "price") {
+                    this.state.checkStatus = "price";
+                    this.setState(() => ({
+                                defaultBtnIsCheck: false,
+                                priceBtnIsCheck: true,
+                                countBtnIsCheck: false,
+                                checkStatus: "price",
+                                item: null
+                            }
+                        )
+                    )
+                } else {
+                    this.state.checkStatus = "price";
+                    this.state.priceBtnIsPlus = !this.state.priceBtnIsPlus;
+                    this.setState(() => ({
+                        defaultBtnIsCheck: false,
+                        priceBtnIsCheck: true,
+                        countBtnIsCheck: false,
+                        checkStatus: "price",
+                        priceBtnIsPlus: this.state.priceBtnIsPlus,
+                        item: null,
+                    }))
+                }
+                this._requestData();
+            }}>
+                <Text style={{color: this.state.priceBtnIsCheck ? "#16c08e" : "#444444"}}>价格</Text>
+                {this.renderPriceImage()}
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.btnStyle} onPress={() => {
+
+                if (this.state.checkStatus != "count") {
+                    this.state.checkStatus = "count";
+                    this.setState(() => ({
+                                defaultBtnIsCheck: false,
+                                priceBtnIsCheck: false,
+                                countBtnIsCheck: true,
+                                checkStatus: "count",
+                                item: null
+                            }
+                        )
+                    )
+                } else {
+                    this.state.checkStatus = "count";
+                    this.state.countBtnIsPlus = !this.state.countBtnIsPlus;
+                    this.setState(() => ({
+                        defaultBtnIsCheck: false,
+                        priceBtnIsCheck: false,
+                        countBtnIsCheck: true,
+                        checkStatus: "count",
+                        countBtnIsPlus: this.state.countBtnIsPlus,
+                        item: null
+                    }))
+                }
+                this._requestData();
+            }}>
+
+                <Text style={{color: this.state.countBtnIsCheck ? "#16c08e" : "#444444"}}>报价数</Text>
+                {this.renderCountImage()}
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.btnStyle} onPress={() => this.openControlPanel()}>
+
+                <Text style={{}}>筛选</Text>
+                <Image style={{height: 15, width: 15}} source={require('../../img/choose_kind.png')}></Image>
+            </TouchableOpacity>
+            <TouchableOpacity style={{alignItems: "center", justifyContent: "center", marginRight: 10}}>
+                <Image style={{height: 20, width: 20}}
+                       source={require('../../img/medicine_map_gray.png')}></Image>
+            </TouchableOpacity>
+        </View>
+
+    }
+
+
+    renderDefaultImage() {
+        if (this.state.defaultBtnIsCheck) {
+            return <Image style={styles.orderByStyle} source={require("../../img/order_by_plus.png")}></Image>
+        }
+        return <Image style={styles.orderByStyle} source={require("../../img/order_by_default.png")}></Image>
+    }
+
+    renderPriceImage() {
+        if (this.state.priceBtnIsCheck) {
+            if (this.state.checkStatus == "price") {
+                if (this.state.priceBtnIsPlus) {
+                    return <Image style={styles.orderByStyle} source={require("../../img/order_by_plus.png")}></Image>
+                }
+                return <Image style={styles.orderByStyle} source={require("../../img/order_by_minus.png")}></Image>
+            }
+        }
+        return <Image style={styles.orderByStyle} source={require("../../img/order_by_default.png")}></Image>
+    }
+
+    renderCountImage() {
+        if (this.state.countBtnIsCheck) {
+            if (this.state.checkStatus == "count") {
+                if (this.state.countBtnIsPlus) {
+                    return <Image style={styles.orderByStyle} source={require("../../img/order_by_plus.png")}></Image>
+                }
+                return <Image style={styles.orderByStyle} source={require("../../img/order_by_minus.png")}></Image>
+            }
+        }
+        return <Image style={styles.orderByStyle} source={require("../../img/order_by_default.png")}></Image>
+    }
+
+    renderHearder() {
+        return (
+            <View style={{
+                flexDirection: "row",
+                height: 50,
+                width: width,
+                padding: 10,
+                backgroundColor: "white",
+                alignItems: "center"
+            }}>
+                <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+                    <Image style={{height: 20, width: 20}}
+                           source={require("../../img/top_back_green.png")}></Image>
+                </TouchableOpacity>
+                <Text style={{flex: 1, textAlign: "center"}}>{this.props.navigation.state.params.obj.name}</Text>
+                <TouchableOpacity onPress={() => YFWToast("more")}>
+                    <Image style={{height: 20, width: 20}} source={require("../../img/kind_search.png")}></Image>
+                </TouchableOpacity>
+            </View>
+        );
+    }
+
+    static navigationOptions = ({navigation}) => ({
+        header: null,
+        tabBarVisible: false,
+
+    });
+
+}
+
+const styles = StyleSheet.create({
+    // drawer: {
+    //     flex: 1,
+    //     backgroundColor: '#000',
+    //     shadowColor: '#0000ff',
+    //     opacity: 0.6,
+    //     shadowRadius: 3
+    // },
+    drawer: { shadowColor: '#000000', shadowOpacity: 0.8, shadowRadius: 3},
+    btnStyle: {
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
+        flexDirection: "row"
+    },
+    orderByStyle: {
+        marginLeft: 5,
+        height: 10,
+        width: 5
+    },
+    contentStyle:{
+        height:50,
+        alignItems:"center",
+        justifyContent:"space-between",
+        paddingLeft:10,
+        borderBottomColor:'#E5E5E5',
+        borderBottomWidth: 1,
+        borderTopWidth:0,
+        flexDirection:"row"
+    }
+
+
+})

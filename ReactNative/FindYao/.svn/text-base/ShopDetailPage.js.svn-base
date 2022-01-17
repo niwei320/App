@@ -1,0 +1,323 @@
+import React, {Component} from 'react';
+import {
+    Platform,
+    StyleSheet,
+    Text,
+    View,
+    SectionList,
+    Image,
+    TouchableOpacity,
+    ImageBackground,
+    FlatList,
+    ScrollView
+} from 'react-native';
+import YFWToast from "../Utils/YFWToast";
+import {log, logWarm, logErr} from '../Utils/YFWLog'
+import YFWSearchHeader from '../HomePage/YFWHomeSearchHeaderView'
+import {getItem, setItem} from "../Utils/YFWStorage";
+import YFWRequest from "../Utils/YFWRequest";
+import YFWRequestParam from "../Utils/YFWRequestParam";
+import {yfwGreenColor} from "../Utils/YFWColor";
+
+var bean = require('../data/Bean.json');
+var Dimensions = require('Dimensions');
+var {width} = Dimensions.get('window');
+{/*<Text>{this.props.navigation.state.params.shopID}</Text>*/
+}
+export default class ShopDetailPage extends Component {
+
+
+    constructor(props) {
+        super(props)
+        this.shopID = this.props.navigation.state.params.shopID;
+        this.state = {
+            shopDetailItem: null,
+            couponItem: {},
+            shopCategorItem: [],
+            shopRecommendItem: [],
+        };
+    }
+
+
+    render() {
+        const {navigate, goBack, state} = this.props.navigation;
+        return <View style={{flex: 1, flexDirection: "column"}}>
+            {this._renderHeader()}
+            <ScrollView style={{flex: 1}}>
+
+                {this._renderItem()}
+                {this._renderCouponItem()}
+                <View style={styles.list}>
+                    {this._renderShopCategorItem()}
+                </View>
+                <Text style={{padding: 10, marginTop: 10, backgroundColor: "white"}}>商家推荐</Text>
+                <View>
+                    {this._renderShopRecommendItem()}
+                </View>
+
+            </ScrollView>
+            <View style={{height: 50, backgroundColor: "white", flexDirection: "row"}}>
+                <View style={styles.bottomText}>
+                    <Text>商家简介</Text>
+                </View>
+                <View style={styles.bottomText}><Text>全部商品</Text></View>
+
+                <View style={styles.bottomText}><Text>在线咨询</Text></View>
+
+            </View>
+        </View>
+    }
+
+    _renderHeader() {
+        return <View
+            style={{flexDirection: "row", height: 50, padding: 10, backgroundColor: "white", alignItems: "center"}}>
+            <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+                <Image style={{height: 20, width: 20}} source={require("../../img/top_back_green.png")}></Image>
+            </TouchableOpacity>
+            <View style={{flex: 1, paddingRight: 10, paddingLeft: 10}}>
+                <View style={{
+                    flexDirection: 'row',
+                    backgroundColor: '#F5F5F5',
+                    flex: 1,
+                    padding: 5,
+                    borderRadius: 5,
+                    alignItems: 'center'
+                }}>
+                    <Image style={{width: 15, height: 15, marginRight: 10}}
+                           source={require('../../img/wenda_icon_search.png')}></Image>
+                    <Text>搜索店内商品</Text>
+                </View>
+            </View>
+            <TouchableOpacity onPress={() => YFWToast("more")}>
+                <Image style={{height: 20, width: 20}} source={require("../../img/more.png")}></Image>
+            </TouchableOpacity>
+        </View>
+
+    }
+
+    _renderItem() {
+        if (null != this.state.shopDetailItem) {
+            YFWToast(this.state.shopDetailItem.logo_img_url)
+            return (<View>
+                    <ImageBackground style={{height: 100, width: width}}
+                                     source={require('../../img/near_shop_detail_bg.png')}>
+                        <View style={styles.pharmacy}>
+                            <View style={{}}>
+                                <Image style={{height: 40, width: 70, resizeMode: "contain"}}
+                                       source={{uri: this.state.shopDetailItem.logo_img_url}}></Image>
+                            </View>
+                            <View style={{flex: 1, flexDirection: "column", marginLeft: 15}}>
+                                <Text style={{color: "white"}}>{this.state.shopDetailItem.title}</Text>
+                            </View>
+                            <View style={{}}>
+                                <Text
+                                    style={{color: "white"}}>{this.state.shopDetailItem.is_favorite == "0" ? "未收藏" : "收藏"}</Text>
+                            </View>
+                        </View>
+                    </ImageBackground>
+                    <View style={{flexDirection: "row", backgroundColor: "white"}}>
+                        <View style={styles.score}>
+                            <Text>{this.state.shopDetailItem.service_star + "分"}</Text>
+                            <Text style={{paddingTop: 5}}>客户服务</Text>
+                        </View>
+                        <View style={styles.score}>
+                            <Text>{this.state.shopDetailItem.delivery_star + "分"}</Text>
+                            <Text style={{paddingTop: 5}}>发货速度</Text>
+                        </View>
+                        <View style={styles.score}>
+                            <Text>{this.state.shopDetailItem.shipping_star + "分"}</Text>
+                            <Text style={{paddingTop: 5}}>物流速度</Text>
+                        </View>
+                        <View style={styles.score}>
+                            <Text>{this.state.shopDetailItem.package_star + "分"}</Text>
+                            <Text style={{paddingTop: 5}}>商品包装</Text>
+                        </View>
+                    </View>
+                </View>
+            );
+        }
+    }
+
+    //商家里面优惠券还没写
+    _renderCouponItem() {
+
+    }
+
+    _renderShopCategorItem() {
+        let Menu1 = [];
+        for (let i = 0; i < this.state.shopCategorItem.length; i++) {
+            var item = this.state.shopCategorItem[i];
+            Menu1.push(
+                <TouchableOpacity key={i} underlayColor="transparent">
+                    <View style={styles.row2}>
+                        <Text style={{color: yfwGreenColor()}}>{item.name}</Text>
+                    </View>
+                </TouchableOpacity>
+            )
+        }
+        return Menu1;
+
+    }
+
+    _renderShopRecommendItem() {
+        // let Menu1 = [];
+        // for (let i = 0; i < this.state.shopRecommendItem.length; i++) {
+        //     var item = this.state.shopRecommendItem[i];
+        //     Menu1.push(
+        //         <TouchableOpacity key={i} underlayColor="transparent">
+        //             <View style={styles.row}>
+        //                 <Image style={{height:100,width:100}} source={{uri:item.intro_image}}></Image>
+        //                 <Text>{item.name_cn}</Text>
+        //                 <Text style={{color:"red"}}>{item.price}</Text>
+        //             </View>
+        //         </TouchableOpacity>
+        //     )
+        // }
+        // return Menu1;
+        return <FlatList
+            horizontal={false}
+            numColumns={2}
+            data={this.state.shopRecommendItem}
+            extraData={this.state}
+            renderItem={this._renderSubItem.bind(this)}
+        />
+    }
+
+    _renderSubItem({item}) {
+
+        return <TouchableOpacity underlayColor="transparent">
+            <View style={styles.row}>
+                <Image style={{height: 100, width: 100}} source={{uri: item.intro_image}}></Image>
+                <Text>{item.name_cn}</Text>
+                <Text style={{color: "red"}}>{item.price}</Text>
+            </View>
+        </TouchableOpacity>
+    }
+
+    static navigationOptions = ({navigation}) => ({
+        tabBarVisible: false,
+        header: null,
+    });
+
+    componentDidMount() {
+        this._requestData();
+        this._requestShopCategor();
+        this._requestShopRecommend();
+    }
+
+    _requestData() {
+        let req = new YFWRequest();
+        let paramObj = new YFWRequestParam();
+        let paramMap = new Map();
+        paramMap.set('service', 'get_shop_detail');
+        paramMap.set('id', this.shopID);
+        let url = paramObj.getURL(paramMap);
+        req.get(url, null).then((res) => {
+            if (res.code === '1') {
+                this.setState(() => ({
+                            shopDetailItem: res.item,
+                        }
+                    )
+                )
+            } else {
+                Toast("--------")
+            }
+        });
+    }
+
+    _requestShopCategor() {
+        let req = new YFWRequest();
+        let paramObj = new YFWRequestParam();
+        let paramMap = new Map();
+        paramMap.set('service', 'get_shop_category');
+        paramMap.set('shop_id', this.shopID);
+        let url = paramObj.getURL(paramMap);
+        req.get(url, null).then((res) => {
+            if (res.code === '1') {
+                this.setState(() => ({
+                            shopCategorItem: res.items,
+                        }
+                    )
+                )
+            } else {
+                Toast("--------")
+            }
+        });
+    }
+
+    _requestShopRecommend() {
+        let req = new YFWRequest();
+        let paramObj = new YFWRequestParam();
+        let paramMap = new Map();
+        paramMap.set('service', 'get_shop_recommend_medicine');
+        paramMap.set('shop_id', this.shopID);
+        paramMap.set('num', 6);
+        let url = paramObj.getURL(paramMap);
+        req.get(url, null).then((res) => {
+            if (res.code === '1') {
+                this.setState(() => ({
+                            shopRecommendItem: res.item,
+                        }
+                    )
+                )
+            } else {
+                Toast("--------")
+            }
+        });
+    }
+}
+
+const styles = StyleSheet.create({
+    score: {
+        flex: 1,
+        height: 70,
+        justifyContent: "center",
+        alignItems: "center",
+        borderColor: '#E5E5E5',
+        borderWidth: 0.3,
+        padding: 10
+    },
+    pharmacy: {
+        height: 100,
+        padding: 10,
+        flexDirection: "row",
+        justifyContent: "space-between",
+        flexWrap: "nowrap",
+        alignItems: "center"
+    },
+    row2: {
+        flexDirection: "row",
+        flexWrap: "wrap",
+        width: width / 3,
+        height: 50,
+        borderWidth: 0.3,
+        borderColor: '#E5E5E5',
+        backgroundColor: '#FFFFFF',
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    row: {
+        margin: 5,
+        flexDirection: "column",
+        backgroundColor: '#FFFFFF',
+        flexWrap: "wrap",
+        width: (width - 20) / 2,
+        height: 200,
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    list: {
+        marginTop: 10,
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: "space-between",
+        width: width
+    },
+    bottomText: {
+        alignItems: "center",
+        justifyContent: "center",
+        flex: 1,
+        borderWidth: 0.3,
+        borderColor: '#E5E5E5',
+    }
+})

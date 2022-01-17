@@ -1,0 +1,139 @@
+//
+//  PrefixHeader.pch
+//  XZ_WeChat
+//
+//  Created by 郭现壮 on 16/9/27.
+//  Copyright © 2016年 gxz. All rights reserved.
+//
+
+#ifdef __OBJC__
+#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+
+#define RGB(r, g, b)              [UIColor colorWithRed : (r) / 255.f green : (g) / 255.f blue : (b) / 255.f alpha : 1.f]
+#define PP_UIColor_RGBA(r,g,b,a)  [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:a]
+#define PP_UIColor_RGB(r,g,b) PP_UIColor_RGBA(r,g,b,1)
+#define kScreenHeight   [[UIScreen mainScreen] bounds].size.height
+#define kScreenWidth    [[UIScreen mainScreen] bounds].size.width
+#define PP_SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
+#define PP_SCREEN_HEIGHT [UIScreen mainScreen].bounds.size.height
+#define YFObjectForKey(k1)    [[NSUserDefaults standardUserDefaults] objectForKey:k1]
+#define YFSetObjectForKey(o,k1)  [[NSUserDefaults standardUserDefaults] setObject:o forKey:k1]
+#define YFSynchronize     [[NSUserDefaults standardUserDefaults] synchronize]
+#define IS_IPHONE_X  ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? (CGSizeEqualToSize(CGSizeMake(1125, 2436), [[UIScreen mainScreen] currentMode].size) || CGSizeEqualToSize(CGSizeMake(828, 1792), [[UIScreen mainScreen] currentMode].size) || CGSizeEqualToSize(CGSizeMake(1242, 2688), [[UIScreen mainScreen] currentMode].size)) : NO)
+#define NavigationHeight  (IS_IPHONE_X?88:64)
+#define TabBarHeight      (IS_IPHONE_X?83:49)
+
+#ifdef DEBUG
+
+#define YF_BAIDU_MAP_KEY @"cfO1EDa7wweqSYVIPkjOLUgG"
+//#define YF_JPUSH_APPID   @"9e7a2eb5f376b8e5d93fadf2"
+#define YF_JPUSH_APPID   @"b65c5e428e25f30f1d826b12"
+#define YF_PGY_APPID     @"3e373964f70882f1dc1148b32c26a2ae"
+
+#else
+
+#define YF_BAIDU_MAP_KEY @"cfO1EDa7wweqSYVIPkjOLUgG"
+#define YF_JPUSH_APPID   @"b65c5e428e25f30f1d826b12"
+#define YF_PGY_APPID     @"a629cb860fd69790c1c671a7f1d6654d"
+
+#endif
+
+#define YFWDomain (currentTextType == YFWTextTCP) ? @"yaofangwang.com" : @"yaofangwang.com"
+//yaofangwang token
+#define YFWAESKEY @"yaofangwang!@#$%"
+//yaofangwang URL
+#define YFWURL [NSString stringWithFormat:@"https://www.%@",YFWDomain]
+//#define CarTest
+#define FimToken @"39931defa1d07dabd160d25f48c94646"
+
+
+
+
+//iphone
+#define YouMengAppkey @"5553351de0f55a77af0037c0"
+#define WeiXinAppkey @"wx2ed8c9045bb2f970"
+#define WeiXinAppSecret @"610acf4597527b7afbf8d36edd50a719"
+#define WeiXinUniversalLink @"https://m.yaofangwang.com"
+#define QQAppId @"1104618462"
+#define QQAppkey @"HWPyhyl68j1vdNcc"
+#define SinaAppkey @"537022104"
+#define SinaAppSecret @"e30bbf2cd8061c836c7410f2d893da87"
+#define SMOrganization @"V5q9k7igvwpLHJXPSXBU"
+#define SMPublicKey @"MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCRBRpn96D14nzP/ffz3+vSnYap4kSvKTyEqL35P6kJVeBRxw4hfCvZ+m75DCEdqDvkpUwtwCxI8GWDa/OVAlkLfwwfj/vIzFVkbSZaADMQpYyVKfmC2i82InfMDLFLKBJjEQmK/bIwQ+qse+6Yfe7nSYEi0rfKx0foX4QMjqb3fQIDAQAB"
+#define SMAppID @"default"
+/*
+ // ipad
+ #define YouMengAppkey @"57ee0f72e0f55ae558002e4b"
+ #define WeiXinAppkey @"wx54cc8e5ddbd58f88"
+ #define QQAppId @"1104618462"
+ #define QQAppkey @"HWPyhyl68j1vdNcc"
+ #define SinaAppkey @"854934535"
+ #define SinaAppSecret @"39a43050090f2162309a6015a0bb54be"
+ */
+
+
+
+typedef NS_ENUM(NSInteger,YFWTextType)
+{
+  YFWTextDefault,
+  YFWTextHTTP,
+  YFWTextTCP,
+};
+
+#define currentTextType  YFWTextDefault
+#define hasMedicineB  YES
+
+
+#define RunOnMobile !TARGET_IPHONE_SIMULATOR
+
+#import <BaiduMapAPI_Map/BMKMapComponent.h>
+#import <BMKLocationkit/BMKLocationComponent.h>
+#import <BaiduMapAPI_Utils/BMKUtilsComponent.h>
+#import <BaiduMapAPI_Search/BMKSearchComponent.h>
+#import <BaiduMapAPI_Base/BMKBaseComponent.h>
+#import <BaiduMapAPI_Search/BMKPoiSearchType.h>
+#import <BaiduMapAPI_Search/BMKPoiSearchOption.h>
+#import <BaiduMapAPI_Search/BMKPoiSearch.h>
+#import <BaiduMapAPI_Search/BMKPoiSearchResult.h>
+#import <MapKit/MapKit.h>
+#import <UMAnalytics/MobClick.h>
+#import <UMCommon/UMCommon.h>
+#import "YFWSettingUtility.h"
+#import <AlipaySDK/APayAuthInfo.h>
+#import <AlipaySDK/AlipaySDK.h>
+#import "UMSocialWechatHandler.h"
+#import "UMSocialQQHandler.h"
+#import "UMSocialSinaHandler.h"
+#import <UMAnalytics/MobClick.h>
+#import <UMShare/UMSocialManager.h>
+#import "APAuthV2Info.h"
+#import "RSADataSigner.h"
+#import "YFWSettingUtility.h"
+#import "YFWProgressHUD.h"
+#import "WXApiObject.h"
+#import "WXApi.h"
+#import "NSString+YFWContainstirng.h"
+#import "UIColor+YFCustom.h"
+
+
+#import "NSObject+SafeObject.h"
+
+#import "YFWBaiduMapManager.h"
+#import "PPModel.h"
+#import "UILabel+YFWAdd.h"
+#import "NSString+YFWAdd.h"
+#import "UIView+YFWAdd.h"
+#import "YFWBaseModel.h"
+#import "NSError+PPError.h"
+#import "PPCore.h"
+#import "AppDelegate.h"
+#import "PPCrypt.h"
+#import "YFWPriceTrendModel.h"
+#import "YFCommodityDetail.h"
+#import "Masonry.h"
+#import "WXApi.h"
+#import "YFWSocketManager.h"
+#import "UIDevice+YFWAdd.h"
+
+#endif

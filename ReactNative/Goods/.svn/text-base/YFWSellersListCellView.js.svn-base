@@ -1,0 +1,142 @@
+import React, { Component } from 'react';
+import {
+    Platform,
+    StyleSheet,
+    Image,
+    View,
+    Text,
+    TouchableOpacity, Dimensions
+} from 'react-native';
+
+import YFWToast from "../Utils/YFWToast";
+import {darkNomalColor,darkTextColor,darkLightColor,separatorColor,yfwOrangeColor} from "../Utils/YFWColor";
+
+export default class YFWSellersListCellView extends Component {
+
+    static defaultProps = {
+        Data:undefined,
+    }
+
+    render() {
+        return (
+            <View style={styles.container}>
+                <View style={styles.view1Style}>
+                    <Text style={styles.titleStyle}>{this.props.Data.title}</Text>
+                    <Text style={styles.priceStyle}>￥{this.props.Data.price}</Text>
+                </View>
+                <View style={styles.view2Style}>
+                    <View flexDirection={'row'} width={Dimensions.get('window').width - 100}>
+                        <Text style={styles.regionStyle}>{this.props.Data.region}</Text>
+                        <Text style={styles.starStyle}>评价:{this.props.Data.star}</Text>
+                        <Text style={styles.starStyle}>库存:{this.props.Data.reserve}</Text>
+                    </View>
+                    <Text style={styles.shippingPriceStyle}>运费:￥{this.props.Data.shipping_price}</Text>
+                </View>
+                <View style={styles.view2Style}>
+                    {this.renderItem()}
+                </View>
+                <View style={styles.separatorStyle}/>
+            </View>
+        );
+    }
+
+    renderItem() {
+        // 数组
+        var itemAry = [];
+        // 遍历
+        var dataitems = this.props.Data.tag_items;
+        for (let i = 0; i<dataitems.length; i++) {
+            var dataItem = dataitems[i];
+            itemAry.push(
+                <View key={i} flexDirection={'row'}>
+                    <Image
+                        style={styles.checkImgStyle}
+                        source={require('../../img/check_number.png')}
+                    />
+                    <Text style={[styles.textStyle ]}>{dataItem.text}</Text>
+                </View>
+            );
+        }
+        return itemAry;
+    }
+
+
+}
+
+//设置样式
+const styles = StyleSheet.create({
+    container: {
+        flex:1,
+        height:96,
+        backgroundColor:'white',
+    },
+    view1Style:{
+        height:45,
+        flexDirection:'row',
+    },
+    view2Style:{
+        height:25,
+        flexDirection:'row',
+    },
+    titleStyle:{
+
+        fontSize: 14,
+        width:Dimensions.get('window').width - 130,
+        color:darkTextColor(),
+        marginTop:15,
+        marginLeft:10,
+        marginRight:10,
+    },
+    separatorStyle:{
+        backgroundColor:separatorColor(),
+        height:0.5,
+        width: Dimensions.get('window').width - 10,
+        marginLeft:10,
+    },
+    priceStyle:{
+
+        fontSize: 15,
+        width:95,
+        color:yfwOrangeColor(),
+        marginTop:13,
+        marginRight:15,
+        textAlign: 'right',
+    },
+    regionStyle:{
+
+        fontSize: 12,
+        //width:100,
+        color:darkNomalColor(),
+        marginLeft:10,
+
+    },
+    starStyle:{
+
+        fontSize: 12,
+        //width:100,
+        color:darkNomalColor(),
+        marginLeft:15,
+    },
+    shippingPriceStyle:{
+
+        fontSize: 12,
+        color:darkNomalColor(),
+        width:85,
+        marginRight:15,
+        textAlign: 'right',
+    },
+    checkImgStyle:{
+        width:12,
+        height:12,
+        marginLeft:10,
+        marginTop:5,
+    },
+    textStyle:{
+
+        fontSize: 12,
+        color:darkNomalColor(),
+        marginTop:5,
+        marginLeft:2,
+    },
+
+});

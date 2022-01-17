@@ -1,0 +1,72 @@
+import React, { Component } from 'react';
+import {
+    Platform,
+    StyleSheet,
+    Image,
+    View,
+    Text,
+    TouchableOpacity, Dimensions
+} from 'react-native';
+
+import YFWToast from "../Utils/YFWToast";
+import {darkNomalColor,darkTextColor,darkLightColor,separatorColor,yfwOrangeColor,yfwGreenColor} from "../Utils/YFWColor";
+
+export default class YFWShopCarEmptyView extends Component {
+
+    render() {
+        return (
+            <View style={styles.container}>
+                <Image source={require('../../img/chart_em.png')}
+                       style={styles.imageStyle}/>
+                <Text style={styles.titleStyle}>购物车是空的</Text>
+                <View style={styles.view1Style}>
+                    <TouchableOpacity style={styles.view2Style}>
+                        <Text style={styles.buttonStyle}>去首页逛逛</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
+        );
+    }
+
+
+
+}
+
+//设置样式
+const styles = StyleSheet.create({
+    container: {
+        flex:1,
+        height:300,
+        alignItems:'center',
+        justifyContent:'center',
+    },
+    imageStyle:{
+        width:165,
+        height:80,
+    },
+    view1Style:{
+        height:40,
+        width:160,
+        backgroundColor:yfwGreenColor(),
+        alignItems:'center',
+        justifyContent:'center',
+    },
+    view2Style:{
+        flex:1,
+        alignItems:'center',
+        justifyContent:'center',
+    },
+    titleStyle:{
+        fontSize: 14,
+        height:50,
+        width : 150,
+        textAlign:'center',
+        color:darkLightColor(),
+        marginTop:30,
+    },
+    buttonStyle:{
+        fontSize: 14,
+        color:'white',
+    },
+
+});

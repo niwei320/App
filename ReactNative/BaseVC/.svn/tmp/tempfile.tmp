@@ -1,0 +1,76 @@
+import React, { Component } from 'react';
+import {
+    Platform,
+    StyleSheet,
+    Dimensions,
+    Text,
+    View,
+    WebView
+} from 'react-native';
+var forge = require('node-forge');
+
+var {
+    height: deviceHeight,
+    width: deviceWidth
+} = Dimensions.get('window');
+
+let YFWAESKEY = 'yaofangwang!@#$%'
+
+export default class YFWWebView extends Component {
+
+
+
+
+    constructor(props,context){
+
+        super(props,context);
+        state = props.navigation.state.params.state;
+        this.state = state;
+
+    }
+
+    static navigationOptions = ({ navigation }) => ({
+        tabBarVisible: false,
+        title:`${navigation.state.params.state.name}`,
+    });
+
+    render() {
+
+        return (
+            <View style={styles.container}>
+                <WebView bounces={false}
+                         scalesPageToFit={true}
+                         source={{uri:this.state.value,method: 'GET'}}
+                         style={{width:deviceWidth, height:deviceHeight}}>
+                </WebView>
+            </View>
+        );
+    }
+
+
+    _getlinkurl(){
+
+        let url = this.state.value;
+
+        var aesCipher = forge.cipher.createDecipher('AES-ECB', YFWAESKEY);
+        aesCipher.start();
+        aesCipher.update(url);
+        if (!aesCipher.finish()) {
+            throw new Error('decrypt error');
+        }
+        var aid = aesCipher.output;
+        let result = url + '&aid=' + aid;
+
+        return result;
+    }
+
+
+}
+
+
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1
+    }
+});

@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 159
+/svn/appios/!svn/ver/1493/Tags/YFWDemos/%E8%8D%AF%E6%88%BF%E7%BD%91SDK%E5%8D%87%E7%BA%A7%E7%89%88/ThirdPaty/Baidu-Maps-iOS-SDK/BMKLocationKit.framework/Headers
+END
+BMKGeoFenceRegion.h
+K 25
+svn:wc:ra_dav:version-url
+V 179
+/svn/appios/!svn/ver/1493/Tags/YFWDemos/%E8%8D%AF%E6%88%BF%E7%BD%91SDK%E5%8D%87%E7%BA%A7%E7%89%88/ThirdPaty/Baidu-Maps-iOS-SDK/BMKLocationKit.framework/Headers/BMKGeoFenceRegion.h
+END
+BMKLocationPoi.h
+K 25
+svn:wc:ra_dav:version-url
+V 176
+/svn/appios/!svn/ver/1493/Tags/YFWDemos/%E8%8D%AF%E6%88%BF%E7%BD%91SDK%E5%8D%87%E7%BA%A7%E7%89%88/ThirdPaty/Baidu-Maps-iOS-SDK/BMKLocationKit.framework/Headers/BMKLocationPoi.h
+END
+BMKLocationManager.h
+K 25
+svn:wc:ra_dav:version-url
+V 180
+/svn/appios/!svn/ver/1493/Tags/YFWDemos/%E8%8D%AF%E6%88%BF%E7%BD%91SDK%E5%8D%87%E7%BA%A7%E7%89%88/ThirdPaty/Baidu-Maps-iOS-SDK/BMKLocationKit.framework/Headers/BMKLocationManager.h
+END
+BMKLocationReGeocode.h
+K 25
+svn:wc:ra_dav:version-url
+V 182
+/svn/appios/!svn/ver/1493/Tags/YFWDemos/%E8%8D%AF%E6%88%BF%E7%BD%91SDK%E5%8D%87%E7%BA%A7%E7%89%88/ThirdPaty/Baidu-Maps-iOS-SDK/BMKLocationKit.framework/Headers/BMKLocationReGeocode.h
+END
+BMKGeoFenceManager.h
+K 25
+svn:wc:ra_dav:version-url
+V 180
+/svn/appios/!svn/ver/1493/Tags/YFWDemos/%E8%8D%AF%E6%88%BF%E7%BD%91SDK%E5%8D%87%E7%BA%A7%E7%89%88/ThirdPaty/Baidu-Maps-iOS-SDK/BMKLocationKit.framework/Headers/BMKGeoFenceManager.h
+END
+BMKLocationKitVersion.h
+K 25
+svn:wc:ra_dav:version-url
+V 183
+/svn/appios/!svn/ver/1493/Tags/YFWDemos/%E8%8D%AF%E6%88%BF%E7%BD%91SDK%E5%8D%87%E7%BA%A7%E7%89%88/ThirdPaty/Baidu-Maps-iOS-SDK/BMKLocationKit.framework/Headers/BMKLocationKitVersion.h
+END
+BMKLocation.h
+K 25
+svn:wc:ra_dav:version-url
+V 173
+/svn/appios/!svn/ver/1493/Tags/YFWDemos/%E8%8D%AF%E6%88%BF%E7%BD%91SDK%E5%8D%87%E7%BA%A7%E7%89%88/ThirdPaty/Baidu-Maps-iOS-SDK/BMKLocationKit.framework/Headers/BMKLocation.h
+END
+BMKLocationAuth.h
+K 25
+svn:wc:ra_dav:version-url
+V 177
+/svn/appios/!svn/ver/1493/Tags/YFWDemos/%E8%8D%AF%E6%88%BF%E7%BD%91SDK%E5%8D%87%E7%BA%A7%E7%89%88/ThirdPaty/Baidu-Maps-iOS-SDK/BMKLocationKit.framework/Headers/BMKLocationAuth.h
+END
+BMKLocationComponent.h
+K 25
+svn:wc:ra_dav:version-url
+V 182
+/svn/appios/!svn/ver/1493/Tags/YFWDemos/%E8%8D%AF%E6%88%BF%E7%BD%91SDK%E5%8D%87%E7%BA%A7%E7%89%88/ThirdPaty/Baidu-Maps-iOS-SDK/BMKLocationKit.framework/Headers/BMKLocationComponent.h
+END

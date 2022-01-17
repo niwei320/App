@@ -1,0 +1,447 @@
+import React, {Component} from 'react';
+import {
+    Platform,
+    StyleSheet,
+    Text,
+    View,
+    ListView,
+    TouchableOpacity,
+    Modal,
+    ImageBackground,
+    Image, Dimensions
+} from 'react-native';
+
+
+import YFWRequest from '../Utils/YFWRequest'
+import YFWToast from '../Utils/YFWToast'
+import {log, logWarm, logErr} from '../Utils/YFWLog'
+import {
+    backGroundColor,
+    darkNomalColor,
+    darkTextColor,
+    separatorColor,
+    yfwGreenColor,
+    yfwOrangeColor
+} from '../Utils/YFWColor'
+import PopupDialog, { SlideAnimation,FadeAnimation } from 'react-native-popup-dialog';
+import ScrollableTabView, { ScrollableTabBar, DefaultTabBar } from 'react-native-scrollable-tab-view';
+
+import YFWRequestParam from '../Utils/YFWRequestParam'
+import YFWGoodsDetailInfoVC from './YFWGoodsDetailInfoVC'
+import YFWGoodsDetailInfoDetailVC from './YFWGoodsDetailInfoDetailVC'
+import YFWGoodsDetailCommentsVC from './YFWGoodsDetailCommentsVC'
+import YFWShopCarVC from '../ShopCar/YFWShopCarVC'
+import YFWAlertCouponCollectionListView from './View/YFWAlertCouponCollectionListView'
+import YFWAlertFavourableActivityListView from './View/YFWAlertFavourableActivityListView'
+import YFWAlertPackageListView from './View/YFWAlertPackageListView'
+
+export default class YFWGoodsDetailRootVC extends Component {
+
+    constructor(...args) {
+        super(...args);
+        this.state = {
+            selectIndex:0,
+            detailinfoData:{},
+            couponArray:[],
+            isCollection:false,
+            carNumber:0,
+        };
+    }
+
+    componentDidMount () {
+        /**
+         * 将单击回调函数作为参数传递
+         */
+        this.props.navigation.setParams({
+            clickConfirm: (index) => this.clickConfirm(index),
+        });
+
+        this._requetCommodityDetail();
+        this._getCartGoodsCountMethod();
+
+    }
+
+    render() {
+        const slideAnimation = new SlideAnimation({
+            slideFrom: 'bottom',
+            toValue:50,
+        });
+        return (
+            <View flex={1}>
+                {this.renderRoot()}
+                <View style={{height:50,marginBottom:0,marginLeft:0,marginRight:0,backgroundColor:'white'}}>
+                    <View style={{backgroundColor:separatorColor(),height:1,width:Dimensions.get('window').width}}/>
+                    <View style={{flex:1,flexDirection: 'row'}}>
+                        <TouchableOpacity  style={{width:(Dimensions.get('window').width-100)/4}} onPress={()=>this.toConsultingMethod()}>
+                            <View style={{ alignItems: 'center', justifyContent: 'center',flex:1}}>
+                                <Image
+                                    style={{width:20,height:20,resizeMode:'contain'}}
+                                    source={require('../../img/md_btn1.png')}/>
+                                <Text style={{color:darkNomalColor(),marginTop:5,fontSize:10,textAlign:'center'}}>咨询</Text>
+                            </View>
+                        </TouchableOpacity>
+                        <TouchableOpacity  style={{width:(Dimensions.get('window').width-100)/4}} onPress={()=>this.toShopDetailMethod()}>
+                            <View style={{ alignItems: 'center', justifyContent: 'center',flex:1}}>
+                                <Image
+                                    style={{width:20,height:20,resizeMode:'contain'}}
+                                    source={require('../../img/md_btn2.png')}/>
+                                <Text style={{color:darkNomalColor(),marginTop:5,fontSize:10,textAlign:'center'}}>店铺</Text>
+                            </View>
+                        </TouchableOpacity>
+                        <TouchableOpacity  style={{width:(Dimensions.get('window').width-100)/4}} onPress={()=>this.toCollectionMethod()}>
+                            <View style={{ alignItems: 'center', justifyContent: 'center',flex:1}}>
+                                <Image
+                                    style={{width:20,height:20,resizeMode:'contain'}}
+                                    source={this.state.isCollection?require('../../img/md_btn3_on.png'):require('../../img/md_btn3.png')}/>
+                                <Text style={{color:darkNomalColor(),marginTop:5,fontSize:10,textAlign:'center'}}>{this.state.isCollection?'已收藏':'收藏'}</Text>
+                            </View>
+                        </TouchableOpacity>
+                        <TouchableOpacity  style={{width:(Dimensions.get('window').width-100)/4}} onPress={()=>this.toShopCarMethod()}>
+                            <View style={{ alignItems: 'center', justifyContent: 'center',flex:1}}>
+                                {
+                                    this.state.carNumber === '0' ?(
+                                        <Image
+                                            style={{width:20,height:20,resizeMode:'contain'}}
+                                            source={require('../../img/md_btn4.png')}/>
+                                    ):(
+                                        <ImageBackground
+                                            style={{width:20,height:20}}
+                                            source={require('../../img/md_btn4.png')}>
+                                            <View style={{width:14,height:14,backgroundColor:yfwOrangeColor(),
+                                                borderRadius:7,marginLeft:14,marginTop:-3,alignItems: 'center',justifyContent: 'center'}}>
+                                                <Text style={{color:'white',fontSize:8}}>{this.state.carNumber}</Text>
+                                            </View>
+                                        </ImageBackground>
+                                    )
+                                }
+                                <Text style={{color:darkNomalColor(),marginTop:5,fontSize:10,textAlign:'center'}}>购物车</Text>
+                            </View>
+                        </TouchableOpacity>
+                        <TouchableOpacity  style={{marginRight:0,width:100,height:50}} onPress={()=>this.addShopCarMethod()}>
+                            <View style={{flex:1,backgroundColor:yfwOrangeColor(),alignItems: 'center', justifyContent: 'center'}}>
+                                <Text style={{color:'white',fontSize:12}} >加入购物车</Text>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+                <PopupDialog
+                    ref={(popupDialog) => { this.popupDialog = popupDialog; }}
+                    dialogAnimation={slideAnimation}
+                    height={350}
+                >
+                    <YFWAlertCouponCollectionListView ref={'couponCollection'} data={this.state.detailinfoData}
+                                                      closeMethod={()=>{
+                                                          this.popupDialog.dismiss();
+                                                      }}/>
+                </PopupDialog>
+                <PopupDialog
+                    ref={(favourablePopupDialog) => { this.favourablePopupDialog = favourablePopupDialog; }}
+                    dialogAnimation={slideAnimation}
+                    height={350}
+                >
+                    {this.renderAlertFavourableActivityListView()}
+                </PopupDialog>
+                <PopupDialog
+                    ref={(packagePopupDialog) => { this.packagePopupDialog = packagePopupDialog; }}
+                    dialogAnimation={slideAnimation}
+                    height={400}
+                >
+                    <YFWAlertPackageListView ref={'package'} data={this.state.detailinfoData}
+                                             addShopCarMethod={(package_id)=>{
+                                                 this.packagePopupDialog.dismiss();
+                                                 this._addShopCarMethod(package_id)
+                                             }}
+                                             closeMethod={()=>{
+                                                 this.packagePopupDialog.dismiss();
+                                             }}/>
+                </PopupDialog>
+            </View>
+        );
+    }
+
+    renderRoot(){
+
+        if (this.state.selectIndex === 0){
+            return (
+                <YFWGoodsDetailInfoVC flex={1} ref={'detailInfo'} data={this.state.detailinfoData} navigation={this.props.navigation}
+                                      clickPopup={(index)=>{
+                                          this.packagePopupDialog.dismiss();
+                                          this._clickPopupMethod(index);
+                                      }} />
+            );
+        } else if (this.state.selectIndex === 1){
+            return (
+                <YFWGoodsDetailInfoDetailVC flex={1} ref={'detailInfoDetail'} data={this.state.detailinfoData} navigation={this.props.navigation}/>
+            );
+        } else if (this.state.selectIndex === 2){
+            return (
+                <YFWGoodsDetailCommentsVC flex={1} data={this.state.detailinfoData} navigation={this.props.navigation}/>
+            );
+        }
+
+    }
+
+
+    renderAlertFavourableActivityListView(){
+
+        if (this.state.detailinfoData.shop_promotion != null){
+
+            if (this.state.detailinfoData.shop_promotion.length > 0){
+
+                return (
+                    <YFWAlertFavourableActivityListView ref={'favourable'} data={this.state.detailinfoData}
+                                                        closeMethod={()=>{
+                                                            this.favourablePopupDialog.dismiss();
+                                                        }}/>
+                );
+
+            }
+
+        }
+
+    }
+
+    //加入购物车
+    addShopCarMethod(){
+        this._addShopCarMethod(null);
+    }
+    //跳转咨询
+    toConsultingMethod(){
+        YFWToast("跳转咨询页面");
+    }
+    //跳转店铺
+    toShopDetailMethod(){
+        YFWToast("跳转店铺页面");
+    }
+    //点击收藏
+    toCollectionMethod(){
+        this._collectionGoods();
+    }
+    //跳转购物车
+    toShopCarMethod(){
+        YFWToast("跳转购物车页面");
+
+        // const {params} = this.props.navogation.getNavState();
+        // this.props.navigation.navigate('YFWShopCarVC', {key: params.key})
+
+        //this.props.navigation.navigate("YFWShopCarVC",{title:"购物车"});
+
+    }
+    //弹框
+    _clickPopupMethod(index){
+
+        if(index === 0){
+            this.favourablePopupDialog.show();
+        }else if (index === 1){
+            this.refs['couponCollection'].requestData();
+            this.popupDialog.show();
+        }else if(index === 2){
+            this.refs['package'].requestData();
+            this.packagePopupDialog.show();
+        }
+
+    }
+
+    static navigationOptions = ({navigation,screenProps}) =>{
+
+        var weakThis = navigation.state.params;
+        return{
+            tabBarVisible:false,
+            title:(
+                <View style={{width:150,height:40, alignItems: 'center',}} flexDirection={'row'}>
+                    <TouchableOpacity  style={{width:50,flex:1}} onPress={()=>weakThis.clickConfirm(0)}>
+                        <Text  style={{color:weakThis.selectIndex===0?yfwGreenColor():darkNomalColor(),textAlign:'center'}} > 商品 </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity  style={{width:50,flex:1}} onPress={()=>weakThis.clickConfirm(1)}>
+                        <Text  style={{color:weakThis.selectIndex===1?yfwGreenColor():darkNomalColor(),textAlign:'center'}} > 详情 </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity  style={{width:50,flex:1}} onPress={()=>weakThis.clickConfirm(2)}>
+                        <Text  style={{color:weakThis.selectIndex===2?yfwGreenColor():darkNomalColor(),textAlign:'center'}} > 评价 </Text>
+                    </TouchableOpacity>
+                </View>
+            ),
+        }
+    };
+
+    //// #  Method  #
+
+    clickConfirm(index){
+
+        this.setState({
+            selectIndex:index,
+        });
+
+    }
+
+    //商品详情接口
+    _requetCommodityDetail(){
+
+        try {
+
+            let request = new YFWRequest();
+            let paramObj = new YFWRequestParam();
+            let paramMap = new Map();
+            paramMap.set('service','get_shop_goods_detail');
+            paramMap.set('shop_goods_id',this.props.navigation.state.params.state.value);
+            paramMap.set('region_name','%E4%B8%8A%E6%B5%B7%E5%B8%82');
+            var url = paramObj.getURL(paramMap);
+
+            request.get(url,null).then((res)=>{
+                if (res.code === '1'){
+                    var is_favorite = (res.item.is_favorite === '1');
+                    this.setState({
+                        detailinfoData:res.item,
+                        isCollection:is_favorite,
+                    });
+                    this.refs['detailInfo']._requestCouponMethod();
+                    if (this.refs['detailInfoDetail'] != null){
+                        this.refs['detailInfoDetail']._requestOtherVisitedMethod();
+                        this.refs['detailInfoDetail']._requestShopRecommendMethod();
+                    }
+                }
+            });
+
+        }catch (e) {
+
+        }
+
+    }
+
+    //加入购物车接口
+    _addShopCarMethod(package_id){
+
+        try {
+
+            let request = new YFWRequest();
+            let paramObj = new YFWRequestParam();
+            let paramMap = new Map();
+            paramMap.set('service','set_cart_quantity');
+            paramMap.set('account_id','1');
+            paramMap.set('quantity'  ,'1');
+
+            if (package_id != null){
+                paramMap.set('shop_goods_id','-1');
+                paramMap.set('package_id',package_id);
+            } else {
+                paramMap.set('shop_goods_id',this.props.navigation.state.params.state.value);
+                paramMap.set('package_id','-1');
+            }
+            var url = paramObj.getURL(paramMap);
+
+            request.get(url,null).then((res)=>{
+                if (res.code === '1'){
+                    YFWToast('商品添加成功！');
+                    this._getCartGoodsCountMethod();
+                }
+            });
+
+        }catch (e) {
+
+        }
+
+    }
+
+    //收藏接口
+    _collectionGoods(){
+
+        try {
+
+            let request = new YFWRequest();
+            let paramObj = new YFWRequestParam();
+            let paramMap = new Map();
+            if (this.state.isCollection){
+                paramMap.set('service','cancel_favorites_shop_goods');
+            }else{
+                paramMap.set('service','favorites_shop_goods');
+            }
+            paramMap.set('account_id','1');
+            paramMap.set('shop_goods_id',this.props.navigation.state.params.state.value);
+            var url = paramObj.getURL(paramMap);
+
+            request.get(url,null).then((res)=>{
+                if (res.code === '1'){
+                    var is_favorite = false;
+                    if (this.state.isCollection){
+                        YFWToast('取消收藏成功！');
+                    }else{
+                        YFWToast('收藏成功！');
+                        is_favorite = true;
+                    }
+                    this.setState({
+                        isCollection:is_favorite,
+                    });
+
+                }
+            });
+
+        }catch (e) {
+
+        }
+
+    }
+
+
+    //获取购物车数量接口
+    _getCartGoodsCountMethod(){
+
+        try {
+
+            let request = new YFWRequest();
+            let paramObj = new YFWRequestParam();
+            let paramMap = new Map();
+            paramMap.set('service','get_cart_goods_count');
+            paramMap.set('account_id','1');
+
+            var url = paramObj.getURL(paramMap);
+
+            request.get(url,null).then((res)=>{
+                if (res.code === '1'){
+                    this.setState({
+                        carNumber:res.item.count,
+                    });
+                }
+            });
+
+        }catch (e) {
+
+        }
+
+    }
+
+
+}
+
+
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        flexDirection: 'column',
+        alignItems: 'stretch',
+        justifyContent: 'flex-start',
+        backgroundColor: backGroundColor()
+    },
+    text: {
+        fontSize: 20,
+        textAlign: 'center'
+    },
+    item: {
+        marginTop: 0,
+        marginLeft: 0,
+        marginRight: 0,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center'
+
+    },
+    shareImage: {
+        width: 40,
+        height: 40
+    },
+    shareView: {
+        flex: 1,
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center"
+    }
+});

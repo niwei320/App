@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 171
+/svn/appios/!svn/ver/1515/Tags/YFWDemos/%E8%8D%AF%E6%88%BF%E7%BD%91SDK%E5%8D%87%E7%BA%A7%E7%89%88/ThirdPaty/UmengSocial/SocialLibraries/QQ/TencentOpenAPI.framework/Headers
+END
+TencentApiInterface.h
+K 25
+svn:wc:ra_dav:version-url
+V 193
+/svn/appios/!svn/ver/1515/Tags/YFWDemos/%E8%8D%AF%E6%88%BF%E7%BD%91SDK%E5%8D%87%E7%BA%A7%E7%89%88/ThirdPaty/UmengSocial/SocialLibraries/QQ/TencentOpenAPI.framework/Headers/TencentApiInterface.h
+END
+QQApiInterface.h
+K 25
+svn:wc:ra_dav:version-url
+V 188
+/svn/appios/!svn/ver/1515/Tags/YFWDemos/%E8%8D%AF%E6%88%BF%E7%BD%91SDK%E5%8D%87%E7%BA%A7%E7%89%88/ThirdPaty/UmengSocial/SocialLibraries/QQ/TencentOpenAPI.framework/Headers/QQApiInterface.h
+END
+TencentMessageObject.h
+K 25
+svn:wc:ra_dav:version-url
+V 194
+/svn/appios/!svn/ver/1515/Tags/YFWDemos/%E8%8D%AF%E6%88%BF%E7%BD%91SDK%E5%8D%87%E7%BA%A7%E7%89%88/ThirdPaty/UmengSocial/SocialLibraries/QQ/TencentOpenAPI.framework/Headers/TencentMessageObject.h
+END
+sdkdef.h
+K 25
+svn:wc:ra_dav:version-url
+V 180
+/svn/appios/!svn/ver/1515/Tags/YFWDemos/%E8%8D%AF%E6%88%BF%E7%BD%91SDK%E5%8D%87%E7%BA%A7%E7%89%88/ThirdPaty/UmengSocial/SocialLibraries/QQ/TencentOpenAPI.framework/Headers/sdkdef.h
+END
+TencentOAuth.h
+K 25
+svn:wc:ra_dav:version-url
+V 186
+/svn/appios/!svn/ver/1515/Tags/YFWDemos/%E8%8D%AF%E6%88%BF%E7%BD%91SDK%E5%8D%87%E7%BA%A7%E7%89%88/ThirdPaty/UmengSocial/SocialLibraries/QQ/TencentOpenAPI.framework/Headers/TencentOAuth.h
+END
+QQApiInterfaceObject.h
+K 25
+svn:wc:ra_dav:version-url
+V 194
+/svn/appios/!svn/ver/1515/Tags/YFWDemos/%E8%8D%AF%E6%88%BF%E7%BD%91SDK%E5%8D%87%E7%BA%A7%E7%89%88/ThirdPaty/UmengSocial/SocialLibraries/QQ/TencentOpenAPI.framework/Headers/QQApiInterfaceObject.h
+END
+TencentOAuthObject.h
+K 25
+svn:wc:ra_dav:version-url
+V 192
+/svn/appios/!svn/ver/1515/Tags/YFWDemos/%E8%8D%AF%E6%88%BF%E7%BD%91SDK%E5%8D%87%E7%BA%A7%E7%89%88/ThirdPaty/UmengSocial/SocialLibraries/QQ/TencentOpenAPI.framework/Headers/TencentOAuthObject.h
+END

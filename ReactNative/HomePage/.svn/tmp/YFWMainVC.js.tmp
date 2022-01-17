@@ -1,0 +1,298 @@
+/**
+ * Sample React Native App
+ * https://github.com/facebook/react-native
+ * @flow
+ */
+
+import React, {Component} from 'react';
+import {
+    Platform,
+    StyleSheet,
+    Text,
+    View,
+    ListView,
+    TouchableOpacity, Modal, Image,
+    TouchableHighlight
+} from 'react-native';
+
+import YFWHomeBarner from './YFWHomeBannerView'
+import YFWSearchHeader from './YFWHomeSearchHeaderView'
+import YFWHomeMenu from './YFWHomeMenuView'
+import YFWAdvertHead from './YFWHomeAdvertHeaderView'
+import YFWHomeScrollListView from './YFWHomeScrollListView'
+import YFWHomeRecommend1View from './YFWHomeRecommend1View'
+import YFWHomeRecommend2View from './YFWHomeRecommend2View'
+
+
+import YFWRequest from '../Utils/YFWRequest'
+import YFWToast from '../Utils/YFWToast'
+import {log, logWarm, logErr} from '../Utils/YFWLog'
+import {backGroundColor, darkNomalColor} from '../Utils/YFWColor'
+import YFWRequestParam from '../Utils/YFWRequestParam'
+import Navigation from "react-navigation";
+
+var Dimensions = require('Dimensions');
+var {width} = Dimensions.get('window');
+
+
+export default class YFWMainVC extends Component {
+
+    constructor(...args) {
+        super(...args);
+        this.state = {
+            loading: true,
+            data: [],
+            dataSource: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}),
+            index: 2,
+            isModal: false
+        };
+    }
+    onShareClick(){
+        this.showModal()
+    }
+    render() {
+        return (
+            <View>
+
+<<<<<<< .mine
+                <YFWSearchHeader height={100} shareMethod={() => this.showModal()}/>
+=======
+                <YFWSearchHeader onShareClick={()=>{this.onShareClick()}}height={100}/>
+>>>>>>> .r33
+                <ListView
+                    removeClippedSubviews={false}
+                    dataSource={this.state.dataSource}
+                    renderRow={this.renderRow.bind(this)}
+                    renderFooter={this._renderFooter.bind(this)}
+                />
+                <Modal
+                    animationType='fade'
+                    transparent={true}
+                    visible={this.state.isModal}
+                    onRequestClose={() => {
+
+                    }}>
+                    {this.renderShareDialog()}
+                </Modal>
+            </View>
+        );
+    }
+
+    renderShareDialog(){
+
+        return <TouchableOpacity style={{flex: 1}} onPress={() => this.onRequestClose()}>
+            <View style={{
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
+                backgroundColor: 'rgba(0, 0, 0, 0.3)'
+            }}>
+
+                <View style={{
+                    height: width - 80,
+                    width: width - 80,
+                    backgroundColor: 'white',
+                    borderRadius: 5
+                }}>
+                    <Text style={{padding: 10, textAlign: "center"}}>分享到</Text>
+                    <View style={{flexDirection: "row", flex: 1}}>
+                        <TouchableOpacity style={styles.shareView} onPress={() => YFWToast("sdsdsd")}>
+                            <Image style={styles.shareImage}
+                                   source={require("../../img/share_0.png")}></Image>
+                            <Text style={{padding: 5, textAlign: "center"}}>微信</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.shareView} onPress={() => YFWToast("sdsdsd")}>
+                            <Image style={styles.shareImage}
+                                   source={require("../../img/share_1.png")}></Image>
+                            <Text style={{padding: 5, textAlign: "center"}}>朋友圈</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.shareView} onPress={() => YFWToast("sdsdsd")}>
+                            <Image style={styles.shareImage}
+                                   source={require("../../img/share_2.png")}></Image>
+                            <Text style={{padding: 5, textAlign: "center"}}>微博</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={{flexDirection: "row", flex: 1}}>
+                        <TouchableOpacity style={styles.shareView} onPress={() => YFWToast("sdsdsd")}>
+                            <Image style={styles.shareImage}
+                                   source={require("../../img/share_3.png")}></Image>
+                            <Text style={{padding: 5, textAlign: "center"}}>QQ</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.shareView} onPress={() => YFWToast("sdsdsd")}>
+                            <Image style={styles.shareImage}
+                                   source={require("../../img/share_4.png")}></Image>
+                            <Text style={{padding: 5, textAlign: "center"}}>QQ空间</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.shareView} onPress={() => YFWToast("sdsdsd")}>
+                            <Image style={styles.shareImage}
+                                   source={require("../../img/share_5.png")}></Image>
+                            <Text style={{padding: 5, textAlign: "center"}}>复制链接</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+                <Image style={{marginTop:20,width:25,height:25}}
+                       source={require("../../img/share_close.png")}></Image>
+
+            </View>
+        </TouchableOpacity>
+    }
+
+    showModal() {
+        this.setState({
+            isModal: true
+        })
+    }
+
+    onRequestClose() {
+        this.setState({
+            isModal: false
+        });
+    }
+
+    renderRow(rowData, sectionID, rowID, highlightRow) {
+        if (rowData.style === 'banner') {
+            return (
+                <View style={styles.item} height={200}>
+                    <YFWHomeBarner imagesData={rowData.items} navigation={this.props.navigation}/>
+                </View>
+            )
+        } else if (rowData.style === 'menu') {
+            return (
+                <View style={styles.item} height={200} backgroundColor={'white'}>
+                    <YFWHomeMenu badgeData={rowData.items} navigation={this.props.navigation}/>
+                </View>
+            )
+        } else if (rowData.style === 'ads_1F_1' || rowData.style === 'ads_2F_1') {
+            return (
+                <View style={styles.item} height={110}>
+                    <YFWAdvertHead Data={rowData.items} navigation={this.props.navigation}/>
+                </View>
+            )
+        } else if (rowData.style === 'ads_1F_2' || rowData.style === 'ads_2F_2') {
+            return (
+                <View style={styles.item} backgroundColor={'white'}>
+                    <YFWHomeScrollListView Data={rowData.items} navigation={this.props.navigation}/>
+                </View>
+            )
+        }
+        else if (rowData.style === 'ads_3F_1' || rowData.style === 'ads_4F_1' ||
+            rowData.style === 'ads_5F_1' || rowData.style === 'ads_6F_1') {
+
+
+            return (
+                <View style={styles.item}>
+                    <YFWHomeRecommend1View Data={rowData} navigation={this.props.navigation}/>
+                </View>
+            )
+        }
+        else if (rowData.style === 'ads_3F_2' || rowData.style === 'ads_4F_2' ||
+            rowData.style === 'ads_5F_2' || rowData.style === 'ads_6F_2') {
+            return (
+                <View style={styles.item}>
+                    <YFWHomeRecommend2View Data={rowData.items} navigation={this.props.navigation}/>
+                </View>
+            )
+        }
+        else {
+            return (
+                <View style={styles.item} height={1}>
+                </View>
+            )
+        }
+    }
+
+
+    selectItemIndex(sectionID, rowID) {
+
+
+        YFWToast('sectionID:' + sectionID + ',rowID:' + rowID);
+
+    }
+
+    //列表尾
+    _renderFooter() {
+        if (this.state.data.length > 0) {
+            return (
+                <View style={{flex: 1, height: 65}}>
+                    <Text style={{
+                        flex: 1, marginTop: 25,
+                        textAlign: 'center', color: darkNomalColor()
+                    }}>
+                        —— 就这么多了，回顶部再看看吧 ——
+                    </Text>
+                </View>
+            )
+        } else {
+            return (
+                <View style={{flex: 1, height: 1}}>
+                </View>
+            )
+        }
+
+    }
+
+
+    //视图加载完成
+    componentDidMount() {
+
+        let request = new YFWRequest();
+        let paramObj = new YFWRequestParam();
+        let paramMap = new Map();
+        paramMap.set('service', 'get_index_data');
+        var url = paramObj.getURL(paramMap);
+        request.get(url, null).then((res) => {
+            if (res.code === '1') {
+                let data = res.data_items;
+                this.setState({
+                    data: data,
+                    dataSource: this.state.dataSource.cloneWithRows(data)
+                });
+            }
+
+        });
+
+    }
+
+    static navigationOptions = ({navigation}) => ({
+
+        tabBarVisible: true,
+        header: null,
+    });
+
+}
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        flexDirection: 'column',
+        alignItems: 'stretch',
+        justifyContent: 'flex-start',
+        backgroundColor: backGroundColor()
+    },
+    text: {
+        fontSize: 20,
+        textAlign: 'center'
+    },
+    item: {
+        marginTop: 0,
+        marginLeft: 0,
+        marginRight: 0,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center'
+
+    },
+    shareImage: {
+        width: 40,
+        height: 40
+    },
+    shareView: {
+        flex: 1,
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center"
+    }
+});
+
+
+
+

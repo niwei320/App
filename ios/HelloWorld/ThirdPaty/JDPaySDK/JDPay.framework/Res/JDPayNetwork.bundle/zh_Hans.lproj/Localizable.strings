@@ -1,0 +1,11 @@
+/* 
+  localizable.strings
+
+  Created by dongkui on 13/07/2017.
+  Copyright © 2017 JD. All rights reserved.
+*/
+
+"JDPayBizURLRequestErrorUnknow" = "未知错误";
+"JDPayBizURLRequestErrorInvalidData" = "服务器返回数据错误";
+"JDPayBizURLRequestErrorInvalidParam" = "请求参数错误";
+"JDPayBizURLRequestErrorNetwork" = "网络服务繁忙，请检查网络连接情况后重试";

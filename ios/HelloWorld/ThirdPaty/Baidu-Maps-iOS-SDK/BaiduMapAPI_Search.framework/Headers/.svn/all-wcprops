@@ -1,0 +1,131 @@
+K 25
+svn:wc:ra_dav:version-url
+V 163
+/svn/appios/!svn/ver/1493/Tags/YFWDemos/%E8%8D%AF%E6%88%BF%E7%BD%91SDK%E5%8D%87%E7%BA%A7%E7%89%88/ThirdPaty/Baidu-Maps-iOS-SDK/BaiduMapAPI_Search.framework/Headers
+END
+BMKSearchBase.h
+K 25
+svn:wc:ra_dav:version-url
+V 179
+/svn/appios/!svn/ver/1493/Tags/YFWDemos/%E8%8D%AF%E6%88%BF%E7%BD%91SDK%E5%8D%87%E7%BA%A7%E7%89%88/ThirdPaty/Baidu-Maps-iOS-SDK/BaiduMapAPI_Search.framework/Headers/BMKSearchBase.h
+END
+BMKShareUrlSearchOption.h
+K 25
+svn:wc:ra_dav:version-url
+V 189
+/svn/appios/!svn/ver/1493/Tags/YFWDemos/%E8%8D%AF%E6%88%BF%E7%BD%91SDK%E5%8D%87%E7%BA%A7%E7%89%88/ThirdPaty/Baidu-Maps-iOS-SDK/BaiduMapAPI_Search.framework/Headers/BMKShareUrlSearchOption.h
+END
+BMKPoiSearchOption.h
+K 25
+svn:wc:ra_dav:version-url
+V 184
+/svn/appios/!svn/ver/1493/Tags/YFWDemos/%E8%8D%AF%E6%88%BF%E7%BD%91SDK%E5%8D%87%E7%BA%A7%E7%89%88/ThirdPaty/Baidu-Maps-iOS-SDK/BaiduMapAPI_Search.framework/Headers/BMKPoiSearchOption.h
+END
+BMKSuggestionSearchOption.h
+K 25
+svn:wc:ra_dav:version-url
+V 191
+/svn/appios/!svn/ver/1493/Tags/YFWDemos/%E8%8D%AF%E6%88%BF%E7%BD%91SDK%E5%8D%87%E7%BA%A7%E7%89%88/ThirdPaty/Baidu-Maps-iOS-SDK/BaiduMapAPI_Search.framework/Headers/BMKSuggestionSearchOption.h
+END
+BMKDistrictSearch.h
+K 25
+svn:wc:ra_dav:version-url
+V 183
+/svn/appios/!svn/ver/1493/Tags/YFWDemos/%E8%8D%AF%E6%88%BF%E7%BD%91SDK%E5%8D%87%E7%BA%A7%E7%89%88/ThirdPaty/Baidu-Maps-iOS-SDK/BaiduMapAPI_Search.framework/Headers/BMKDistrictSearch.h
+END
+BMKSearchVersion.h
+K 25
+svn:wc:ra_dav:version-url
+V 182
+/svn/appios/!svn/ver/1493/Tags/YFWDemos/%E8%8D%AF%E6%88%BF%E7%BD%91SDK%E5%8D%87%E7%BA%A7%E7%89%88/ThirdPaty/Baidu-Maps-iOS-SDK/BaiduMapAPI_Search.framework/Headers/BMKSearchVersion.h
+END
+BMKShareURLSearch.h
+K 25
+svn:wc:ra_dav:version-url
+V 183
+/svn/appios/!svn/ver/1493/Tags/YFWDemos/%E8%8D%AF%E6%88%BF%E7%BD%91SDK%E5%8D%87%E7%BA%A7%E7%89%88/ThirdPaty/Baidu-Maps-iOS-SDK/BaiduMapAPI_Search.framework/Headers/BMKShareURLSearch.h
+END
+BMKPoiSearchResult.h
+K 25
+svn:wc:ra_dav:version-url
+V 184
+/svn/appios/!svn/ver/1493/Tags/YFWDemos/%E8%8D%AF%E6%88%BF%E7%BD%91SDK%E5%8D%87%E7%BA%A7%E7%89%88/ThirdPaty/Baidu-Maps-iOS-SDK/BaiduMapAPI_Search.framework/Headers/BMKPoiSearchResult.h
+END
+BMKSuggestionSearchResult.h
+K 25
+svn:wc:ra_dav:version-url
+V 191
+/svn/appios/!svn/ver/1493/Tags/YFWDemos/%E8%8D%AF%E6%88%BF%E7%BD%91SDK%E5%8D%87%E7%BA%A7%E7%89%88/ThirdPaty/Baidu-Maps-iOS-SDK/BaiduMapAPI_Search.framework/Headers/BMKSuggestionSearchResult.h
+END
+BMKRouteSearchOption.h
+K 25
+svn:wc:ra_dav:version-url
+V 186
+/svn/appios/!svn/ver/1493/Tags/YFWDemos/%E8%8D%AF%E6%88%BF%E7%BD%91SDK%E5%8D%87%E7%BA%A7%E7%89%88/ThirdPaty/Baidu-Maps-iOS-SDK/BaiduMapAPI_Search.framework/Headers/BMKRouteSearchOption.h
+END
+BMKPoiSearch.h
+K 25
+svn:wc:ra_dav:version-url
+V 178
+/svn/appios/!svn/ver/1493/Tags/YFWDemos/%E8%8D%AF%E6%88%BF%E7%BD%91SDK%E5%8D%87%E7%BA%A7%E7%89%88/ThirdPaty/Baidu-Maps-iOS-SDK/BaiduMapAPI_Search.framework/Headers/BMKPoiSearch.h
+END
+BMKSuggestionSearch.h
+K 25
+svn:wc:ra_dav:version-url
+V 185
+/svn/appios/!svn/ver/1493/Tags/YFWDemos/%E8%8D%AF%E6%88%BF%E7%BD%91SDK%E5%8D%87%E7%BA%A7%E7%89%88/ThirdPaty/Baidu-Maps-iOS-SDK/BaiduMapAPI_Search.framework/Headers/BMKSuggestionSearch.h
+END
+BMKPoiSearchType.h
+K 25
+svn:wc:ra_dav:version-url
+V 182
+/svn/appios/!svn/ver/1493/Tags/YFWDemos/%E8%8D%AF%E6%88%BF%E7%BD%91SDK%E5%8D%87%E7%BA%A7%E7%89%88/ThirdPaty/Baidu-Maps-iOS-SDK/BaiduMapAPI_Search.framework/Headers/BMKPoiSearchType.h
+END
+BMKBusLineSearchOption.h
+K 25
+svn:wc:ra_dav:version-url
+V 188
+/svn/appios/!svn/ver/1493/Tags/YFWDemos/%E8%8D%AF%E6%88%BF%E7%BD%91SDK%E5%8D%87%E7%BA%A7%E7%89%88/ThirdPaty/Baidu-Maps-iOS-SDK/BaiduMapAPI_Search.framework/Headers/BMKBusLineSearchOption.h
+END
+BMKRouteSearch.h
+K 25
+svn:wc:ra_dav:version-url
+V 180
+/svn/appios/!svn/ver/1493/Tags/YFWDemos/%E8%8D%AF%E6%88%BF%E7%BD%91SDK%E5%8D%87%E7%BA%A7%E7%89%88/ThirdPaty/Baidu-Maps-iOS-SDK/BaiduMapAPI_Search.framework/Headers/BMKRouteSearch.h
+END
+BMKGeocodeSearchOption.h
+K 25
+svn:wc:ra_dav:version-url
+V 188
+/svn/appios/!svn/ver/1493/Tags/YFWDemos/%E8%8D%AF%E6%88%BF%E7%BD%91SDK%E5%8D%87%E7%BA%A7%E7%89%88/ThirdPaty/Baidu-Maps-iOS-SDK/BaiduMapAPI_Search.framework/Headers/BMKGeocodeSearchOption.h
+END
+BMKRouteSearchType.h
+K 25
+svn:wc:ra_dav:version-url
+V 184
+/svn/appios/!svn/ver/1493/Tags/YFWDemos/%E8%8D%AF%E6%88%BF%E7%BD%91SDK%E5%8D%87%E7%BA%A7%E7%89%88/ThirdPaty/Baidu-Maps-iOS-SDK/BaiduMapAPI_Search.framework/Headers/BMKRouteSearchType.h
+END
+BMKBusLineSearch.h
+K 25
+svn:wc:ra_dav:version-url
+V 182
+/svn/appios/!svn/ver/1493/Tags/YFWDemos/%E8%8D%AF%E6%88%BF%E7%BD%91SDK%E5%8D%87%E7%BA%A7%E7%89%88/ThirdPaty/Baidu-Maps-iOS-SDK/BaiduMapAPI_Search.framework/Headers/BMKBusLineSearch.h
+END
+BMKSearchComponent.h
+K 25
+svn:wc:ra_dav:version-url
+V 184
+/svn/appios/!svn/ver/1493/Tags/YFWDemos/%E8%8D%AF%E6%88%BF%E7%BD%91SDK%E5%8D%87%E7%BA%A7%E7%89%88/ThirdPaty/Baidu-Maps-iOS-SDK/BaiduMapAPI_Search.framework/Headers/BMKSearchComponent.h
+END
+BMKGeocodeSearchResult.h
+K 25
+svn:wc:ra_dav:version-url
+V 188
+/svn/appios/!svn/ver/1493/Tags/YFWDemos/%E8%8D%AF%E6%88%BF%E7%BD%91SDK%E5%8D%87%E7%BA%A7%E7%89%88/ThirdPaty/Baidu-Maps-iOS-SDK/BaiduMapAPI_Search.framework/Headers/BMKGeocodeSearchResult.h
+END
+BMKGeocodeSearch.h
+K 25
+svn:wc:ra_dav:version-url
+V 182
+/svn/appios/!svn/ver/1493/Tags/YFWDemos/%E8%8D%AF%E6%88%BF%E7%BD%91SDK%E5%8D%87%E7%BA%A7%E7%89%88/ThirdPaty/Baidu-Maps-iOS-SDK/BaiduMapAPI_Search.framework/Headers/BMKGeocodeSearch.h
+END

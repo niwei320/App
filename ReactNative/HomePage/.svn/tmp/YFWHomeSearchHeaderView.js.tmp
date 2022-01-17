@@ -1,0 +1,154 @@
+import React, {Component} from 'react';
+import {
+    Platform,
+    StyleSheet,
+    Image,
+    View,
+    Text,
+    Button,
+    TextInput,
+    Dimensions,
+    TouchableOpacity
+} from 'react-native';
+import {yfwGreenColor} from '../Utils/YFWColor'
+import YFWToast from '../Utils/YFWToast'
+
+
+export default class YFWHomeSearchHeaderView extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {text: ''};
+    }
+
+    render() {
+        if ((Platform.OS === 'ios')) {
+            return <View style={styles.backStyle}>
+                <View backgroundColor={yfwGreenColor()} marginTop={25} flexDirection={'row'}
+                      justifyContent={'center'} alignItems={'center'} paddingBottom={10}>
+                    <TouchableOpacity style={styles.imgStyle} marginLeft={10} onPress={() => {
+                        YFWToast('扫一扫');
+                    }}>
+                        <Image key={'scan'} source={require('../../img/qr_sys.png')}
+                               style={styles.imgStyle}/>
+                    </TouchableOpacity>
+
+
+                    <Text style={styles.textStyle}>上投盛银大厦</Text>
+                    <TouchableOpacity style={styles.imgStyle} paddingRight={10} onPress={() => {
+                        if (this.props.shareMethod) {
+                            this.props.shareMethod();
+                        }
+                    }}>
+                        <Image key={'share'} source={require('../../img/fengxiang.png')}
+                               style={styles.imgStyle}/>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.imgStyle} paddingRight={10} onPress={() => {
+                        YFWToast('消息');
+                    }}>
+                        <Image key={'msg'} source={require('../../img/activity_home_msg.png')}
+                               style={styles.imgStyle}/>
+                    </TouchableOpacity>
+
+                </View>
+                <View style={{
+                    paddingBottom: 5,
+                    backgroundColor: '#16c08e',
+                    paddingLeft: 10,
+                    paddingRight: 10,
+                    height: 35
+                }}>
+                    <View style={{
+                        flexDirection: 'row',
+                        backgroundColor: 'white',
+                        flex: 1,
+                        padding: 5,
+                        borderRadius: 5,
+                        justifyContent: 'center',
+                        alignItems: 'center'
+                    }}>
+                        <Image style={{width: 15, height: 15, marginRight: 10}}
+                               source={require('../../img/wenda_icon_search.png')}></Image>
+                        <Text>批准文号,通用名，商品名，症状</Text>
+                    </View>
+                </View>
+            </View>
+        } else {
+            return <View>
+                <View style={styles.titleStyle}>
+                    <Image style={{width: 20, height: 20, alignItems: 'flex-start'}}
+                           source={require('../../img/qr_sys.png')}></Image>
+                    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                        <Text style={{color: 'white'}}>上海市</Text>
+                    </View>
+                    <TouchableOpacity onPress={this.props.onShareClick}>
+                        <Image style={{width: 20, height: 20, alignItems: 'flex-start'}}
+                               source={require('../../img/fengxiang.png')}></Image>
+                    </TouchableOpacity>
+                    <Image style={{marginLeft: 10, width: 20, height: 20, alignItems: 'flex-start'}}
+                           source={require('../../img/activity_home_msg.png')}></Image>
+                </View>
+                <View style={{
+                    paddingBottom: 10,
+                    backgroundColor: '#16c08e',
+                    paddingLeft: 10,
+                    paddingRight: 10,
+                    height: 40
+                }}>
+                    <View style={{
+                        flexDirection: 'row',
+                        backgroundColor: 'white',
+                        flex: 1,
+                        padding: 5,
+                        borderRadius: 5,
+                        justifyContent: 'center',
+                        alignItems: 'center'
+                    }}>
+                        <Image style={{width: 15, height: 15, marginRight: 10}}
+                               source={require('../../img/wenda_icon_search.png')}></Image>
+                        <Text>批准文号,通用名，商品名，症状</Text>
+                    </View>
+                </View>
+            </View>
+        }
+
+    }
+
+}
+
+const styles = StyleSheet.create({
+    container: {
+        justifyContent: "flex-start",
+        alignItems: 'stretch',
+        backgroundColor: '#16c08e',
+    },
+    backStyle: {
+        flexDirection: 'column',
+        alignItems: 'stretch',
+        justifyContent: 'flex-start',
+        height: 90,
+        backgroundColor: yfwGreenColor(),
+    },
+    inputStyle: {
+        height: 30,
+        width: Dimensions.get('window').width - 20,
+        borderRadius: 5,
+        borderColor: 'white',
+        backgroundColor: 'white',
+    },
+    titleStyle: {
+        flexDirection: 'row',
+        backgroundColor: '#16c08e',
+        padding: 10
+    },
+    textStyle: {
+        fontSize: 16,
+        textAlign: 'center',
+        color: 'white',
+        width: Dimensions.get('window').width - 80,
+    },
+    imgStyle: {
+        height: 20,
+        width: 20
+    },
+});

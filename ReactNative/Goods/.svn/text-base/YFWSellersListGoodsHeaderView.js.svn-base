@@ -1,0 +1,253 @@
+import React, { Component } from 'react';
+import {
+    Platform,
+    StyleSheet,
+    Text,
+    View,
+    Image,
+    ListView,
+    TouchableOpacity,
+    Dimensions,
+} from 'react-native';
+import YFWToast from "../Utils/YFWToast";
+import {darkNomalColor,darkTextColor,darkLightColor,separatorColor,yfwGreenColor} from "../Utils/YFWColor";
+
+
+export default class YFWSellersListGoodsHeaderView extends Component {
+
+    static defaultProps = {
+        Data:undefined,
+        shopCount:'0',
+    }
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            isHeightPrice:true,
+            priceString:'价格',
+        };
+    }
+
+    render() {
+        return (
+            <View>
+                <View style={styles.container}>
+
+                    <View flexDirection={'row'} height={100}>
+                        <Image
+                            style={styles.iconStyle}
+                            source={{uri:this.props.Data.img_url}}
+                        ></Image>
+                        <View>
+                            <Text style={styles.titleStyle}>{this.props.Data.title}</Text>
+                            <Text style={styles.textStyle}>{'批准文号： '+this.props.Data.authorized_code}</Text>
+                            <Text style={styles.textStyle}>{'厂商： '+this.props.Data.mill_title}</Text>
+                        </View>
+                    </View>
+                    <View style={styles.separatorStyle}></View>
+                    <View flexDirection={'row'} height={60}>
+                        <Image
+                            style={styles.icon2Style}
+                            source={require('../../img/same_store_empty.png')}
+                        ></Image>
+                        <Text style={styles.contentStyle} >{this.props.Data.applicability}</Text>
+                    </View>
+
+                </View>
+                <View style={styles.container2}>
+                    <View flexDirection={'row'} height={49}>
+                        <Text style={styles.shopCountStyle}>{this.props.shopCount}个商家报价</Text>
+                        <View style={styles.shopCountseparatorStyle}></View>
+                        <TouchableOpacity flexDirection={'row'}  style={{flex:1}}  onPress={()=>this.changeStandarsMethod()}>
+                            <Text style={styles.goodsStandardStyle}>∙   {this.props.Data.standard}</Text>
+                        </TouchableOpacity>
+
+                    </View>
+                    <View height={0.5} backgroundColor={separatorColor()}></View>
+                </View>
+                <View style={styles.container3}>
+                    <View flexDirection={'row'} height={49}>
+                        {this.renderItem()}
+                    </View>
+                    <View height={0.5} backgroundColor={separatorColor()}></View>
+                </View>
+
+            </View>
+        );
+    }
+
+
+    renderItem() {
+        // 数组
+        var itemAry = [];
+        // 遍历
+        var dataitems = ['综合','距离',this.state.priceString];
+        for (let i = 0; i<dataitems.length; i++) {
+            var dataItem = dataitems[i];
+
+            itemAry.push(
+                <TouchableOpacity key={'cli'+i}  style={{flex:1}}  onPress={()=>this.clickItems(i)}>
+                    <Text ref={'clickItem'+i} style={styles.clickItemStyle} > {dataItem} </Text>
+                </TouchableOpacity>
+
+            );
+        }
+        return itemAry;
+    }
+
+    clickItems(index){
+
+        this.refs.clickItem0.setNativeProps({style:{color:darkNomalColor()}});
+        this.refs.clickItem1.setNativeProps({style:{color:darkNomalColor()}});
+        this.refs.clickItem2.setNativeProps({style:{color:darkNomalColor()}});
+        this.setState({
+            priceString: '价格',
+        });
+
+        let orderType = '';
+        if (index === 0){
+            this.refs.clickItem0.setNativeProps({style:{color:yfwGreenColor()}});
+            orderType = '';
+        }
+        if (index === 1){
+            this.refs.clickItem1.setNativeProps({style:{color:yfwGreenColor()}});
+            orderType = 'distancedesc';
+        }
+        if (index === 2){
+            this.refs.clickItem2.setNativeProps({style:{color:yfwGreenColor()}});
+
+            if (this.state.isHeightPrice){
+                this.setState({
+                    priceString: '价格(降)',
+                    isHeightPrice: !this.state.isHeightPrice,
+                });
+                orderType = 'pricedesc';
+            }else {
+                this.setState({
+                    priceString: '价格(升)',
+                    isHeightPrice: !this.state.isHeightPrice,
+                });
+                orderType = 'priceasc';
+            }
+
+        }
+
+        this.props.getOrdertype(orderType);
+
+    }
+
+
+    changeStandarsMethod(){
+
+        this.props.showPopupDialog();
+    }
+
+
+}
+
+
+//设置样式
+const styles = StyleSheet.create({
+    container: {
+        //    确定主轴的方向
+        flexDirection:'column',
+        height:160,
+        width:Dimensions.get('window').width,
+        backgroundColor:'white',
+
+    },
+    container2: {
+        //    确定主轴的方向
+        flexDirection:'column',
+        height:50,
+        width:Dimensions.get('window').width,
+        backgroundColor:'white',
+        marginTop:10,
+
+    },
+    container3: {
+        //    确定主轴的方向
+        flexDirection:'column',
+        height:50,
+        width:Dimensions.get('window').width,
+        backgroundColor:'white',
+    },
+    iconStyle:{
+        width:80,
+        height:80,
+        marginBottom:10,
+        marginLeft:10,
+        marginTop:10,
+        resizeMode:'contain',
+    },
+    icon2Style:{
+        width:40,
+        marginBottom:10,
+        marginTop:0,
+        resizeMode:'contain',
+    },
+    separatorStyle:{
+        backgroundColor:separatorColor(),
+        height:1,
+        width: Dimensions.get('window').width - 100,
+        marginLeft:100,
+    },
+    titleStyle:{
+        fontSize: 15,
+        width:Dimensions.get('window').width - 120,
+        color:darkTextColor(),
+        marginTop:10,
+        marginLeft:10,
+        marginRight:10,
+        marginBottom:5,
+    },
+    textStyle:{
+        fontSize: 13,
+        textAlign: 'left',
+        color:darkNomalColor(),
+        width:Dimensions.get('window').width - 120,
+        marginLeft:10,
+        marginTop:5,
+    },
+    contentStyle:{
+        fontSize: 13,
+        textAlign: 'left',
+        color:darkNomalColor(),
+        width:Dimensions.get('window').width - 60,
+        marginLeft:15,
+        marginTop:10,
+    },
+
+    shopCountStyle:{
+
+        width:120,
+        marginTop:15,
+        color:darkNomalColor(),
+        textAlign: 'center',
+        fontSize: 13,
+    },
+    shopCountseparatorStyle:{
+        backgroundColor:separatorColor(),
+        height:30,
+        width: 0.5,
+        marginTop:10,
+    },
+    goodsStandardStyle:{
+
+        width:200,
+        marginTop:15,
+        marginLeft:30,
+        color:darkNomalColor(),
+        textAlign: 'left',
+        fontSize: 13,
+    },
+    clickItemStyle:{
+
+        flex:1,
+        marginTop:15,
+        textAlign: 'center',
+        fontSize: 13,
+        color:darkNomalColor(),
+    },
+
+});

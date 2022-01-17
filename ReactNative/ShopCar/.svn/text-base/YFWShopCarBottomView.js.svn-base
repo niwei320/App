@@ -1,0 +1,134 @@
+import React, { Component } from 'react';
+import {
+    Platform,
+    StyleSheet,
+    Image,
+    View,
+    Text,
+    TouchableOpacity, Dimensions
+} from 'react-native';
+
+import YFWToast from "../Utils/YFWToast";
+import YFWCheckButton from './YFWCheckButtonView';
+import {darkNomalColor,darkTextColor,darkLightColor,separatorColor,yfwOrangeColor} from "../Utils/YFWColor";
+import YFWOrderSettlementRootVC from "../OrderPay/YFWOrderSettlementRootVC";
+
+export default class YFWShopCarBottomView extends Component {
+
+    static defaultProps = {
+        Data:[],
+        selectAll:false,
+    }
+
+    render() {
+
+        var sum= 0;
+        var quantity = 0;
+        for (let i = 0 ; i < this.props.Data.length ; i++){
+
+            let car_item = this.props.Data[i];
+            sum += Number.parseFloat(car_item.price) * Number.parseInt(car_item.quantity);
+            quantity += Number.parseInt(car_item.quantity);
+        }
+
+        return (
+            <View style={{flex:1}}>
+                <View style={styles.separatorStyle}/>
+                <View style={styles.container}>
+                    <View style={styles.checkButton}>
+                        <YFWCheckButton style={{flex:1}} selectFn={()=>this._selectAll()}
+                                        select={this.props.selectAll}/>
+                    </View>
+                    <Text>全选</Text>
+                    <View style={styles.view1Style}>
+                        <Text style={styles.titleStyle}>合计：￥{sum.toFixed(2)}</Text>
+                        <Text style={styles.regionStyle}>不含运费及包装费</Text>
+                    </View>
+                    <View style={styles.view2Style}>
+                        <TouchableOpacity style={{flex:1,justifyContent:'center', alignItems:'center'}} onPress={()=>this._orderSettlementMethod()}>
+                            <Text style={styles.payStyle}>结算({quantity})</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </View>
+
+        );
+    }
+
+
+    _selectAll(){
+
+        if (this.props.selectAllFn){
+            this.props.selectAllFn();
+        }
+
+    }
+
+
+    //订单结算
+    _orderSettlementMethod(){
+
+        if (this.props.Data.length>0){
+            this.props.navigation.navigate("YFWOrderSettlementRootVC");
+        }
+
+    }
+
+}
+
+//设置样式
+const styles = StyleSheet.create({
+    container: {
+        flex:1,
+        height:60,
+        backgroundColor:'white',
+        flexDirection: 'row',
+        alignItems:'center'
+    },
+    checkButton:{
+        marginLeft:10,
+        width:30,
+        height:30,
+    },
+    view1Style:{
+        flex:1,
+        height:60,
+        marginLeft:10,
+    },
+    titleStyle:{
+
+        fontSize: 16,
+        height:25,
+        width : 150,
+        color:darkTextColor(),
+        marginTop:10,
+        marginLeft:10,
+    },
+    regionStyle:{
+
+        fontSize: 11,
+        //width:100,
+        color:darkNomalColor(),
+        marginLeft:10,
+
+    },
+    view2Style:{
+        width:100,
+        height:60,
+        justifyContent:'center',
+        alignItems:'center',
+        backgroundColor:yfwOrangeColor(),
+        marginRight:0,
+    },
+
+    separatorStyle:{
+        backgroundColor:separatorColor(),
+        height:0.5,
+        width: Dimensions.get('window').width,
+    },
+    payStyle:{
+        color:'white',
+        fontSize:16,
+    }
+
+});

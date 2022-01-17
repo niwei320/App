@@ -1,0 +1,104 @@
+
+import {log, logWarm, logErr} from './YFWLog'
+import {
+    Platform,
+} from 'react-native';
+var forge = require('node-forge');
+
+let iosAppkey = "8bfc9f101ecabcf9b069dff629dbe687";
+let appSecret = 'f4a426d596c61dc986bd849b0edb397b';
+let baseurl = "https://open.yaofangwang.com/app_gateway.ashx";
+let androidAppkey = "4fb44b67d0be2af36f7135586d38d658";
+let androidAppSecret="4ea0b919090d21ad6b77b0f9188e6905";
+
+export default class YFWRequestParam{
+
+    getURL(param){
+
+        let params = this.baseParam();
+        params.set("timestamp",this.currentDate());
+        params.set("account_id",'1');
+        for (let [k,v] of param) {
+            params.set(k,v);
+        }
+        params.set('sign',this.getSign(params));
+
+        var url = baseurl + '?' + this.paramToString(params);
+        log('请求链接：'+url);
+
+        return url;
+
+    }
+
+    baseParam(){
+
+        let baseParam = new Map();
+
+        baseParam.set('os',(Platform.OS === 'ios') ? 'ios' : 'android');
+        baseParam.set('longitude','121.6347427368164');
+        baseParam.set('latitude','31.21152877807617');
+        baseParam.set('device_no','');
+        baseParam.set('app_version','2.9.2');
+        baseParam.set('app_key',(Platform.OS === 'ios') ? iosAppkey : androidAppkey);
+
+        return baseParam;
+    }
+
+    paramToString(param){
+        let string = '';
+        let i = 0;
+        for (let [k,v] of param) {
+            string += k+'='+v;
+            if (i !== param.size-1){
+                string += '&';
+            }
+            i++;
+        }
+
+        log('参数拼接：'+string);
+        return string;
+    }
+
+    getSign(param){
+
+        let paramStr = this.paramToString(param);
+        let key=(Platform.OS === 'ios') ? appSecret : androidAppSecret;
+        paramStr += '&app_secret='+key;
+        var md = forge.md.md5.create();
+        md.update(paramStr);
+        sign = md.digest().toHex();
+
+        log('sign：'+sign);
+
+        return sign;
+
+    }
+
+    currentDate(){
+
+        let date = new Date();
+        let year = date.getFullYear();
+        let month = date.getMonth()+1;
+        let myDate = date.getDate();
+        let hours =  date.getHours();
+        let minutes = date.getMinutes();
+        let seconds = date.getSeconds();
+
+        let timestamp = year+'-'+month+'-'+myDate+' '+hours+':'+minutes+':'+seconds;
+
+        return timestamp;
+        let params = baseParam.set("timestamp",timestamp);
+
+    }
+
+}
+
+
+
+
+
+
+
+
+
+

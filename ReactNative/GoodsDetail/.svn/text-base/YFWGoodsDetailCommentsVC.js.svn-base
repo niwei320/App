@@ -1,0 +1,229 @@
+import React, {Component} from 'react';
+import {
+    Platform,
+    StyleSheet,
+    Text,
+    View,
+    ListView,
+    FlatList,
+    TouchableOpacity,
+    Modal,
+    Image, Dimensions
+} from 'react-native';
+
+
+import YFWRequest from '../Utils/YFWRequest'
+import YFWToast from '../Utils/YFWToast'
+import {log, logWarm, logErr} from '../Utils/YFWLog'
+import {
+    backGroundColor,
+    darkLightColor,
+    darkNomalColor,
+    separatorColor,
+    yfwGreenColor,
+    yfwOrangeColor,
+    darkTextColor
+} from '../Utils/YFWColor'
+import YFWRequestParam from '../Utils/YFWRequestParam'
+
+
+export default class YFWGoodsDetailCommentsVC extends Component {
+
+    static defaultProps = {
+        data:undefined,
+    }
+
+    constructor(...args) {
+        super(...args);
+        this.state = {
+            page_index:1,
+            dataInfo:{},
+            loading:false,
+        };
+    }
+
+    componentDidMount () {
+
+        if (this.props.data != null){
+            this._requestCommentsMethod();
+        }
+
+    }
+
+    render() {
+        return (
+            <View style={{backgroundColor:backGroundColor() , flex:1}}>
+                <FlatList
+                    ref={(flatList)=>this._flatList = flatList}
+                    extraData={this.state}
+                    data={this.state.dataInfo.evaluation}
+                    onRefresh={() => this._onRefresh()}
+                    onEndReached={this._onEndReached.bind(this)}
+                    onEndReachedThreshold={20}
+                    refreshing={this.state.loading}
+                    renderItem = {this._renderItem.bind(this)}
+                    ListHeaderComponent = {this._renderHeader.bind(this)}
+                />
+            </View>
+        );
+    }
+
+
+    _onRefresh(){
+
+        this.state.page_index = 1;
+        this._requestCommentsMethod();
+
+    }
+    _onEndReached(){
+
+        if (!this.state.loading) {
+            this.state.page_index++;
+            this._requestCommentsMethod();
+        }
+
+    }
+
+    _renderHeader(){
+
+        return(
+            <View style={{flex:1,marginTop:10,backgroundColor:'white'}}>
+                <View style={{height:50,flexDirection: 'row', alignItems: 'center'}}>
+                    <Text style={{fontSize:13,color:darkTextColor(),marginLeft:15,flex:1}}>店铺总评</Text>
+                    <Text style={{fontSize:13,color:yfwOrangeColor(),width:40}}>{this.state.dataInfo.evaluation_total}分</Text>
+                    <Image
+                        style={{marginRight:15,height:15,width:65,resizeMode:'contain'}}
+                        source={require('../../img/wukexing.png')}
+                    />
+                </View>
+                <View style={{backgroundColor:separatorColor(),height:1,width:Dimensions.get('window').width}}/>
+                <View style={{height:50,flexDirection: 'row', alignItems: 'center'}}>
+                    <View style={{flex:1,alignItems: "center", justifyContent: "center"}}>
+                        <Text style={{fontSize:15,color:darkTextColor()}}>{this.state.dataInfo.evaluation_service_score}分</Text>
+                        <Text style={{fontSize:11,color:darkLightColor(),marginTop:5}}>客户服务</Text>
+                    </View>
+                    <View style={{backgroundColor:separatorColor(),width:1,height:50}}/>
+                    <View style={{flex:1,alignItems: "center", justifyContent: "center"}}>
+                        <Text style={{fontSize:15,color:darkTextColor()}}>{this.state.dataInfo.evaluation_send_score}分</Text>
+                        <Text style={{fontSize:11,color:darkLightColor(),marginTop:5}}>发货速度</Text>
+                    </View>
+                    <View style={{backgroundColor:separatorColor(),width:1,height:50}}/>
+                    <View style={{flex:1,alignItems: "center", justifyContent: "center"}}>
+                        <Text style={{fontSize:15,color:darkTextColor()}}>{this.state.dataInfo.evaluation_logistics_score}分</Text>
+                        <Text style={{fontSize:11,color:darkLightColor(),marginTop:5}}>物流速度</Text>
+                    </View>
+                    <View style={{backgroundColor:separatorColor(),width:1,height:50}}/>
+                    <View style={{flex:1,alignItems: "center", justifyContent: "center"}}>
+                        <Text style={{fontSize:15,color:darkTextColor()}}>{this.state.dataInfo.evaluation_package_score}分</Text>
+                        <Text style={{fontSize:11,color:darkLightColor(),marginTop:5}}>商品包装</Text>
+                    </View>
+                </View>
+                <View style={{backgroundColor:backGroundColor(),height:10,width:Dimensions.get('window').width}}/>
+                <View style={{height:50,flexDirection: 'row', alignItems: 'center'}}>
+                    <Text style={{fontSize:13,color:darkLightColor(),marginLeft:15,flex:1}}>评论（{this.state.dataInfo.evaluation_count}）</Text>
+                    <Text style={{fontSize:13,color:darkLightColor(),width:40,marginRight:5}}>好评度</Text>
+                    <Text style={{fontSize:13,color:yfwOrangeColor(),width:20,marginRight:15}}>{this.state.dataInfo.evaluation_total}</Text>
+                </View>
+                <View style={{backgroundColor:separatorColor(),height:1,width:Dimensions.get('window').width}}/>
+            </View>
+        );
+
+
+    }
+
+    _renderItem = (item,index) => {
+
+        return (
+            <View key={{index}}  style={{height:100,backgroundColor:'white'}}>
+                <View style={{flexDirection:'row',alignItems:'center',height:30,flex:1}} >
+                    <Image
+                        style={{marginLeft:15,height:15,width:65,resizeMode:'contain'}}
+                        source={require('../../img/wukexing.png')}
+                    />
+                    <Text style={{marginLeft:5,color:yfwOrangeColor(),fontSize:10,flex:1}}>{item.item.send_star}</Text>
+                    <Text style={{marginRight:15,color:darkNomalColor(),fontSize:12,width:100,textAlign:'right'}}>{item.item.eval_account_name}</Text>
+                </View>
+                <View style={{height:40,alignItems:'center',flex:1,marginLeft:10}}>
+                    <Text style={{width:Dimensions.get('window').width-30,color:darkNomalColor(),fontSize:13}}>{item.item.eval_content}</Text>
+                </View>
+                <Text style={{color:darkLightColor(),fontSize:11,marginLeft:15,marginTop:5,height:15}}>{item.item.eval_create_time}</Text>
+                <View style={{backgroundColor:separatorColor(),height:1,marginTop:9,marginLeft:15,width:Dimensions.get('window').width}}/>
+            </View>
+        );
+    }
+
+    //数据请求
+    _requestCommentsMethod(){
+
+        try {
+
+            let request = new YFWRequest();
+            let paramObj = new YFWRequestParam();
+            let paramMap = new Map();
+            paramMap.set('service','get_shop_goods_evaluation');
+            paramMap.set('shop_goods_id',this.props.data.shop_goods_id);
+            paramMap.set('page_index',this.state.page_index);
+            this.state.loading = true;
+            var url = paramObj.getURL(paramMap);
+            request.get(url,null).then((res)=>{
+                this.state.loading = false;
+                if (res.code === '1'){
+                    var dataInfo = res.items;
+                    var datas = res.items.evaluation;
+                    if (this.state.page_index === 1){
+                        //dataInfo.evaluation = datas;
+                    }else {
+                        datas = this.state.dataInfo.evaluation.concat(datas);
+                        dataInfo.evaluation = datas;
+                    }
+                    this.setState({
+                        dataInfo:dataInfo,
+                    });
+                }
+            });
+
+        }catch (e) {
+
+        }
+
+
+    }
+
+
+
+}
+
+
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        flexDirection: 'column',
+        alignItems: 'stretch',
+        justifyContent: 'flex-start',
+        backgroundColor: backGroundColor()
+    },
+    text: {
+        fontSize: 20,
+        textAlign: 'center'
+    },
+    item: {
+        marginTop: 0,
+        marginLeft: 0,
+        marginRight: 0,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center'
+
+    },
+    shareImage: {
+        width: 40,
+        height: 40
+    },
+    shareView: {
+        flex: 1,
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center"
+    }
+});

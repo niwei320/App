@@ -1,0 +1,118 @@
+import React, {Component} from 'react';
+import {
+    Platform,
+    StyleSheet,
+    Text,
+    View,
+    ListView,
+    TouchableOpacity,
+    Modal,
+    ImageBackground,
+    Image, Dimensions
+} from 'react-native';
+
+
+import YFWRequest from '../Utils/YFWRequest'
+import YFWToast from '../Utils/YFWToast'
+import {log, logWarm, logErr} from '../Utils/YFWLog'
+import {
+    backGroundColor,
+    darkNomalColor,
+    darkTextColor,
+    separatorColor,
+    yfwGreenColor,
+    yfwOrangeColor
+} from '../Utils/YFWColor'
+import YFWRequestParam from '../Utils/YFWRequestParam'
+import ScrollableTabView, { ScrollableTabBar, DefaultTabBar } from 'react-native-scrollable-tab-view';
+
+
+export default class YFWOrderSettlementRootVC extends Component {
+
+    static defaultProps = {
+        data:undefined,
+    }
+
+    constructor(...args) {
+        super(...args);
+        this.state = {
+            pointInfo:{},
+        };
+    }
+
+    componentDidMount () {
+
+        this._requestGetPointMethod();
+
+    }
+
+    render() {
+        return (
+            <View flex={1}>
+
+            </View>
+        );
+    }
+
+    static navigationOptions = ({ navigation }) => ({
+
+        tabBarVisible: false,
+        title:'订单结算',
+    });
+
+
+    /// # Request #
+    _requestGetPointMethod(){
+        try {
+            let request = new YFWRequest();
+            let paramObj = new YFWRequestParam();
+            let paramMap = new Map();
+            paramMap.set('service','get_point');
+            paramMap.set('account_id','1');
+            var url = paramObj.getURL(paramMap);
+
+            request.get(url,null).then((res)=>{
+                if (res.code === '1'){
+                    this.setState({
+                        pointInfo:res.item,
+                    });
+                }
+            });
+        }catch (e) {
+
+        }
+
+    }
+
+
+    /// # Method #
+
+
+
+
+}
+
+
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        flexDirection: 'column',
+        alignItems: 'stretch',
+        justifyContent: 'flex-start',
+        backgroundColor: backGroundColor()
+    },
+    text: {
+        fontSize: 20,
+        textAlign: 'center'
+    },
+    item: {
+        marginTop: 0,
+        marginLeft: 0,
+        marginRight: 0,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center'
+
+    }
+});

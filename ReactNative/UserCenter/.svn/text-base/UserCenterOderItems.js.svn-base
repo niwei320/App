@@ -1,0 +1,156 @@
+/**
+ * Created by admin on 2018/4/28.
+ */
+import React, {Component} from 'react';
+import {
+    View,
+    StyleSheet,
+    Dimensions,
+    Text,
+    Image,
+    TouchableOpacity
+}from 'react-native'
+import YFWToast from '../Utils/YFWToast'
+
+const width = Dimensions.get('window').width;
+const height = Dimensions.get('window').height;
+const styles = StyleSheet.create({
+    spiltView: {
+        width: width,
+        height: 10,
+        backgroundColor: 'rgba(178,178,178,0.2)'
+    },
+    orderAndTips: {
+        width: width,
+        backgroundColor: "white"
+    },
+    TextStyle: {
+        color: 'black',
+        fontSize: 15,
+        margin: 10
+    }, innerImag: {
+        width: 25,
+        height: 25,
+        resizeMode: 'cover',
+        marginTop: 10,
+        alignSelf: 'center'
+    }, imgScroll: {
+        width: '100%',
+        height: 70,
+        flexDirection: 'row'
+    },
+    TipsTextStyle: {
+        color: 'black',
+        fontSize: 15,
+        marginTop:10
+    }
+});
+export default class UsercenterOderItems extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            titles: ['代付款', '代发货', '待收货', '待评价', '退货/款'],
+            pics: [require('../../img/uc_icon0.png'), require('../../img/uc_icon1.png'), require('../../img/uc_icon2.png'), require('../../img/uc_icon3.png'), require('../../img/uc_icon4.png')],
+            tips: ['最近浏览', '我的收藏', '我的积分', '我的优惠券'],
+            pic1: [require('../../img/uc_icon5.png'), require('../../img/uc_icon6.png'), require('../../img/uc_icon7.png'), require('../../img/uc_icon8.png')],
+            tips2: ['收货地址','我的评价','我的投诉','账户管理'],
+            pic2: [require('../../img/uc_icon9.png'), require('../../img/uc_icon10.png'), require('../../img/uc_icon11.png'), require('../../img/uc_icon12.png')]
+        }
+    }
+    render() {
+        return <View>
+            <View style={styles.spiltView}></View>
+            <View style={styles.orderAndTips}>
+                {this.requestOrders()}
+            </View>
+        </View>
+    }
+
+    requestOrders() {
+        return <View style={{flexDirection:'column',width:width}}>
+            <View style={{width:width,height:40,flexDirection:'row'}}>
+                <Text style={styles.TextStyle}>我的订单</Text>
+                <View style={{flex:1}}></View>
+                <Text style={{color:'black',fontSize:15,marginRight:2,marginTop:10}}>全部订单</Text>
+                <Image source={ require('../../img/uc_next.png')}
+                       style={{width:10,height:12,marginTop:15,marginRight:10}}></Image>
+            </View>
+            <View style={styles.spiltView} height={1} marginLeft={10}>
+            </View>
+            <View style={{width:width,height:70}} aria-orientation="vertical">
+                <View style={styles.imgScroll}>
+                    {
+                        this.state.pics.map((url, index)=> {
+                            return (
+                                <View style={{flex:1,alignItems:'center'}} key={index}>
+                                    <TouchableOpacity
+                                        onPressIn={() => YFWToast("onPressIn")}
+                                        onPressOut={() => YFWToast("onPressOut")}
+                                        onLongPress={() => YFWToast("onLongPress")}>
+                                        <View style={{flexDirection:"column"}}>
+                                            <Image source={url}style={styles.innerImag}/>
+                                        </View>
+                                    </TouchableOpacity>
+                                    <View style={{flexDirection:"column"}}>
+                                        <Text style={styles.TipsTextStyle}>{this.state.titles[index]}</Text>
+                                    </View>
+                                </View>
+                            )
+                        })
+                    }
+                </View>
+            </View>
+            <View style={styles.spiltView}></View>
+            <View style={{width:width,height:80}} aria-orientation="vertical">
+                <View style={styles.imgScroll}>
+                    {
+                        this.state.pic1.map((url, index)=> {
+                            return (
+                                <View style={{flex:1,alignItems:'center'}} key={index}>
+                                    <TouchableOpacity
+                                        onPressIn={() => YFWToast("onPressIn")}
+                                        onPressOut={() => YFWToast("onPressOut")}
+                                        onLongPress={() => YFWToast("onLongPress")}>
+                                        <View style={{flexDirection:"column"}}>
+                                            <Image source={url}style={styles.innerImag}/>
+                                        </View>
+                                    </TouchableOpacity>
+                                    <View style={{flexDirection:"column"}}>
+                                        <Text style={styles.TipsTextStyle}>{this.state.tips[index]}</Text>
+                                    </View>
+                                </View>
+                            )
+                        })
+                    }
+                </View>
+            </View>
+            <View style={styles.spiltView} height={1} marginLeft={10}>
+            </View>
+            <View style={{width:width,height:80}} aria-orientation="vertical">
+                <View style={styles.imgScroll}>
+                    {
+                        this.state.pic2.map((url, index)=> {
+                            return (
+                                <View style={{flex:1,alignItems:'center'}} key={index}>
+                                    <TouchableOpacity
+                                        onPressIn={() => YFWToast("onPressIn")}
+                                        onPressOut={() => YFWToast("onPressOut")}
+                                        onLongPress={() => YFWToast("onLongPress")}>
+                                        <View style={{flexDirection:"column"}}>
+                                            <Image source={url}style={styles.innerImag}/>
+                                        </View>
+                                    </TouchableOpacity>
+                                    <View style={{flexDirection:"column"}}>
+                                        <Text style={styles.TipsTextStyle}>{this.state.tips2[index]}</Text>
+                                    </View>
+                                </View>
+                            )
+                        })
+                    }
+                </View>
+            </View>
+            <View style={styles.spiltView}></View>
+        </View>
+    }
+}
+

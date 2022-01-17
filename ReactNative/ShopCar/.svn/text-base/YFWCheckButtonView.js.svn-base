@@ -1,0 +1,63 @@
+import React, { Component } from 'react';
+import {
+    Platform,
+    StyleSheet,
+    Image,
+    View,
+    Text,
+    TouchableOpacity, Dimensions
+} from 'react-native';
+
+import YFWToast from "../Utils/YFWToast";
+import {darkNomalColor,darkTextColor,darkLightColor,separatorColor,yfwOrangeColor,yfwGreenColor} from "../Utils/YFWColor";
+
+export default class YFWCheckButtonView extends Component {
+
+    static defaultProps = {
+        select:false,
+    }
+
+    render() {
+        return (
+            <View style={styles.operatingBtn}>
+                <TouchableOpacity activeOpacity={0.8}
+                                  style={styles.operatingBtnBox}
+                                  onPress={()=>this.selectFn()}>
+                    {this.props.select
+                        ? <Image source={require('../../img/chooseBtn.png')}
+                                 resizeMode='cover'
+                                 style={{ width: 18, height: 18 }} />
+                        : <Image source={require('../../img/unChooseBtn.png')}
+                                 resizeMode='cover'
+                                 style={{ width: 18, height: 18 }} />
+                    }
+                </TouchableOpacity>
+            </View>
+        );
+    }
+
+
+    selectFn(){
+        if (this.props.selectFn) {
+            this.props.selectFn();
+        }
+    }
+
+}
+
+//设置样式
+const styles = StyleSheet.create({
+    operatingBtn: {
+        flex:1,
+        height:30,
+        width:30,
+        alignItems:'center',
+        justifyContent:'center',
+    },
+    operatingBtnBox:{
+        flex:1,
+        alignItems:'center',
+        justifyContent:'center',
+    },
+
+});

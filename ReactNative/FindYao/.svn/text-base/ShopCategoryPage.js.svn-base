@@ -1,0 +1,183 @@
+import React, {Component} from 'react';
+import {
+    Platform,
+    StyleSheet,
+    Text,
+    View,
+    SectionList,
+    Image,
+    TouchableOpacity,
+    FlatList
+} from 'react-native';
+import YFWToast from "../Utils/YFWToast";
+import {log, logWarm, logErr} from '../Utils/YFWLog'
+import YFWSearchHeader from '../HomePage/YFWHomeSearchHeaderView'
+import {getItem, setItem} from "../Utils/YFWStorage";
+import YFWRequest from "../Utils/YFWRequest";
+import YFWRequestParam from "../Utils/YFWRequestParam";
+import {yfwGreenColor} from "../Utils/YFWColor";
+
+var Dimensions = require('Dimensions');
+var {width} = Dimensions.get('window');
+
+export default class ShopCategoryPage extends Component {
+
+
+    constructor(props) {
+        super(props)
+        this.state = {
+            item: null,
+            index: 0,
+        };
+    }
+
+    render() {
+        return (<View style={styles.container}>
+                {this.renderData()}
+            </View>
+        );
+
+
+    }
+
+    renderData() {
+
+        if (null != this.state.item) {
+            let data = this.state.item;
+            let item = data[this.state.index].categories;
+            return <View style={styles.container}>
+                <View style={{flex: 1}}>
+                    <FlatList
+                        style={{backgroundColor: 'white'}}
+                        data={data}
+                        extraData={this.state}
+                        keyExtractor={this._extraUniqueKey.bind(this)}
+                        renderItem={({item, index}) => {
+                            return <TouchableOpacity onPress={this._pressRow.bind(this, index)}>
+                                <View style={{
+                                    backgroundColor: this.state.index == index ? "#F5F5F5" : "white", height: 70,
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                    borderWidth: 0.5,
+                                    borderColor: '#E5E5E5',
+                                }} >
+                                    <Text>{item.name}</Text>
+                                </View>
+
+                            </TouchableOpacity>
+                        }}
+                    />
+                </View>
+
+                <View style={{flex: 3, marginRight: 10, marginLeft: 10}}>
+                    <FlatList
+                        data={item}
+                        extraData={this.state}
+                        keyExtractor={this._extraUniqueKey.bind(this)}
+                        renderItem={this._renderItem.bind(this)}
+                    />
+                </View>
+            </View>
+
+        }
+    }
+
+    _pressRow(flag) {
+        this.setState(() => ({
+                    index: flag,
+                }
+            )
+        )
+    }
+
+    _renderItem({item}) {
+        return <View style={{flexDirection: "column",}}>
+            <Text style={{padding: 10}}>{item.name}</Text>
+            <FlatList
+                style={{backgroundColor: 'white'}}
+                horizontal={false}
+                numColumns={3}
+                data={item.categories}
+                extraData={this.state}
+                keyExtractor={this._extraUniqueKey.bind(this)}
+                renderItem={this._renderSubItem.bind(this)}
+            />
+        </View>
+    }
+
+    _renderSubItem({item}) {
+        return <View style={styles.SectionHeader}>
+            <Image style={{height: 60, width: 60}} source={{uri: item.intro_image}}/>
+            <Text style={{textAlign:"center"}}>{item.name}</Text>
+        </View>
+    }
+
+    _extraUniqueKey(item, index) {
+        return item.id;
+    }
+
+    componentDidMount() {
+        this._requestData();
+    }
+
+    _requestData() {
+        let req = new YFWRequest();
+        let paramObj = new YFWRequestParam();
+        let paramMap = new Map();
+        paramMap.set('service', 'get_category');
+        let url = paramObj.getURL(paramMap);
+        req.get(url, null).then((res) => {
+            if (res.code === '1') {
+                this.setState(() => ({
+                            item: res.items,
+
+                        }
+                    )
+                )
+
+            } else {
+                Toast(res.msg)
+            }
+        });
+    }
+
+    static navigationOptions = ({navigation}) => ({
+        headerTitle: "商品分类",
+        headerTitleStyle: {
+            fontSize: 14,
+            alignSelf: "center"
+        },
+        headerStyle: {
+            backgroundColor: "white"
+        },
+        headerRight: (
+            <Image style={{width: 20, height: 20, marginRight: 10}}
+                   source={require('../../img/kind_search.png')}></Image>
+
+        ),
+        tabBarVisible: false,
+
+    });
+}
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        flexDirection: "row"
+    },
+    SectionHeader: {
+        flexDirection: "column",
+        width: width / 4,
+        padding: 10,
+
+    },
+    row: {},
+})
+
+class ItemDivideComponent extends Component {
+    render() {
+        return (
+            <View style={{height: 1, backgroundColor: '#F5F5F5'}}/>
+        );
+    }
+};

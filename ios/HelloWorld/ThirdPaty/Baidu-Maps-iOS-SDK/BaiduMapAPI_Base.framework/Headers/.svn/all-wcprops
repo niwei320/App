@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 161
+/svn/appios/!svn/ver/1493/Tags/YFWDemos/%E8%8D%AF%E6%88%BF%E7%BD%91SDK%E5%8D%87%E7%BA%A7%E7%89%88/ThirdPaty/Baidu-Maps-iOS-SDK/BaiduMapAPI_Base.framework/Headers
+END
+BMKTypes.h
+K 25
+svn:wc:ra_dav:version-url
+V 172
+/svn/appios/!svn/ver/1493/Tags/YFWDemos/%E8%8D%AF%E6%88%BF%E7%BD%91SDK%E5%8D%87%E7%BA%A7%E7%89%88/ThirdPaty/Baidu-Maps-iOS-SDK/BaiduMapAPI_Base.framework/Headers/BMKTypes.h
+END
+BMKVersion.h
+K 25
+svn:wc:ra_dav:version-url
+V 174
+/svn/appios/!svn/ver/1493/Tags/YFWDemos/%E8%8D%AF%E6%88%BF%E7%BD%91SDK%E5%8D%87%E7%BA%A7%E7%89%88/ThirdPaty/Baidu-Maps-iOS-SDK/BaiduMapAPI_Base.framework/Headers/BMKVersion.h
+END
+BMKUserLocation.h
+K 25
+svn:wc:ra_dav:version-url
+V 179
+/svn/appios/!svn/ver/1493/Tags/YFWDemos/%E8%8D%AF%E6%88%BF%E7%BD%91SDK%E5%8D%87%E7%BA%A7%E7%89%88/ThirdPaty/Baidu-Maps-iOS-SDK/BaiduMapAPI_Base.framework/Headers/BMKUserLocation.h
+END
+BMKGeneralDelegate.h
+K 25
+svn:wc:ra_dav:version-url
+V 182
+/svn/appios/!svn/ver/1493/Tags/YFWDemos/%E8%8D%AF%E6%88%BF%E7%BD%91SDK%E5%8D%87%E7%BA%A7%E7%89%88/ThirdPaty/Baidu-Maps-iOS-SDK/BaiduMapAPI_Base.framework/Headers/BMKGeneralDelegate.h
+END
+BMKMapManager.h
+K 25
+svn:wc:ra_dav:version-url
+V 177
+/svn/appios/!svn/ver/1493/Tags/YFWDemos/%E8%8D%AF%E6%88%BF%E7%BD%91SDK%E5%8D%87%E7%BA%A7%E7%89%88/ThirdPaty/Baidu-Maps-iOS-SDK/BaiduMapAPI_Base.framework/Headers/BMKMapManager.h
+END
+BMKBaseComponent.h
+K 25
+svn:wc:ra_dav:version-url
+V 180
+/svn/appios/!svn/ver/1493/Tags/YFWDemos/%E8%8D%AF%E6%88%BF%E7%BD%91SDK%E5%8D%87%E7%BA%A7%E7%89%88/ThirdPaty/Baidu-Maps-iOS-SDK/BaiduMapAPI_Base.framework/Headers/BMKBaseComponent.h
+END

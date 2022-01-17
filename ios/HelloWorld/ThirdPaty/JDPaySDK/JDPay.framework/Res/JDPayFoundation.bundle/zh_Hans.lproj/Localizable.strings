@@ -1,0 +1,20 @@
+/* 
+  Localizable.strings
+
+  Created by dongkui on 13/07/2017.
+  Copyright © 2017 JD. All rights reserved.
+*/
+
+"ErrorUnknow" = "未知错误";
+
+// JDPayURLRequest
+"JDPayURLRequestErrorUnknow" = "未知错误";
+"JDPayURLRequestErrorBadURL" = "URL错误";
+"JDPayURLRequestErrorCancelled" = "已取消";
+
+// JDPayQuietGPS
+"JDPayQuietGPSErrorDisabled" = "定位服务未开启";
+"JDPayQuietGPSErrorDenied" = "定位权限被禁止";
+
+// JDPayNSObjectJSON
+"JDPayNSObjectJSONErrorInvalidArg" = "无效的参数";

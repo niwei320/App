@@ -1,0 +1,286 @@
+import React, { Component } from 'react';
+import {
+    Platform,
+    StyleSheet,
+    Text,
+    View,
+    ListView,
+    TouchableOpacity,
+    RefreshControl,
+    ActivityIndicator
+} from 'react-native';
+import YFWToast from "../Utils/YFWToast";
+import PopupDialog, { SlideAnimation,FadeAnimation } from 'react-native-popup-dialog';
+import {backGroundColor, darkNomalColor} from "../Utils/YFWColor";
+import YFWRequest from "../Utils/YFWRequest";
+import YFWRequestParam from "../Utils/YFWRequestParam";
+import YFWSellersListGoodsHeaderView from './YFWSellersListGoodsHeaderView'
+import YFWSellersListCellView from './YFWSellersListCellView'
+import YFWSellersListStandardsChangeView from './YFWSellersListStandardsChangeView'
+
+
+const slideAnimation = new SlideAnimation({
+    slideFrom: 'bottom',
+});
+
+
+
+export default class YFWSellersListView extends Component {
+
+    constructor(props,context) {
+        super(props,context);
+        state = props.navigation.state.params.state;
+        this.state = {
+            commitID:state.value,
+            loading: true,
+            infoData:[],
+            data: [],
+            dataSource: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 }),
+            index: 1,
+            orderType:'',
+            price_quantity:'0',
+        };
+    }
+
+    //视图加载完成
+    componentDidMount(){
+
+        this.getgoodsInfoData(this.state.commitID);
+        this.getGoodsShopData(this.state.commitID);
+
+    }
+
+    render() {
+        const slideAnimation = new SlideAnimation({
+            slideFrom: 'bottom',
+        });
+        return (
+            <View style={styles.container}>
+
+                <ListView
+                    enableEmptySections={true}
+                    dataSource={this.state.dataSource}
+                    renderRow = {this.renderRow.bind(this)}
+                    renderHeader = {this._renderHeader.bind(this)}
+                    renderFooter={this.renderFooter.bind(this)}
+                    onEndReached={() => this._endReached()}
+                    onEndReachedThreshold={20}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={false}
+                            onRefresh={this._reloadData.bind(this)}
+                        />}
+                />
+                <PopupDialog
+                    ref={(popupDialog) => { this.popupDialog = popupDialog; }}
+                    dialogAnimation={slideAnimation}
+                    height={350}
+                >
+                    <YFWSellersListStandardsChangeView ref={'Standards'} Data={this.state.infoData}
+                                                       standards={this.state.infoData.goods_standard}
+                                                       changeStandarsMethod={(standars)=>this._changeStandarsMethod(standars)}/>
+                </PopupDialog>
+
+            </View>
+        );
+    }
+
+//  @ listView @ --------------------------------
+    renderRow(rowData,sectionID,rowID,highlightRow){
+
+        return(
+            <View style={styles.item} height={96}>
+                <TouchableOpacity  style={{flex:1}}  onPress={()=>this.selectItemIndex(rowData)}>
+                    <YFWSellersListCellView Data={rowData}/>
+                </TouchableOpacity>
+
+            </View>
+        )
+    }
+
+
+    _renderHeader(){
+
+        return (
+            <YFWSellersListGoodsHeaderView height={350} Data={this.state.infoData}
+                                           shopCount={this.state.price_quantity}
+                                           showPopupDialog={()=>this._showPopupDialog()}
+                                           getOrdertype={(type)=>this._refreshDataWithOrderType(type)} />
+        )
+
+    }
+
+    renderFooter() {
+        if(this.state&&this.state.loading){
+            return (<View style={{marginVertical: 10}}>
+                <ActivityIndicator />
+            </View>);
+        }
+        return <View style={{marginVertical: 1}} />;;
+    }
+
+    selectItemIndex(rowData){
+
+        YFWToast('跳转商品详情');
+        this.props.navigation.navigate("YFWGoodsDetailRootVC",{state:{value:rowData.shop_goods_id}});
+
+    }
+
+
+    // @ Method @ ----------------------
+
+    _reloadData(){
+
+        // this.setState({
+        //     index: 1,
+        // });
+
+        this.state.index = 1;
+        this.getGoodsShopData();
+    }
+
+    _endReached() {
+
+        // this.setState({
+        //     index: this.state.index+1,
+        // });
+
+        this.state.index += 1;
+        this.getGoodsShopData();
+
+    }
+
+    _refreshDataWithOrderType(type){
+
+        let data = [];
+
+        this.state.index = 1;
+        this.state.orderType = type;
+        this.setState({
+            data:data,
+            dataSource: this.state.dataSource.cloneWithRows(data)
+        });
+
+        this.getGoodsShopData();
+    }
+
+    _showPopupDialog(){
+
+        this.popupDialog.show();
+
+    }
+
+    _changeStandarsMethod(standars){
+
+        // this.setState({
+        //     commitID:standars.id,
+        //     index: 1,
+        // });
+
+        this.state.commitID = standars.id;
+        this.state.index = 1;
+
+        this.getgoodsInfoData(standars.id);
+        this.getGoodsShopData(standars.id);
+        this.refs['Standards'].clickItemSelect(0);
+        this.popupDialog.dismiss();
+
+    }
+
+
+    //获取商品详情信息 @ Request @ -------------------
+    getgoodsInfoData(){
+        let request = new YFWRequest();
+        let paramObj = new YFWRequestParam();
+        let paramMap = new Map();
+        paramMap.set('service','get_goods_detail');
+        paramMap.set('id',this.state.commitID);
+        var url = paramObj.getURL(paramMap);
+        request.get(url,null).then((res)=>{
+            if (res.code === '1'){
+                let data = res.item;
+                this.setState({
+                    infoData:data,
+                });
+            }
+        });
+    }
+
+    //获取商家列表
+    getGoodsShopData(){
+
+        let request = new YFWRequest();
+        let paramObj = new YFWRequestParam();
+        let paramMap = new Map();
+        paramMap.set('service','get_goods_shop');
+        paramMap.set('id',this.state.commitID);
+        paramMap.set('region_name','%E4%B8%8A%E6%B5%B7%E5%B8%82');
+        paramMap.set('account_id','1');
+        paramMap.set('orderby',this.state.orderType);
+        paramMap.set('page_index',this.state.index);
+
+        var url = paramObj.getURL(paramMap);
+        request.get(url,null).then((res)=>{
+            if (res.code === '1'){
+
+                let items = res.items;
+                if (res.items.length === 0){
+                    this.setState({
+                        loading:false,
+                    });
+                }else{
+                    this.setState({
+                        loading:true,
+                    });
+                }
+                let data;
+                if (this.state.index === 1){
+                    data = items;
+                }else {
+                    data = this.state.data.concat(items);
+                }
+
+                this.setState({
+                    price_quantity:res.price_quantity,
+                    data:data,
+                    dataSource: this.state.dataSource.cloneWithRows(data),
+                });
+            }
+
+        });
+
+    }
+
+
+    static navigationOptions = ({ navigation }) => ({
+
+        tabBarVisible: false,
+        // title:({ state }) => `${state.params.infoData.name}`
+        title:'比价页面',
+    });
+
+}
+
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        flexDirection:'column',
+        alignItems: 'stretch',
+        justifyContent:'flex-start',
+        backgroundColor: backGroundColor()
+    },
+    text: {
+        fontSize: 20,
+        textAlign: 'center'
+    },
+    item:{
+        marginTop:0,
+        marginLeft:0,
+        marginRight:0,
+        flexDirection:'row',
+        alignItems:'center',
+        justifyContent:'center'
+
+    }
+});

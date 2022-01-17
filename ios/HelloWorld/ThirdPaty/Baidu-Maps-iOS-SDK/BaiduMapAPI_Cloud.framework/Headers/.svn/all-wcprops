@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 162
+/svn/appios/!svn/ver/1493/Tags/YFWDemos/%E8%8D%AF%E6%88%BF%E7%BD%91SDK%E5%8D%87%E7%BA%A7%E7%89%88/ThirdPaty/Baidu-Maps-iOS-SDK/BaiduMapAPI_Cloud.framework/Headers
+END
+BMKCloudSearchComponent.h
+K 25
+svn:wc:ra_dav:version-url
+V 188
+/svn/appios/!svn/ver/1493/Tags/YFWDemos/%E8%8D%AF%E6%88%BF%E7%BD%91SDK%E5%8D%87%E7%BA%A7%E7%89%88/ThirdPaty/Baidu-Maps-iOS-SDK/BaiduMapAPI_Cloud.framework/Headers/BMKCloudSearchComponent.h
+END
+BMKCloudSearchInfo.h
+K 25
+svn:wc:ra_dav:version-url
+V 183
+/svn/appios/!svn/ver/1493/Tags/YFWDemos/%E8%8D%AF%E6%88%BF%E7%BD%91SDK%E5%8D%87%E7%BA%A7%E7%89%88/ThirdPaty/Baidu-Maps-iOS-SDK/BaiduMapAPI_Cloud.framework/Headers/BMKCloudSearchInfo.h
+END
+BMKCloudPOIList.h
+K 25
+svn:wc:ra_dav:version-url
+V 180
+/svn/appios/!svn/ver/1493/Tags/YFWDemos/%E8%8D%AF%E6%88%BF%E7%BD%91SDK%E5%8D%87%E7%BA%A7%E7%89%88/ThirdPaty/Baidu-Maps-iOS-SDK/BaiduMapAPI_Cloud.framework/Headers/BMKCloudPOIList.h
+END
+BMKCloudSearch.h
+K 25
+svn:wc:ra_dav:version-url
+V 179
+/svn/appios/!svn/ver/1493/Tags/YFWDemos/%E8%8D%AF%E6%88%BF%E7%BD%91SDK%E5%8D%87%E7%BA%A7%E7%89%88/ThirdPaty/Baidu-Maps-iOS-SDK/BaiduMapAPI_Cloud.framework/Headers/BMKCloudSearch.h
+END
+BMKCloudVersion.h
+K 25
+svn:wc:ra_dav:version-url
+V 180
+/svn/appios/!svn/ver/1493/Tags/YFWDemos/%E8%8D%AF%E6%88%BF%E7%BD%91SDK%E5%8D%87%E7%BA%A7%E7%89%88/ThirdPaty/Baidu-Maps-iOS-SDK/BaiduMapAPI_Cloud.framework/Headers/BMKCloudVersion.h
+END

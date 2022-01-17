@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="YFWLaunchAdViewController">
+            <connections>
+                <outlet property="bgImageView" destination="rky-EF-H6t" id="cfW-10-BHY"/>
+                <outlet property="skipBtn" destination="xB2-q1-LTj" id="xfO-o5-2zr"/>
+                <outlet property="skipBtnTopLaoutConstraint" destination="oTZ-PR-HsX" id="qFI-Aa-kVA"/>
+                <outlet property="titleLabel" destination="m5A-Zf-KL1" id="Lh8-is-ea7"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="rky-EF-H6t">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                    <connections>
+                        <outletCollection property="gestureRecognizers" destination="abK-HO-CIc" appends="YES" id="o56-lw-CIm"/>
+                    </connections>
+                </imageView>
+                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xB2-q1-LTj">
+                    <rect key="frame" x="335" y="149" width="69" height="30"/>
+                    <color key="backgroundColor" red="0.27450980392156865" green="0.27450980392156865" blue="0.27450980392156865" alpha="0.69723886986301364" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="30" id="YBt-eD-vgj"/>
+                        <constraint firstAttribute="width" constant="69" id="eX3-ye-ddl"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                    <state key="normal">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                            <integer key="value" value="3"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <action selector="skipAction" destination="-1" eventType="touchUpInside" id="6cc-mc-6Wj"/>
+                    </connections>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m5A-Zf-KL1">
+                    <rect key="frame" x="335" y="149" width="69" height="30"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="rky-EF-H6t" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="6Eu-fo-SXJ"/>
+                <constraint firstItem="m5A-Zf-KL1" firstAttribute="height" secondItem="xB2-q1-LTj" secondAttribute="height" id="9Bj-jv-gsn"/>
+                <constraint firstItem="m5A-Zf-KL1" firstAttribute="centerX" secondItem="xB2-q1-LTj" secondAttribute="centerX" id="HlF-Pc-qb5"/>
+                <constraint firstAttribute="bottom" secondItem="rky-EF-H6t" secondAttribute="bottom" id="Hoh-mw-ekf"/>
+                <constraint firstItem="m5A-Zf-KL1" firstAttribute="width" secondItem="xB2-q1-LTj" secondAttribute="width" id="LVC-WI-D4Z"/>
+                <constraint firstItem="m5A-Zf-KL1" firstAttribute="top" secondItem="xB2-q1-LTj" secondAttribute="top" id="PMs-8D-EPE"/>
+                <constraint firstItem="m5A-Zf-KL1" firstAttribute="centerY" secondItem="xB2-q1-LTj" secondAttribute="centerY" id="QYD-fg-3B8"/>
+                <constraint firstAttribute="trailing" secondItem="rky-EF-H6t" secondAttribute="trailing" id="XzL-0a-gRb"/>
+                <constraint firstAttribute="trailing" secondItem="xB2-q1-LTj" secondAttribute="trailing" constant="10" id="kU1-5B-1sk"/>
+                <constraint firstItem="xB2-q1-LTj" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="149" id="oTZ-PR-HsX"/>
+                <constraint firstItem="rky-EF-H6t" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="rw9-G9-kWu"/>
+            </constraints>
+        </view>
+        <tapGestureRecognizer id="abK-HO-CIc">
+            <connections>
+                <action selector="clickedAction:" destination="-1" id="4mS-oS-r7j"/>
+            </connections>
+        </tapGestureRecognizer>
+    </objects>
+</document>

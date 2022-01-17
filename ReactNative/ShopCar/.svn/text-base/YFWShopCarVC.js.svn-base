@@ -1,0 +1,569 @@
+/**
+ * Sample React Native App
+ * https://github.com/facebook/react-native
+ * @flow
+ */
+
+import React, { Component } from 'react';
+import {
+    Platform,
+    StyleSheet,
+    Text,
+    View,
+    Image,
+    ListView,
+    SectionList,
+    FlatList,
+    TouchableOpacity,
+    Dimensions
+} from 'react-native';
+import YFWRequest from "../Utils/YFWRequest";
+import YFWRequestParam from "../Utils/YFWRequestParam";
+import YFWToast from "../Utils/YFWToast";
+import YFWShopCarCell from './YFWShopCarCellView'
+import YFWShopCarBottom from './YFWShopCarBottomView'
+import YFWShopCarEmpty from './YFWShopCarEmptyView'
+import YFWCheckButton from './YFWCheckButtonView';
+import YFWBaseView from '../BaseVC/YFWBaseView'
+
+import {
+    darkNomalColor, darkTextColor, darkLightColor, separatorColor, yfwGreenColor,yfwOrangeColor,
+    backGroundColor
+} from "../Utils/YFWColor";
+
+
+export default class YFWShopCarVC extends YFWBaseView {
+
+
+    static navigationOptions = ({ navigation }) => ({
+
+        tabBarVisible: true,
+        title:'购物车',
+    });
+
+    constructor(...args) {
+        super(...args);
+        this.state = {
+            loading: true,
+            data: [],
+            selectData:[],
+            footerData:[],
+        };
+    }
+
+
+    render() {
+
+        let cart_count = this.state.data.length;
+
+        if (cart_count > 0){
+            return (
+                <View style={styles.container}>
+                    <FlatList
+                        ref={(flatList)=>this._flatList = flatList}
+                        extraData={this.state}
+                        data={this.state.data}
+                        onRefresh={() => this._onRefresh()}
+                        refreshing={this.state.loading}
+                        renderItem = {this._renderItem.bind(this)}
+                        ListFooterComponent = {this._renderFooter.bind(this)}
+                    />
+                    <View style={styles.bottomView}>
+                        <YFWShopCarBottom style={{flex:1}} selectAll={this._isSelectAll()}
+                                          selectAllFn={()=>this._selectAllItems()}
+                                          navigation={this.props.navigation}
+                                          Data={this.state.selectData}/>
+                    </View>
+                </View>
+            );
+        }else {
+            return (
+                <View style={styles.container}>
+                    <FlatList
+                        ref={(flatList)=>this._flatList = flatList}
+                        extraData={this.state}
+                        onRefresh={() => this._onRefresh()}
+                        refreshing={this.state.loading}
+                        ListHeaderComponent = {()=>{
+                            return(
+                                <View style={{flex:1 , height:300}}>
+                                    <YFWShopCarEmpty style={{flex:1}}/>
+                                </View>
+                            );
+                        }}
+                        ListFooterComponent = {this._renderFooter.bind(this)}
+                    />
+                </View>
+            );
+        }
+
+    }
+
+
+    //Overrode
+    //视图加载完成
+    componentDidMount(){
+
+        this._requestCartInfoData();
+        this._requestRecommendData();
+
+    }
+
+
+    // # ListView # -----------------------
+
+
+    _renderItem = (item) => {
+
+        return (
+            <View style={styles.container} key={'top'+item.index}>
+                <FlatList
+                    data = {item.item.cart_items}
+                    extraData={this.state}
+                    renderItem = {this._renderRowItem.bind(this)}
+                    ListHeaderComponent = {()=>this._renderSectionHeader(item.item)}
+                    ListFooterComponent = {()=>this._renderSectionFooter(item.item)}
+                />
+            </View>
+        );
+
+    }
+
+    _renderRowItem = (item) => {
+
+        return (
+            <View style={styles.rowItem} key={item.index}>
+                <TouchableOpacity style={{flex:1}} onPress={()=>this._selectGoodsItemMethod(item)}>
+                    <YFWShopCarCell Data={item.item} changeQuantity={(quantity)=>this.changeItemQuantity(item,quantity)}
+                                    select={this._isSelectItem(item.item)} selectFn={()=>this._selectItem(item.item)}/>
+                </TouchableOpacity>
+
+            </View>
+        );
+
+    }
+
+    changeItemQuantity(item,quantity){
+
+        if (Number.parseInt(quantity) === 0){
+            return;
+        }
+        item.item.quantity = quantity;
+        this.setState({
+            data:this.state.data,
+        });
+
+    }
+
+    _renderSectionHeader = (item) => {
+
+        return (
+            <View style={{flex:1}}>
+                <View height={10} width={Dimensions.get('window').width}/>
+                <View style={styles.sectionHeaderView}>
+                    <View style={{flex:1 ,alignItems:'center'}} flexDirection={'row'}>
+                        <View style={styles.checkButton}>
+                            <YFWCheckButton style={{flex:1}} select={this._isSelectShop(item)}
+                                            selectFn={()=>this._selectShopItems(item)}/>
+                        </View>
+                        <Image source={require('../../img/shop_icon.png')}
+                               style={{ width: 15, height: 15, marginLeft:5}} />
+                        <Text style={styles.sectionHeaderTitle}>{item.shop_title}</Text>
+                    </View>
+                    <View style={styles.sectionHeaderseparator}/>
+                </View>
+            </View>
+
+        );
+    }
+
+    _renderSectionFooter = (item) =>{
+
+        var sum = 0;
+        var quantity = 0;
+        var count = item.cart_items.length;
+        for (let i = 0; i < count ; i++){
+            let car_item = item.cart_items[i];
+            sum += Number.parseFloat(car_item.price) * Number.parseInt(car_item.quantity);
+            quantity += Number.parseInt(car_item.quantity);
+        }
+
+
+        return (
+            <View style={styles.sectionHeaderView}>
+                <View style={{flex:1}} flexDirection={'row'} justifyContent={'flex-end'}>
+                    <Text style={styles.sectionFooterTitle}>共{quantity}件商品</Text>
+                    <Text style={styles.sectionFooterTitle}>合计：￥{sum.toFixed(2)}</Text>
+                </View>
+            </View>
+        );
+
+    }
+
+    //列表尾
+    _renderFooter() {
+
+        return (
+            <View style={{flex:1 }}>
+                <Text style={styles.footerTopTitle}> --- 为你精选 --- </Text>
+                <View style={{flexDirection:'row', flexWrap:'wrap',flex:1 }}>
+                    {this._renderAllBadge()}
+                </View>
+            </View>
+        )
+
+    }
+
+    // # View # -------------------------------
+    _renderAllBadge(){
+        // 定义数组装所有的子组件
+        var allBadge = [];
+        // 遍历json数据
+        let footerArray = this.state.footerData;
+        for (var i=0;i<footerArray.length;i++){
+            // 取出每一个数据对象
+            let badge = footerArray[i];
+            // 装入数据
+            allBadge.push(
+
+                <TouchableOpacity key={'footer'+i} style={styles.outViewStyle}  onPress={()=>this.clickFooterItems(badge)}>
+                    <View style={{flex:1 , backgroundColor:'white' , alignItems:'center',}} >
+                        <Image
+                            style={styles.iconStyle}
+                            source={{uri:badge.intro_image}}
+                        ></Image>
+                        <Text style={styles.footerTitleStyle}>
+                            {badge.name_cn}
+                        </Text>
+                        <Text style={styles.footerPriceStyle}>
+                            ￥{badge.price}
+                        </Text>
+                    </View>
+
+                </TouchableOpacity>
+
+            );
+        }
+
+        // 返回数组
+        return allBadge;
+    }
+
+    //# Method # -----------------
+    clickFooterItems(badge){
+
+        let param = {"type":"get_goods_detail","value":badge.id};
+
+        const { navigate } = this.props.navigation;
+        this.pushNavigation(navigate,param);
+
+    }
+
+    _onRefresh(){
+        this.setState({
+            loading:true,
+        });
+        this._requestCartInfoData();
+        this._requestRecommendData();
+
+    }
+
+    _selectAllItems(){
+
+        var selectItems = [];
+        if (!this._isSelectAll()){
+            for (let i  =0 ;i < this.state.data.length;i++){
+                let shopItems = this.state.data[i];
+                selectItems = selectItems.concat(shopItems.cart_items);
+            }
+        }
+        this.setState({
+            selectData:selectItems,
+        });
+
+    }
+
+    _selectItem(item){
+
+        let items = [];
+        if(this._isSelectItem(item)){
+
+            //for (let i = 0 ; i<this.state.selectData.length;i++){
+            //    let aitem = this.state.selectData[i];
+            //    if (aitem.shop_goods_id !== item.shop_goods_id){
+            //        items.push(aitem);
+            //    }
+            //}
+            let b = new Set([item]);
+            let set = new Set(this.state.selectData.filter(x => !b.has(x)));
+            items = Array.from(set);
+
+
+        }else{
+            items = this.state.selectData;
+            items.push(item);
+        }
+
+        this.setState({
+            selectData:items,
+        });
+
+    }
+
+    _selectShopItems(item){
+
+        let items = [];
+
+        //for (let i = 0 ; i<this.state.selectData.length;i++){
+        //    let aitem = this.state.selectData[i];
+        //    let flage = true;
+        //    for(let j  = 0 ;j < item.cart_items.length;j++){
+        //        let cartitem = item.cart_items[j];
+        //        if(aitem.shop_goods_id === cartitem.shop_goods_id){
+        //            flage = false;
+        //            return;
+        //        }
+        //    }
+        //    if(flage){
+        //        items.push(aitem);
+        //    }
+        //
+        //}
+        //if(!this._isSelectShop(item)){
+        //    items = items.concat(item.cart_items);
+        //}
+
+        //items = this.state.selectData.concat(item.cart_items);
+        //var i,
+        //    hash = {},
+        //    res = [];
+        //
+        ////查询hash对象是否存在当前元素(属性)
+        //for (i = 0; i < items.length; i++) {
+        //    if (!hash[items[i]]) {
+        //        res.push(items[i]);
+        //        hash[items[i]] = true;
+        //    }else{
+        //        if(this._isSelectShop(item)) {
+        //            items.remove(items[i]);
+        //        }
+        //    }
+        //}
+
+        let a = new Set(this.state.selectData);
+        let b = new Set(item.cart_items);
+        let set = new Set([...a].filter(x => !b.has(x)));
+        items = Array.from(set);
+        if(!this._isSelectShop(item)) {
+            items = items.concat(item.cart_items);
+        }
+
+        this.setState({
+            selectData:items,
+        });
+
+    }
+
+    _isSelectAll(){
+
+        var count = 0
+        for (let i  =0 ;i < this.state.data.length;i++){
+            let shopItems = this.state.data[i];
+            count += shopItems.cart_items.length;
+        }
+        if (count === this.state.selectData.length){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    _isSelectShop(item){
+
+        //var count = item.cart_items.length;
+        //for (let i = 0; i < count ; i++){
+        //    let car_item = item.cart_items[i];
+        //    if (!this._isSelectItem(car_item)){
+        //        return false;
+        //    }
+        //}
+        let a = new Set(this.state.selectData);
+        let b = new Set(item.cart_items);
+        let unionSet = new Set([...a].filter(x => b.has(x)));
+        let items = Array.from(unionSet);
+        if (items.length === item.cart_items.length){
+            return true;
+        }
+
+        return false;
+    }
+
+    _isSelectItem(item){
+
+        //for (let i  =0 ;i < this.state.selectData.length;i++){
+        //    let aitem = this.state.selectData[i];
+        //    if (aitem.shop_goods_id === item.shop_goods_id){
+        //        return true;
+        //    }
+        //}
+        if(this.state.selectData.includes(item)){
+            return true;
+        }
+
+        return false;
+
+    }
+
+
+
+  // # 网络请求 # ---------------------------
+    // 大家推荐
+   _requestRecommendData(){
+
+       let request = new YFWRequest();
+       let paramObj = new YFWRequestParam();
+       let paramMap = new Map();
+       paramMap.set('service','get_top_visit_medicine');
+       var url = paramObj.getURL(paramMap);
+       request.get(url,null).then((res)=>{
+           if (res.code === '1'){
+                this.setState({
+                    footerData:res.items,
+                });
+           }
+       });
+
+   }
+
+   _requestCartInfoData(){
+
+       let request = new YFWRequest();
+       let paramObj = new YFWRequestParam();
+       let paramMap = new Map();
+       paramMap.set('service','get_cart');
+       var url = paramObj.getURL(paramMap);
+       request.get(url,null).then((res)=>{
+           if (res.code === '1'){
+               var data = res.data_items.shop_items;
+               this.setState({
+                   data:data,
+                   loading:false,
+               });
+           }
+       });
+
+   }
+
+   //跳转商品详情
+    _selectGoodsItemMethod(item){
+
+        this.props.navigation.navigate("YFWGoodsDetailRootVC",{state:{value:item.item.shop_goods_id}});
+
+    }
+
+}
+
+
+var cols = 2;
+var boxW = (Dimensions.get('window').width-40) / 2;
+var vMargin = (Dimensions.get('window').width - cols*boxW)/(cols+1);
+var hMargin = 10;
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        flexDirection:'column',
+        alignItems: 'stretch',
+        justifyContent:'flex-start',
+        backgroundColor: backGroundColor(),
+    },
+    footerTopTitle:{
+        height:35,
+        width:Dimensions.get('window').width,
+        textAlign:'center',
+        fontSize: 14,
+        color:darkNomalColor(),
+        marginTop:20,
+    },
+    item:{
+        marginTop:0,
+        marginLeft:0,
+        marginRight:0,
+        flexDirection:'row',
+        alignItems:'center',
+        justifyContent:'center'
+
+    },
+    outViewStyle:{
+        //    设置侧轴的对齐方式
+        alignItems:'center',
+        width:boxW,
+        height:boxW + 60,
+        marginLeft:vMargin,
+        marginTop:hMargin,
+    },
+    iconStyle:{
+        width:boxW - 20,
+        height:boxW - 20,
+        marginTop:10,
+    },
+    footerTitleStyle:{
+
+        width:boxW,
+        textAlign:'center',
+        fontSize: 14,
+        color:darkNomalColor(),
+        marginTop:15,
+    },
+    footerPriceStyle:{
+
+        width:boxW,
+        textAlign:'center',
+        fontSize: 14,
+        color:yfwOrangeColor(),
+        marginTop:10,
+    },
+    sectionHeaderView:{
+
+        height:50,
+        width:Dimensions.get('window').width,
+        backgroundColor:'white',
+    },
+    checkButton:{
+        marginLeft:10,
+        width:30,
+        height:30,
+    },
+    sectionHeaderTitle:{
+        color:darkTextColor(),
+        marginLeft:0,
+    },
+    sectionHeaderseparator:{
+
+        height:1,
+        marginBottom:0,
+        marginLeft:10,
+        backgroundColor:separatorColor(),
+        width:Dimensions.get('window').width-10,
+    },
+    sectionFooterTitle:{
+        color:darkNomalColor(),
+        marginTop:17,
+        marginRight:15,
+    },
+    rowItem:{
+
+        height:100,
+        width:Dimensions.get('window').width,
+        backgroundColor:'white',
+    },
+    bottomView:{
+        height:60,
+        width:Dimensions.get('window').width,
+        backgroundColor:'white',
+        marginBottom:0,
+    },
+
+});
+
+

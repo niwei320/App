@@ -1,0 +1,114 @@
+/**
+ * Created by 12345 on 2018/4/20.
+ */
+import React, {Component} from 'react';
+import {
+    View,
+    Text,
+    Image,
+    StyleSheet,
+    TouchableOpacity,
+} from 'react-native';
+import EditView from '../widget/EditView'
+import YFWRequestParam from '../Utils/YFWRequestParam'
+import YFWRequest from '../Utils/YFWRequest'
+import Navigation from "react-navigation";
+import YFWToast from '../Utils/YFWToast'
+export default class Login extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.userName = "";
+        this.password = "";
+    }
+
+    render(){
+        const {navigate,goBack,state} = this.props.navigation;
+
+        return (
+            <View style={styles.container}>
+                <EditView  name='输入手机号' onChangeText={(text) => {
+                        this.userName = text;
+                    }}/>
+                <EditView name='输入密码' onChangeText={(text) => {
+                        this.password = text;
+                    }}/>
+
+                <TouchableOpacity onPress={()=>{
+                         this._onPressCallback(goBack,state)
+                    }
+                } style={styles.loginTextView}>
+                    <Text style={styles.loginText} >登录</Text>
+                </TouchableOpacity>
+
+            </View>
+        );
+    }
+
+    static navigationOptions = ({ navigation }) => ({
+        tabBarVisible: false,
+        headerTitle: '手机快捷登录',
+        headerRight: (
+                <TouchableOpacity onPress={this._passwordOnPress}>
+                     <Text style={{marginRight:10}}>密码登录</Text>
+                </TouchableOpacity>
+        ),
+        headerStyle: {
+            backgroundColor: '#FFFFFF',
+            elevation: 0,
+            borderBottomWidth: 0,
+        },
+    });
+
+    _onPressCallback (goBack,state){
+        let req= new YFWRequest();
+        let paramObj = new YFWRequestParam();
+        let paramMap = new Map();
+        paramMap.set('service','account_login');
+        paramMap.set('account_name',this.userName);
+        paramMap.set('password',this.password);
+        paramMap.set("device_no", "");
+        paramMap.set("idfa", "");
+        let url = paramObj.getURL(paramMap);
+        req.get(url,null).then((res)=>{
+            if (res.code === '1'){
+                state.params.callback(res.item);
+                goBack();
+            }else {
+                YFWToast(res.msg);
+            }
+        });
+    };
+
+}
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#F5FCFF',
+    },
+    button: {
+        width: 120,
+        height: 45,
+        marginTop:20,
+        borderRadius: 5,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#4398ff',
+    },
+    loginText: {
+        color: '#ffffff',
+        fontWeight: 'bold',
+        width:30,
+        flexDirection:'row'
+    },
+    loginTextView: {
+        marginTop: 10,
+        height:50,
+        backgroundColor: '#3281DD',
+        borderRadius:2,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems:'center',
+    },
+});

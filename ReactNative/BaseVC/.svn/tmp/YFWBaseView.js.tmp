@@ -1,0 +1,87 @@
+import React, { Component } from 'react';
+import {
+    Platform,
+    StyleSheet,
+    Dimensions,
+} from 'react-native';
+
+import Navigation from "react-navigation";
+import YFWWebView from './YFWWebView'
+import YFWSellersListView from "../Goods/YFWSellersListView";
+<<<<<<< .mine
+import YFWGoodsDetailRootVC from "../GoodsDetail/YFWGoodsDetailRootVC";
+=======
+import ShopCategoryPage from "../FindYao/ShopCategoryPage";
+import MedicineListPage from "../FindYao/MedicineListPage";
+>>>>>>> .r33
+
+var {
+    height: deviceHeight,
+    width: deviceWidth
+} = Dimensions.get('window');
+
+
+var GET_CATEGORY                  ='get_category'         //分类结果页
+var GET_ALL_CATEGORY              ='get_all_category'     //商品分类页面
+var GET_GOODS_DETAIL              ='get_goods_detail'     //比价页面
+var GET_ORDER                     ='get_order'            //我的订单
+var GET_FAVORITE                  ='get_favorite'         //我的收藏页面
+var GET_ASK                       ='get_ASK'              //问答页面
+var GET_MYASK                     ='get_myASK'            //我的问答
+var GET_SUBMIT_ASK                ='get_submit_ASK'       //提问页面
+var GET_ASK_DETAIL                ='get_ask_detail'       //问题详情页面
+var GET_RECENTLY                  ='get_viewd'            //最近浏览页面
+var GET_SHOP_AROUND               ='get_shop_around'      //附近药店页面
+var GET_SHOP_GOODS_DETAIL         ='get_shop_goods_detail'//商品详情
+var GET_SHOP_DETAIL               ='get_shop_detail'      //商家详情页面
+var GET_HTML                      ='get_h5'               //跳转到H5页面
+var GET_WEBSITEMESSAGE            ='get_website_message'  //站内消息
+var GET_ORDER_DETAIL              ='get_order_detail'     //我的订单详情
+var GET_COMMENT                   ='get_comment'          //我的评价
+var GET_COMMENT_DETAIL            ='get_comment_detail'   //我的评价详情
+var GET_COMPLAIN                  ='get_complain'         //我的投诉
+var GET_COMPLAIN_DETAIL           ='get_complain_detail'  //我的投诉详情
+var GET_ORDER_WAITING_PAYMENT     ='get_order_waiting_payment'      //订单待付款
+var GET_ORDER_WAITING_DELIVERY    ='get_order_waiting_delivery'     //订单待发货
+var GET_ORDER_WAITING_GOODS       ='get_order_waiting_goods'        //订单待收货
+var GET_ORDER_WAITING_EVALUATION  ='get_order_waiting_evaluation'   //订单待评价
+var GET_SHOPPINGCAR               ='get_shopping_car'     //购物车
+var GET_COUPON                    ='get_coupon'           //优惠券
+var GET_POINTS                    ='get_points'           //积分页
+var GET_MESSAGE                   ='get_message'          //消息弹窗
+var GET_RATING                    ='appear_rate'          //弹出评分
+var GET_REGIST_PAGE               ='get_user_reg'         //跳转注册页面
+var GET_MESSAGE_LIST              ='get_message_msgtype_list'       //消息列表页面
+var GET_MESSAGE_HOME              ='get_message_index_data'         //消息首页
+var GET_SHARE                     ='get_share'            //获取分享
+var GET_SAVE_PHOTO                ='get_save_photo'       //保存相片
+var GET_COUPON_METHOD             ='get_coupon_method'    //领取优惠券接口
+
+
+
+export default class YFWBaseView extends Component {
+
+    pushNavigation(navigate,badge) {
+
+        switch (badge.type){
+            case GET_ALL_CATEGORY:
+                navigate('ShopCategoryPage',{state: badge});
+                break
+            case GET_CATEGORY:
+                navigate('MedicineListPage',{obj: badge});
+                break
+            case GET_HTML:
+                navigate('YFWWebView', {state: badge});
+                break
+            case GET_GOODS_DETAIL:
+                navigate('YFWSellersListView', {state: badge});
+                break
+        }else if (badge.type === GET_SHOP_GOODS_DETAIL){
+
+            navigate('YFWGoodsDetailRootVC', {state: badge});
+        }
+    }
+}
+
+
+

@@ -1,0 +1,64 @@
+/**
+ * Created by 12345 on 2018/4/23.
+ */
+import React, {Component} from 'react';
+import {
+    View,
+    Text,
+    Image,
+    StyleSheet,
+    TouchableOpacity,
+} from 'react-native';
+
+import Navigation from "react-navigation";
+
+export default class extends React.Component {
+
+
+    static navigationOptions = ({navigation}) => ({
+        title: "设置",
+        tabBarVisible: false,
+
+    });
+
+    constructor(props) {
+        super(props)
+        this.state = {
+            isLogin: null
+        }
+    }
+
+    componentDidMount() {
+        //这里获取从FirstPageComponent传递过来的参数: id
+        this.setState({
+            isLogin: this.props.navigation.state.params.isLogin
+        });
+    }
+
+
+    render() {
+        if (this.state.isLogin) {
+            const {navigate, goBack, state} = this.props.navigation;
+            return <View>
+                <TouchableOpacity style={{width:'100%',height:60,backgroundColor:'gray',alignItems:'center',justifyContent:'center',marginTop:80}} onPress={()=>{
+                        state.params.callback();
+                        goBack();
+                    }
+                }>
+                    <Text style={{fontSize:15 ,color:'white'}}>退出</Text>
+                </TouchableOpacity>
+
+            </View>
+        }else {
+            const {navigate, goBack, state} = this.props.navigation;
+            return <View>
+                <TouchableOpacity style={{width:'100%',height:60,backgroundColor:'gray',alignItems:'center',justifyContent:'center',marginTop:80}} onPress={()=>{
+                        goBack();
+                    }
+                }>
+                    <Text style={{fontSize:15 ,color:'white'}} >还未登录</Text>
+                </TouchableOpacity>
+            </View>
+        }
+    }
+}

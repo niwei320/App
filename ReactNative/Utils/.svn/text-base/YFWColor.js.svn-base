@@ -1,0 +1,40 @@
+
+import { AsyncStorage } from 'react-native';
+
+/** 分割线颜色 */
+exports.separatorColor = function () {
+    return '#E5E5E5';
+}
+
+
+/** 背景颜色 */
+exports.backGroundColor = function () {
+    return '#F5F5F5';
+}
+
+/** YFW橙色 */
+exports.yfwOrangeColor = function () {
+    return '#FF6E40';
+}
+
+
+/** YFW绿色 */
+exports.yfwGreenColor = function () {
+    return '#27BF8F';
+}
+
+
+/** YFW深黑 #333 */
+exports.darkTextColor = function () {
+    return '#333333';
+}
+
+/** YFW中黑 #666 */
+exports.darkNomalColor = function () {
+    return '#666666';
+}
+
+/** YFW浅黑 #999 */
+exports.darkLightColor = function () {
+    return '#999999';
+}

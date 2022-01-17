@@ -1,0 +1,144 @@
+/**
+ * Sample React Native App
+ * https://github.com/facebook/react-native
+ * @flow
+ */
+
+import React, {Component} from 'react';
+import {
+    Platform,
+    View,
+    Text,
+    Image,
+    StyleSheet,
+    TouchableOpacity,
+    ImageBackground,
+    ScrollView,
+    RefreshControl,
+    DeviceEventEmitter
+} from 'react-native';
+import YFWRequestParam from '../Utils/YFWRequestParam'
+import YFWRequest from '../Utils/YFWRequest'
+import YFWToast from '../Utils/YFWToast'
+import {getItem, setItem, removeItem} from '../Utils/YFWStorage'
+import UserCenterHeader from './YFWUserCenterHeader'
+import UserCenterOderItems from './UserCenterOderItems'
+import UserCenterBottomItem from './UserCenterBottomItem'
+var Dimensions = require('Dimensions');
+var ScreenWidth = Dimensions.get('window').width;
+
+export default class YFWUserCenterVC extends Component {
+
+    constructor(props) {
+        super(props)
+        this.state = {
+            isLogin: false,
+            item: {},
+            visible: false,
+            isRefresh: false,
+            isHeader: false
+        };
+        this._contentViewScroll = this._contentViewScroll.bind(this);
+    }
+
+    _onRefresh() {
+        YFWToast("_onRefresh")
+        this.setState(()=>({
+                isRefresh: true,
+                isHeader: false
+            })
+        )
+    }
+    render() {
+        this.state.isRefresh = false;
+        return (
+            <ScrollView showsVerticalScrollIndicator={false} onScrollEndDrag={this._contentViewScroll}
+                        refreshControl={
+                        <RefreshControl refreshing={this.state.isRefresh}
+                                        onRefresh={this._onRefresh.bind(this)}
+                                        title={'load...'}
+                                        tintColor={'#ff0000'}
+                                        colors={['#ff0000', '#00ff00', '#0000ff']}
+                                        progressBackgroundColor={'#ffff00'}
+                        />
+                    }>
+                <View style={styles.container}>
+                    <UserCenterHeader navigation={this.props.navigation} isRefresh={this.state.isRefresh}
+                                      isHeader={this.state.isHeader}></UserCenterHeader>
+                    <UserCenterOderItems navigation={this.props.navigation}></UserCenterOderItems>
+                    <UserCenterBottomItem navigation={this.props.navigation}></UserCenterBottomItem>
+                    <View>
+                        {this.renderBottomView()}
+                    </View>
+                </View>
+            </ScrollView>
+        );
+    }
+
+    renderBottomView() {
+        if (this.state.visible) {
+            return <View style={{width:ScreenWidth,backgroundColor:'red',height:0}}>
+
+            </View>
+        } else {
+            return <View style={{width:ScreenWidth,backgroundColor: 'rgba(178,178,178,0.2)',height:40}}>
+
+            </View>
+        }
+    }
+
+
+    _contentViewScroll(e:Object) {
+        var offsetY = e.nativeEvent.contentOffset.y; //滑动距离
+        var contentSizeHeight = e.nativeEvent.contentSize.height; //scrollView contentSize高度
+        var oriageScrollHeight = e.nativeEvent.layoutMeasurement.height; //scrollView高度
+        if (offsetY + oriageScrollHeight >= contentSizeHeight - 40) {
+            this.setState(()=>({
+                    visible: true,
+                    isHeader: true
+                })
+            )
+        } else {
+            this.setState(()=>({
+                    visible: false,
+                    isHeader: true
+                })
+            )
+        }
+    }
+
+    static navigationOptions = ({navigation}) => ({
+        tabBarVisible: true,
+        header: null,
+
+    });
+}
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#F5FCFF',
+    },
+    button: {
+        width: 120,
+        height: 45,
+        borderRadius: 5,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#4398ff',
+    },
+    userName: {
+        color: '#FFFFFF',
+        fontSize: 14,
+        fontFamily: 'Cochin',
+        textAlign: 'left'
+    },
+    userName: {
+        color: '#FFFFFF',
+        fontSize: 14,
+        fontFamily: 'Cochin',
+        textAlign: 'left'
+    }
+});
+
+

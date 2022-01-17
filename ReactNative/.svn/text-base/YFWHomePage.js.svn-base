@@ -1,0 +1,227 @@
+/**
+ * Sample React Native App
+ * https://github.com/facebook/react-native
+ * @flow
+ */
+
+import React, { Component } from 'react';
+import {
+    Platform,
+    StyleSheet,
+    Text,
+    View,
+    Image,
+    Navigator
+} from 'react-native';
+
+/* 添加路由组件 */
+import Navigation from 'react-navigation';
+
+
+/* tabBar  */
+import YFWFindYaoVC from './FindYao/YFWFindYaoVC'
+import YFWShopCarVC from  './ShopCar/YFWShopCarVC'
+import YFWUserCenterVC from './UserCenter/YFWUserCenterVC'
+import YFWSellersListView from './Goods/YFWSellersListView'
+import YFWGoodsDetailRootVC from './GoodsDetail/YFWGoodsDetailRootVC'
+import YFWWebView from './BaseVC/YFWWebView'
+import {log, logWarm, logErr} from './Utils/YFWLog'
+import YFWToast from './Utils/YFWToast'
+import YFWLogin from './UserCenter/YFWLogin'
+import YFWUserCenterHeader from './UserCenter/YFWUserCenterHeader'
+import Setting from './UserCenter/SettingPage'
+import ShopCategoryPage from './FindYao/ShopCategoryPage'
+import ShopDetailPage from "./FindYao/ShopDetailPage";
+import MedicineListPage from "./FindYao/MedicineListPage"
+import SearchResultPage from "./HomePage/SearchResultPage";
+import YFWMainVC from './HomePage/YFWMainVC'
+import YFWOrderSettlementRootVC from './OrderPay/YFWOrderSettlementRootVC'
+
+const styles = StyleSheet.create({
+    tab: {
+        height: 50,
+        backgroundColor: '#fbfafc',
+        borderTopColor: '#efefef'
+    },
+    tabIcon: {
+        width: 20,
+        height: 20
+    },
+    tabLabel: {
+        marginBottom: 8
+    }
+});
+
+const HomePageNav = Navigation.StackNavigator(
+    {
+        YFWMainVC: {screen: YFWMainVC },
+        YFWWebView: {screen: YFWWebView},
+        YFWSellersListView:{screen:YFWSellersListView},
+        YFWGoodsDetailRootVC:{screen:YFWGoodsDetailRootVC},
+        ShopCategoryPage:{screen: ShopCategoryPage},
+        MedicineListPage:{screen: MedicineListPage},
+        SearchResultPage:{screen:SearchResultPage},
+        YFWShopCarVC: {screen: YFWShopCarVC},
+    },
+    {
+        initialRouteName: 'YFWMainVC',
+    },
+    {
+        navigationOptions:{
+            headerBackTitle:null,
+            headerTintColor:'#666666',
+            showIcon:true,
+            swipeEnabled:false,
+            animationEnabled:false,
+        },
+        mode:'card', //页面切换模式
+    });
+
+const FindYaoNav = Navigation.StackNavigator(
+    {
+        YFWFindYaoVC: {screen: YFWFindYaoVC},
+        ShopCategoryPage:{screen: ShopCategoryPage},
+        ShopDetailPage:{screen: ShopDetailPage},
+        YFWSellersListView:{screen:YFWSellersListView},
+        YFWGoodsDetailRootVC:{screen:YFWGoodsDetailRootVC},
+        MedicineListPage:{screen: MedicineListPage},
+    },
+    {
+        initialRouteName: 'YFWFindYaoVC',
+    },
+    {
+        navigationOptions:{
+            headerBackTitle:null,
+            headerTintColor:'#666666',
+            showIcon:true,
+            swipeEnabled:false,
+            animationEnabled:false,
+        },
+        mode:'card',
+    });
+
+const ShopCarNav = Navigation.StackNavigator(
+    {
+        YFWShopCarVC: {screen: YFWShopCarVC},
+        YFWSellersListView:{screen:YFWSellersListView},
+        YFWGoodsDetailRootVC:{screen:YFWGoodsDetailRootVC},
+        YFWOrderSettlementRootVC:{screen:YFWOrderSettlementRootVC},
+    },
+    {
+        initialRouteName: 'YFWShopCarVC',
+    },
+    {
+        navigationOptions:{
+            headerBackTitle:null,
+            headerTintColor:'#666666',
+            showIcon:true,
+            swipeEnabled:false,
+            animationEnabled:false,
+        },
+        mode:'card',
+    });
+
+const UserCenterNav = Navigation.StackNavigator(
+    {
+        YFWUserCenterVC: {screen: YFWUserCenterVC },
+        YFWLogin: {screen: YFWLogin },
+        Setting: {screen: Setting },
+    },
+    {
+        initialRouteName: 'YFWUserCenterVC',
+    },
+    {
+        navigationOptions:{
+            headerBackTitle:null,
+            headerTintColor:'#666666',
+            showIcon:true,
+            swipeEnabled:false,
+            animationEnabled:false,
+        },
+        mode:'card',
+    });
+
+const Tabs = Navigation.TabNavigator({
+    'HomePageNav': {
+        screen: HomePageNav,
+        navigationOptions: ({ navigation, screenProps }) => {
+
+            return {
+                tabBarLabel: '首页',
+                tabBarIcon: (opt) => {
+                    if (opt.focused) return <Image source={require('../img/first_selected.png')} style={styles.tabIcon}></Image>;
+                    return <Image source={require('../img/first_normal.png')} style={styles.tabIcon}></Image>;
+                }
+            }
+        }
+    },
+    'FindYaoNav': {
+        screen: FindYaoNav,
+        navigationOptions: ({ navigation, screenProps }) => {
+            return {
+                tabBarLabel: '找药',
+                tabBarIcon: (opt) => {
+                    if (opt.focused) return <Image source={require('../img/second_selected.png')} style={styles.tabIcon}></Image>;
+                    return <Image source={require('../img/second_normal.png')} style={styles.tabIcon}></Image>;
+                }
+            }
+        }
+    },
+    'ShopCarNav': {
+        screen: ShopCarNav,
+        navigationOptions: ({ navigation, screenProps }) => {
+            return {
+                tabBarLabel: '购物车',
+                tabBarIcon: (opt) => {
+                    if (opt.focused) return <Image source={require('../img/third_selected.png')} style={styles.tabIcon}></Image>;
+                    return <Image source={require('../img/third_normal.png')} style={styles.tabIcon}></Image>;
+                }
+            }
+        }
+    },
+    'UserCenterNav': {
+        screen: UserCenterNav,
+        navigationOptions: ({ navigation, screenProps }) => {
+            return {
+                tabBarLabel: '账号',
+                tabBarIcon: (opt) => {
+                    if (opt.focused) return <Image source={require('../img/forth_selected.png')} style={styles.tabIcon}></Image>;
+                    return <Image source={require('../img/forth_normal.png')} style={styles.tabIcon}></Image>;
+                }
+            }
+        }
+    },
+}, {
+    //设置tab使用的组件
+    tabBarComponent: Navigation.TabBarBottom,
+    //点击哪个才加载哪个tab里的页面
+    lazy: true,
+    //设置tab放在界面的底部
+    tabBarPosition: 'bottom',
+    //设置tab里面的样式
+    swipeEnabled: false,
+    tabBarOptions: {
+        style: styles.tab,
+        labelStyle: styles.tabLabel,
+        activeTintColor: '#21B862'
+    }
+});
+
+
+export default class YFWHomePage extends Component{
+    constructor(props) {
+        super(props);
+    }
+    render(){
+
+        return <Tabs/>;
+
+    }
+    listenChange(state1, state2, action) {
+
+    }
+
+}
+
+
+

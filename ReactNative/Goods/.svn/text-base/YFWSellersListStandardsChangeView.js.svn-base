@@ -1,0 +1,242 @@
+import React, { Component } from 'react';
+import {
+    Platform,
+    StyleSheet,
+    Text,
+    View,
+    Image,
+    Button,
+    ScrollView,
+    TouchableOpacity,
+    Dimensions, ListView
+} from 'react-native';
+
+import YFWToast from "../Utils/YFWToast";
+import {
+    darkNomalColor, darkTextColor, darkLightColor, separatorColor, yfwGreenColor,
+    backGroundColor
+} from "../Utils/YFWColor";
+
+
+export default class YFWSellersListStandardsChangeView extends Component {
+
+    static defaultProps = {
+        Data:undefined,
+        standards:new Array(),
+    }
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            selectIndex : 0,
+        };
+    }
+
+
+    render() {
+        return (
+            <View style={styles.container}>
+                <View flexDirection={'row'} height={100}>
+                    <Image
+                        style={styles.iconStyle}
+                        source={{uri:this.props.Data.img_url}}
+                    ></Image>
+                    <View>
+                        <Text style={styles.titleStyle}>{this.props.Data.title}</Text>
+                        <Text style={styles.textStyle}>{'批准文号： '+this.props.Data.authorized_code}</Text>
+                    </View>
+                </View>
+                <View style={styles.separatorStyle}/>
+                <Text style={styles.standarsTitleStyle}> 选择规格 </Text>
+                <ScrollView>
+                    {this.renderItem()}
+                </ScrollView>
+                <TouchableOpacity  style={styles.confirmViewStyle} onPress={()=>this.clickConfirm()}>
+                    <Text  style={styles.confirmTextStyle} > 选 择 </Text>
+                </TouchableOpacity>
+
+            </View>
+        );
+    }
+
+
+    renderItem() {
+        // 数组
+        var itemAry = [];
+
+        // 遍历
+        for (let i = 0; i<this.props.standards.length; i++) {
+            var dataItem = this.props.standards[i];
+            var unchooseBtn = require('../../img/unChooseBtn.png');
+            var chooseBtn = require('../../img/chooseBtn.png');
+            itemAry.push(
+                <View key={i} style={styles.item}>
+                    <TouchableOpacity  style={{flex:1}}
+                                       onPress={()=>this.clickItemSelect(i)}>
+                        <View style={styles.borderItemStyle}
+                              borderColor={i===this.state.selectIndex?yfwGreenColor():separatorColor()}
+                              ref={'borderItem'+i}>
+                            <Text style={styles.itemTextStyle}>{dataItem.standard}</Text>
+                            {this._getChooseImage(i)}
+                        </View>
+                    </TouchableOpacity>
+                </View>
+            );
+        }
+        return itemAry;
+    }
+
+
+    _getChooseImage(index){
+
+        var unchooseBtn = require('../../img/unChooseBtn.png');
+        var chooseBtn = require('../../img/chooseBtn.png');
+        if (this.state.selectIndex === index){
+            <Image
+                style={styles.icon2Style}
+                source={chooseBtn}/>
+        }else {
+            <Image
+                style={styles.icon2Style}
+                source={unchooseBtn}/>
+        }
+
+    }
+
+    // @ Method @ ----------------------------------
+    clickConfirm(){
+
+        this.props.changeStandarsMethod(this.props.standards[this.state.selectIndex]);
+
+    }
+
+
+    clickItemSelect(index){
+
+        this.setState({
+            selectIndex : index,
+        });
+        this.state.selectIndex = index;
+
+        for (let i = 0; i<this.props.standards.length; i++) {
+            var refName = 'borderItem' + i;
+            var iconName = 'icon' + i;
+            if (i === index){
+                this.refs[refName].setNativeProps({style:{borderColor:yfwGreenColor()}});
+            }else {
+                this.refs[refName].setNativeProps({style:{borderColor:separatorColor()}});
+            }
+        }
+
+    }
+
+
+}
+
+
+//设置样式
+const styles = StyleSheet.create({
+
+    container: {
+        flex: 1,
+        height:250,
+        flexDirection:'column',
+        alignItems: 'stretch',
+        justifyContent:'flex-start',
+        backgroundColor: 'white',
+
+    },
+    iconStyle:{
+        width:80,
+        height:80,
+        marginBottom:10,
+        marginLeft:10,
+        marginTop:10,
+        resizeMode:'contain',
+    },
+    titleStyle:{
+        fontSize: 15,
+        width:Dimensions.get('window').width - 120,
+        color:darkTextColor(),
+        marginTop:10,
+        marginLeft:10,
+        marginRight:10,
+        marginBottom:5,
+    },
+    textStyle:{
+        fontSize: 13,
+        textAlign: 'left',
+        color:darkNomalColor(),
+        width:Dimensions.get('window').width - 120,
+        marginLeft:10,
+        marginTop:10,
+    },
+    confirmViewStyle:{
+
+        height:50,
+        width:Dimensions.get('window').width,
+        backgroundColor:yfwGreenColor(),
+
+    },
+    confirmTextStyle:{
+        flex: 1,
+        color:'white',
+        fontSize: 15,
+        textAlign: 'center',
+        marginTop:15,
+    },
+    scrollViewStyle: {
+        // 背景色
+        backgroundColor:'white',
+        height:170,
+        width:Dimensions.get('window').width,
+    },
+    item:{
+        flexDirection:'row',
+        alignItems:'center',
+        justifyContent:'center',
+        height:50,
+    },
+    borderItemStyle:{
+        flex:1,
+        height:40,
+        marginLeft:10,
+        marginRight:10,
+        marginTop:5,
+        marginBottom:5,
+        width:Dimensions.get('window').width-20,
+        alignItems:'center',
+        flexDirection:'row',
+        borderColor:separatorColor(),
+        borderWidth:1,
+    },
+    itemTextStyle:{
+
+        marginLeft:10,
+        fontSize: 14,
+        width:Dimensions.get('window').width-80,
+        color:darkNomalColor(),
+
+    },
+    separatorStyle:{
+        backgroundColor:separatorColor(),
+        height:1,
+        width: Dimensions.get('window').width,
+
+    },
+    standarsTitleStyle:{
+        marginTop:10,
+        marginLeft:10,
+        marginBottom:10,
+        fontSize: 12,
+        color:darkNomalColor(),
+
+    },
+    icon2Style:{
+        width:20,
+        marginTop:3,
+        marginLeft:15,
+        resizeMode:'contain',
+    },
+
+});

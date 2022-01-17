@@ -1,0 +1,77 @@
+K 25
+svn:wc:ra_dav:version-url
+V 162
+/svn/appios/!svn/ver/1493/Tags/YFWDemos/%E8%8D%AF%E6%88%BF%E7%BD%91SDK%E5%8D%87%E7%BA%A7%E7%89%88/ThirdPaty/Baidu-Maps-iOS-SDK/BaiduMapAPI_Utils.framework/Headers
+END
+BMKFavPoiManager.h
+K 25
+svn:wc:ra_dav:version-url
+V 181
+/svn/appios/!svn/ver/1493/Tags/YFWDemos/%E8%8D%AF%E6%88%BF%E7%BD%91SDK%E5%8D%87%E7%BA%A7%E7%89%88/ThirdPaty/Baidu-Maps-iOS-SDK/BaiduMapAPI_Utils.framework/Headers/BMKFavPoiManager.h
+END
+BMKNavigation.h
+K 25
+svn:wc:ra_dav:version-url
+V 178
+/svn/appios/!svn/ver/1493/Tags/YFWDemos/%E8%8D%AF%E6%88%BF%E7%BD%91SDK%E5%8D%87%E7%BA%A7%E7%89%88/ThirdPaty/Baidu-Maps-iOS-SDK/BaiduMapAPI_Utils.framework/Headers/BMKNavigation.h
+END
+BMKFavPoiInfo.h
+K 25
+svn:wc:ra_dav:version-url
+V 178
+/svn/appios/!svn/ver/1493/Tags/YFWDemos/%E8%8D%AF%E6%88%BF%E7%BD%91SDK%E5%8D%87%E7%BA%A7%E7%89%88/ThirdPaty/Baidu-Maps-iOS-SDK/BaiduMapAPI_Utils.framework/Headers/BMKFavPoiInfo.h
+END
+BMKOpenPanorama.h
+K 25
+svn:wc:ra_dav:version-url
+V 180
+/svn/appios/!svn/ver/1493/Tags/YFWDemos/%E8%8D%AF%E6%88%BF%E7%BD%91SDK%E5%8D%87%E7%BA%A7%E7%89%88/ThirdPaty/Baidu-Maps-iOS-SDK/BaiduMapAPI_Utils.framework/Headers/BMKOpenPanorama.h
+END
+BMKOpenRoute.h
+K 25
+svn:wc:ra_dav:version-url
+V 177
+/svn/appios/!svn/ver/1493/Tags/YFWDemos/%E8%8D%AF%E6%88%BF%E7%BD%91SDK%E5%8D%87%E7%BA%A7%E7%89%88/ThirdPaty/Baidu-Maps-iOS-SDK/BaiduMapAPI_Utils.framework/Headers/BMKOpenRoute.h
+END
+BMKOpenPoiOption.h
+K 25
+svn:wc:ra_dav:version-url
+V 181
+/svn/appios/!svn/ver/1493/Tags/YFWDemos/%E8%8D%AF%E6%88%BF%E7%BD%91SDK%E5%8D%87%E7%BA%A7%E7%89%88/ThirdPaty/Baidu-Maps-iOS-SDK/BaiduMapAPI_Utils.framework/Headers/BMKOpenPoiOption.h
+END
+BMKUtilsComponent.h
+K 25
+svn:wc:ra_dav:version-url
+V 182
+/svn/appios/!svn/ver/1493/Tags/YFWDemos/%E8%8D%AF%E6%88%BF%E7%BD%91SDK%E5%8D%87%E7%BA%A7%E7%89%88/ThirdPaty/Baidu-Maps-iOS-SDK/BaiduMapAPI_Utils.framework/Headers/BMKUtilsComponent.h
+END
+BMKUtilsVersion.h
+K 25
+svn:wc:ra_dav:version-url
+V 180
+/svn/appios/!svn/ver/1493/Tags/YFWDemos/%E8%8D%AF%E6%88%BF%E7%BD%91SDK%E5%8D%87%E7%BA%A7%E7%89%88/ThirdPaty/Baidu-Maps-iOS-SDK/BaiduMapAPI_Utils.framework/Headers/BMKUtilsVersion.h
+END
+BMKOpenPoi.h
+K 25
+svn:wc:ra_dav:version-url
+V 175
+/svn/appios/!svn/ver/1493/Tags/YFWDemos/%E8%8D%AF%E6%88%BF%E7%BD%91SDK%E5%8D%87%E7%BA%A7%E7%89%88/ThirdPaty/Baidu-Maps-iOS-SDK/BaiduMapAPI_Utils.framework/Headers/BMKOpenPoi.h
+END
+BMKOpenRouteOption.h
+K 25
+svn:wc:ra_dav:version-url
+V 183
+/svn/appios/!svn/ver/1493/Tags/YFWDemos/%E8%8D%AF%E6%88%BF%E7%BD%91SDK%E5%8D%87%E7%BA%A7%E7%89%88/ThirdPaty/Baidu-Maps-iOS-SDK/BaiduMapAPI_Utils.framework/Headers/BMKOpenRouteOption.h
+END
+BMKOpenOption.h
+K 25
+svn:wc:ra_dav:version-url
+V 178
+/svn/appios/!svn/ver/1493/Tags/YFWDemos/%E8%8D%AF%E6%88%BF%E7%BD%91SDK%E5%8D%87%E7%BA%A7%E7%89%88/ThirdPaty/Baidu-Maps-iOS-SDK/BaiduMapAPI_Utils.framework/Headers/BMKOpenOption.h
+END
+BMKGeometry.h
+K 25
+svn:wc:ra_dav:version-url
+V 176
+/svn/appios/!svn/ver/1493/Tags/YFWDemos/%E8%8D%AF%E6%88%BF%E7%BD%91SDK%E5%8D%87%E7%BA%A7%E7%89%88/ThirdPaty/Baidu-Maps-iOS-SDK/BaiduMapAPI_Utils.framework/Headers/BMKGeometry.h
+END

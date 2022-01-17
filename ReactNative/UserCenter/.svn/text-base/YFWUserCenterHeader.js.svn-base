@@ -1,0 +1,177 @@
+/**
+ * Created by admin on 2018/4/27.
+ */
+import React, {Component} from 'react';
+import {
+    StyleSheet,
+    View,
+    Image,
+    Dimensions,
+    Text,
+    MapLayout,
+    ImageBackground,
+    TouchableOpacity,
+    bool,
+    func,
+    DeviceEventEmitter
+} from 'react-native';
+import {getItem, setItem, removeItem} from '../Utils/YFWStorage'
+import YFWToast from '../Utils/YFWToast'
+import YFWRequestParam from '../Utils/YFWRequestParam'
+import YFWRequest from '../Utils/YFWRequest'
+import {log, logErr, logWarm} from '../Utils/YFWLog'
+const width = Dimensions.get('window').width;
+const height = Dimensions.get('window').height;
+const styles = StyleSheet.create({
+    userCenterHeaderStyle: {
+        width: width,
+        height: height / 4,
+    },
+    userCenterHeaderBgStyle: {
+        position: 'absolute',//相对父元素进行绝对定位
+    },
+    textStyle: {
+        fontSize: 15,
+        color: 'white'
+    }
+});
+export default class UserCenterHeader extends Component {
+
+
+    constructor(props) {
+        super(props)
+        this.state = {
+            isLogin: false,
+            visible: false,
+            datas: [],
+            isRefresh :this.props.isRefresh,
+        }
+    }
+
+    componentDidMount() {
+        getItem('account').then((id)=> {
+            if (id) {
+                this._requestCenterInfo(id);
+            } else {
+                this.setState(()=>({
+                        isLogin: false,
+                    }
+                    )
+                )
+            }
+        });
+    }
+
+    componentWillReceiveProps(nextProps) {
+        log("componentWillReceiveProps")
+        if(!nextProps.isHeader) {
+            getItem('account').then((id)=> {
+                if (id) {
+                    this._requestCenterInfo(id);
+                } else {
+                    this.setState(()=>({
+                            isLogin: false,
+                        }
+                        )
+                    )
+                }
+            });
+            this.renderUserState();
+        }
+    }
+
+
+    render() {
+        return (
+            <View style={styles.userCenterHeaderStyle}>
+                <ImageBackground style={styles.userCenterHeaderStyle}
+                                 source={require('../../img/personal_center_bg.png')}>
+                    <Image style={styles.userCenterHeaderBgStyle} width={20} height={20} left={width-25}
+                           right={width-5}
+                           top={20} bottom={40} source={ require('../../img/activity_home_msg.png')}>
+                    </Image>
+                    <TouchableOpacity style={{marginLeft:width-50,marginTop:20,width:20}}
+                                      onPress={() => this.props.navigation.navigate('Setting',{
+                                        isLogin:this.state.isLogin,
+                                        callback:()=>{
+                                        removeItem("account").then(()=>{
+                                        this.setState(()=>({
+                                            isLogin:false
+                                        }
+                                     )
+                                   )
+                               });
+                            }
+                        })
+                    }>
+                        <Image style={{width:20,height:20}}
+                               source={ require('../../img/user_center_icontop_left.png')}>
+                        </Image>
+                    </TouchableOpacity>
+                    <View
+                        style={{position:'absolute',borderBottomLeftRadius:20,borderTopLeftRadius:20,borderColor:'white',borderWidth:1,padding:3,backgroundColor:'rgba(178,178,178,0.5)'}}
+                        top={95} left={width-78}>
+                        <Text style={{color:'white',fontSize:15}}>签到赢积分</Text>
+                    </View>
+                    <View style={{position: 'absolute'}}>
+                        {this.renderUserState()}
+                    </View>
+                </ImageBackground>
+            </View>
+        );
+    }
+
+    renderUserState() {
+        if (this.state.isLogin) {
+            //已登录
+            return <View style={{position: 'absolute'}}>
+                <Image style={{position: 'absolute',borderRadius:55,borderWidth:1,borderColor:'#00a377'}} width={55}
+                       height={55} top={85} bottom={160} left={20}
+                       right={85} source={{uri:this.state.datas.account_img_url}}>
+                </Image>
+                <Text
+                    style={{position:'absolute',fontSize:15,marginTop:100,marginLeft:90,color:'white'}}>{this.state.datas.account_real_name}</Text>
+                <Text
+                    style={{position:'absolute',fontSize:10,marginTop:120,marginLeft:90,color:'white'}}>{'积分:' + this.state.datas.point + "  " + '优惠券:' + this.state.datas.coupon_count}</Text>
+            </View>
+
+        } else {
+            //未登录
+            return <View style={{position: 'absolute'}}>
+                <Image style={styles.userCenterHeaderBgStyle} width={55} height={55} top={85} bottom={160} left={20}
+                       right={85} source={require('../../img/user_icon_default.png')}>
+                </Image>
+                <TouchableOpacity style={{marginTop: 100,
+        marginLeft: 85,}} onPress={() => this.props.navigation.navigate('YFWLogin',{
+                    callback: (data)=>{
+                        this._requestCenterInfo(data.account_id)
+                    }
+                })
+                }>
+                    <Text style={styles.textStyle}>登录/注册</Text>
+                </TouchableOpacity>
+            </View>
+        }
+    }
+
+    _requestCenterInfo(account_id) {
+        let req = new YFWRequest();
+        let paramObj = new YFWRequestParam();
+        let paramMap = new Map();
+        paramMap.set('service', 'get_account_center_tip');
+        paramMap.set('account_id', account_id);
+        let url = paramObj.getURL(paramMap);
+        req.get(url, null).then((res)=> {
+            if (res.code === '1') {
+                setItem("account", account_id);
+                this.setState(()=>({
+                        isLogin: true,
+                        datas: res.item,
+                    })
+                )
+            } else {
+                Toast("--------")
+            }
+        });
+    }
+}

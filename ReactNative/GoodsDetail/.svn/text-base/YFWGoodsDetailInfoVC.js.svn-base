@@ -1,0 +1,453 @@
+import React, {Component} from 'react';
+import {
+    Platform,
+    StyleSheet,
+    Text,
+    View,
+    ListView,
+    TouchableOpacity,
+    Modal,
+    ScrollView,
+    Image, Dimensions
+} from 'react-native';
+
+import YFWRequest from '../Utils/YFWRequest'
+import YFWToast from '../Utils/YFWToast'
+import {log, logWarm, logErr} from '../Utils/YFWLog'
+import {backGroundColor, darkNomalColor,yfwGreenColor,darkTextColor,yfwOrangeColor,darkLightColor,separatorColor} from '../Utils/YFWColor'
+import YFWRequestParam from '../Utils/YFWRequestParam'
+
+import YFWGoodsDetailInfoBarnerView from './View/YFWGoodsDetailInfoBarnerView'
+
+export default class YFWGoodsDetailInfoVC extends Component {
+
+    constructor(...args) {
+        super(...args);
+        this.state = {
+            couponArray:[],
+        };
+    }
+
+
+    componentDidMount () {
+
+        if (this.props.data != null){
+            this._requestCouponMethod();
+        }
+
+    }
+
+    render() {
+
+        return (
+            <View style={{ flex:1 , backgroundColor:backGroundColor()}}>
+                <ScrollView style={{ flex:1}}>
+                    <View style={styles.item} height={200}>
+                        <YFWGoodsDetailInfoBarnerView imagesData={this.props.data.img_url}/>
+                    </View>
+                    <View style={{height:120,backgroundColor:'white'}}>
+                        <Text style={{color:darkTextColor(),marginTop:10,marginLeft:15,fontSize:16,height:30,width:Dimensions.get('window').width-40}}>{this.props.data.title}</Text>
+                        <Text style={[styles.textStyle,{height:40}]}>{this.props.data.applicability}</Text>
+                        <Text style={{color:yfwOrangeColor(),marginLeft:15,fontSize:22,height:30,width:Dimensions.get('window').width-40}}>￥{this.props.data.price}</Text>
+                        <View style={{backgroundColor:separatorColor(),height:1,marginTop:9,marginLeft:15,width:Dimensions.get('window').width-15}}/>
+                    </View>
+                    <View style={{height:65,backgroundColor:'white'}}>
+                        <Text style={[styles.textStyle,{marginTop:10}]}>国药准字：{this.props.data.authorized_code}</Text>
+                        <Text style={[styles.textStyle]}>包装规格：{this.props.data.Standard}</Text>
+                        <View style={{backgroundColor:separatorColor(),height:1,marginTop:4,marginLeft:15,width:Dimensions.get('window').width-15}}/>
+                    </View>
+                    {this.renderView()}
+                    <View style={{height:80,backgroundColor:'white',marginTop:10}}>
+                        <View style={[styles.item,{justifyContent:'flex-start',height:40}]}>
+                            <Text style={{color:darkLightColor(),fontSize:12,marginLeft:15}}>送至</Text>
+                            <Text style={{color:darkNomalColor(),fontSize:12,marginLeft:10}}>上海市</Text>
+                            <Text style={{color:darkLightColor(),fontSize:12,marginLeft:15}}>运费</Text>
+                            <Text style={{color:darkNomalColor(),fontSize:12,marginLeft:10}}>￥{this.props.data.shipping_price}</Text>
+                            <Text style={{color:darkNomalColor(),fontSize:12,marginLeft:30}}>{this.props.data.shipping_time}</Text>
+                        </View>
+                        <View style={{backgroundColor:separatorColor(),height:1,marginLeft:15,width:Dimensions.get('window').width-15}}/>
+                        <View style={[styles.item,{justifyContent:'flex-start',height:40}]}>
+                            {this.renderPaymentItem()}
+                        </View>
+                    </View>
+                    <View style={{height:150,backgroundColor:'white',marginTop:10}}>
+                        <View style={[styles.item,{justifyContent:'flex-start',height:50}]}>
+                            <Image
+                                style={{width:60,height:30,marginLeft:15,resizeMode:'contain'}}
+                                source={{uri:this.props.data.shop_logo}}
+                            />
+                            <Text style={{color:darkTextColor(),fontSize:13,marginLeft:10 ,width:Dimensions.get('window').width-140}}>{this.props.data.shop_title}</Text>
+                            <Image
+                                style={{width:50,height:30,marginLeft:0,resizeMode:'contain'}}
+                                source={require('../../img/shop_zizhi.png')}
+                            />
+                        </View>
+                        <View style={[styles.item,{height:50}]}>
+                            {this.renderStarItem()}
+                        </View>
+                        <TouchableOpacity  style={[styles.item,{height:50}]} onPress={()=>this._toshopDetail()}>
+                            <View style={styles.shopButtonStyle}>
+                                <Text  style={{color:yfwGreenColor(),fontSize:12}} > 进入店铺 </Text>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={{height:540,backgroundColor:'white',marginTop:10}}>
+                        <View style={[styles.item,{justifyContent:'flex-start',height:40}]}>
+                            <Text style={{color:darkLightColor(),fontSize:12,marginLeft:15,width:Dimensions.get('window').width-120}}>顾客评论（{this.props.data.evaluation_count}）</Text>
+                            <TouchableOpacity  style={{marginRight:10}} onPress={()=>this._showAllcomments()}>
+                                <Text  style={{color:darkTextColor(),fontSize:12}} > 查看全部评价 > </Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={{backgroundColor:separatorColor(),height:1,marginTop:4,marginLeft:15,width:Dimensions.get('window').width-15}}/>
+                        {this.renderEvaluationItem()}
+                    </View>
+                    <View style={{flex:1,height:10}}></View>
+                </ScrollView>
+            </View>
+        );
+    }
+
+
+
+    /// #  View  #
+
+    renderView(){
+
+        // 数组
+        var itemAry = [];
+
+        if (this.props.data.goods_id != null){
+
+            var addCTop = false;
+            if (this.state.couponArray.length > 0) {
+                addCTop = true;
+                var shop_promotion_title = "无";
+                var has_shop_promotion = false;
+                if (this.props.data.shop_promotion.length > 0){
+                    shop_promotion_title = this.props.data.shop_promotion[0].title;
+                    has_shop_promotion = true;
+                }
+
+                itemAry.push(
+                    <View key={'cuxiao'} style={{height:80,backgroundColor:'white'}}>
+                        <View key={'cuxiaoh'} style={{height:40,backgroundColor:'white'}}>
+                            <TouchableOpacity  style={{flex:1,alignItems:'center',flexDirection: "row"}} onPress={()=>this._changeActivityMethod()}>
+                                <Text style={[styles.textStyle,{color:darkLightColor(),marginTop:10,width:50}]}>促销活动</Text>
+                                <Text style={[styles.textStyle,{color:darkNomalColor(),marginTop:10,flex:1}]}>{shop_promotion_title}</Text>
+                                {this.renderMorePointMethod(has_shop_promotion,this.props.data.shop_promotion.length)}
+                            </TouchableOpacity>
+                            <View style={{backgroundColor:separatorColor(),height:1,marginTop:4,marginLeft:15,width:Dimensions.get('window').width}}/>
+                        </View>
+                        <View key={'kaquan'} style={{height:40,backgroundColor:'white'}}>
+                            <View key={'cuxiaoh'} style={{height:40,backgroundColor:'white'}}>
+                                <TouchableOpacity  style={{flex:1,alignItems:'center',flexDirection: "row"}} onPress={()=>this._getCardVoucherMethod()}>
+                                    <Text style={[styles.textStyle,{color:darkLightColor(),marginTop:10,width:50}]}>领取卡券</Text>
+                                    <ScrollView style={[{flex:1,marginLeft:15,marginRight:15}]} horizontal={true}>
+                                        {this.renderCouponScroll()}
+                                    </ScrollView>
+                                    {this.renderMorePointMethod(true,this.state.couponArray.length)}
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </View>
+                );
+            }else if(this.props.data.shop_promotion.length > 0){
+
+                itemAry.push(
+                    <View key={'cuxiaoh'} style={{height:40,backgroundColor:'white'}}>
+                        <TouchableOpacity  style={{flex:1,alignItems:'center',flexDirection: "row"}} onPress={()=>this._changeActivityMethod()}>
+                            <Text style={[styles.textStyle,{color:darkLightColor(),marginTop:10,width:50}]}>促销活动</Text>
+                            <Text style={[styles.textStyle,{color:darkNomalColor(),marginTop:10,flex:1}]}>{shop_promotion_title}</Text>
+                            {this.renderMorePointMethod(true,this.props.data.shop_promotion.length)}
+                        </TouchableOpacity>
+                    </View>
+                );
+            }
+
+            var addTTop = false;
+            if (this.props.data.shopmedicine_package.length > 0){
+                addTTop = true;
+                itemAry.push(
+                    <View key={'taocan'} style={{height:40,backgroundColor:'white',marginTop:addCTop?10:0}}>
+                        <TouchableOpacity  style={{flex:1,alignItems:'center',flexDirection: "row"}} onPress={()=>this._changeTaocanMethod()}>
+                            <Text style={[styles.textStyle,{color:darkNomalColor(),marginTop:10,flex:1}]}>组合套餐更优惠</Text>
+                            {this.renderMorePointMethod(true,this.props.data.shopmedicine_package.length)}
+                        </TouchableOpacity>
+                    </View>
+                );
+
+            }
+
+        }
+
+        itemAry.push(
+            <View key={'kucun'} style={{height:40,backgroundColor:'white',marginTop:addCTop||addTTop?10:0}}>
+                <Text style={[styles.textStyle,{marginTop:13}]}>库存  {this.props.data.reserve}</Text>
+            </View>
+        );
+
+        return itemAry;
+
+    }
+
+
+    renderMorePointMethod(is_show , count){
+        if (is_show){
+            return(
+                <View style={{width:60,marginRight:0,alignItems: 'center',flexDirection: "row"}}>
+                    <View style={{backgroundColor:yfwGreenColor(),width:15,height:15,borderRadius:2,marginRight:10,alignItems: 'center', justifyContent: 'center'}}>
+                        <Text style={{color:'white',fontSize:10}}>{count}</Text>
+                    </View>
+                    <Image
+                        style={{width:20,height:5,marginLeft:0,marginRight:15,resizeMode:'contain'}}
+                        source={require('../../img/me_icon_more.png')}
+                    />
+                </View>
+            );
+        }else {
+            return(
+                <Image
+                    style={{width:20,height:5,marginLeft:0,marginRight:15,resizeMode:'contain'}}
+                    source={require('../../img/me_icon_more.png')}
+                />
+            );
+        }
+    }
+
+    renderPaymentItem() {
+        // 数组
+        var itemAry = [];
+
+        if (this.props.data.payment != null){
+            // 遍历
+            var dataitems = this.props.data.payment;
+            for (let i = 0; i<dataitems.length; i++) {
+                let dataItem = dataitems[i];
+                itemAry.push(
+                    <View key={i} flexDirection={'row'}  alignItems={'center'}>
+                        <Image
+                            style={styles.checkImgStyle}
+                            source={require('../../img/check_number_green.png')}
+                        />
+                        <Text style={{marginLeft:5,color:darkLightColor(),fontSize:12}}>{dataItem}</Text>
+                    </View>
+                );
+            }
+        }
+
+        return itemAry;
+    }
+
+
+    renderCouponScroll(){
+
+        // 数组
+        var itemAry = [];
+
+        // 遍历
+        var dataitems = this.state.couponArray;
+        for (let i = 0; i<dataitems.length; i++) {
+            let dataItem = dataitems[i];
+            itemAry.push(
+                <View key={i} style={{alignItems: 'center', justifyContent: 'center' , width:40,height:20,marginLeft:5,
+                    marginRight:5,backgroundColor:'#C8E9DF',borderWidth:1,borderColor:yfwGreenColor(),borderRadius:2}}>
+                    <Text style={{color:yfwGreenColor(),fontSize:10}}>{Number.parseInt(dataItem.money).toFixed(0)}元</Text>
+                </View>
+            );
+        }
+
+        return itemAry;
+
+    }
+
+    renderStarItem(){
+
+        // 数组
+        var itemAry = [];
+
+        if (this.props.data.length != 0){
+            // 遍历
+            var dataitems =
+                [{"title":"客户服务","value":this.props.data.service_star},
+                 {"title":"发货速度","value":this.props.data.delivery_star},
+                 {"title":"物流速度","value":this.props.data.shipping_star},
+                 {"title":"商品包装","value":this.props.data.package_star}];
+
+            for (let i = 0; i<dataitems.length; i++) {
+                let dataItem = dataitems[i];
+                itemAry.push(
+                    <View key={i} style={[styles.item,{flex:1,flexDirection:'column'}]}>
+                        <Text style={{color:darkNomalColor(),fontSize:11}}>{dataItem.title}</Text>
+                        <Text style={{color:yfwOrangeColor(),fontSize:15,marginTop:5}}>{dataItem.value}分</Text>
+                    </View>
+                );
+            }
+        }
+
+        return itemAry;
+
+    }
+
+    renderEvaluationItem(){
+
+        var itemAry = [];
+
+        if (this.props.data.evaluation != null){
+            // 遍历
+            var dataitems = this.props.data.evaluation;
+            for (let i = 0; i<dataitems.length; i++) {
+                let dataItem = dataitems[i];
+                itemAry.push(
+                    <View key={i} style={{height:100}}>
+                        <View key={i} style={{flexDirection:'row',alignItems:'center',height:30,flex:1}} >
+                            <Image
+                                style={{marginLeft:15,height:15,width:65,resizeMode:'contain'}}
+                                source={require('../../img/wukexing.png')}
+                            />
+                            <Text style={{marginLeft:5,color:yfwOrangeColor(),fontSize:10,flex:1}}>{dataItem.send_star}</Text>
+                            <Text style={{marginRight:15,color:darkNomalColor(),fontSize:12,width:100,textAlign:'right'}}>{dataItem.eval_account_name}</Text>
+                        </View>
+                        <View style={{height:40,alignItems:'center',flex:1,marginLeft:10}}>
+                            <Text style={{width:Dimensions.get('window').width-30,color:darkNomalColor(),fontSize:13}}>{dataItem.eval_content}</Text>
+                        </View>
+                        <Text style={{color:darkLightColor(),fontSize:11,marginLeft:15,marginTop:5,height:15}}>{dataItem.eval_create_time}</Text>
+                        <View style={{backgroundColor:separatorColor(),height:1,marginTop:9,marginLeft:15,width:Dimensions.get('window').width}}/>
+                    </View>
+                );
+            }
+        }
+
+        return itemAry;
+
+    }
+
+    /// #  Method  #
+    //跳转商家
+    _toshopDetail(){
+
+        YFWToast(this.state.baseString);
+
+    }
+
+    //查看全部评论
+    _showAllcomments(){
+
+    }
+
+    //选择套餐
+    _changeTaocanMethod(){
+
+        if (this.props.clickPopup){
+            this.props.clickPopup(2);
+        }
+    }
+    //选择促销活动
+    _changeActivityMethod(){
+
+        if (this.props.data.shop_promotion != null){
+
+            if (this.props.data.shop_promotion.length > 0){
+
+                if (this.props.clickPopup){
+                    this.props.clickPopup(0);
+                }
+            }
+        }
+
+    }
+
+    //领取卡券
+    _getCardVoucherMethod(){
+
+        //this.refs['couponCollection'].requestData();
+        if (this.props.clickPopup){
+            this.props.clickPopup(1);
+        }
+        //this.popupDialog.show();
+
+    }
+
+    /// #  Request  #
+
+    _requestCouponMethod(){
+
+        try {
+            let request = new YFWRequest();
+            let paramObj = new YFWRequestParam();
+            let paramMap = new Map();
+            paramMap.set('service','get_shop_coupon');
+            paramMap.set('shop_id',this.props.data.shop_id);
+            paramMap.set('shop_goods_id',this.props.data.shop_goods_id);
+            var url = paramObj.getURL(paramMap);
+            request.get(url,null).then((res)=>{
+                if (res.code === '1'){
+                    this.setState({
+                        couponArray:res.items,
+                    });
+                }
+            });
+        }catch (e) {
+            
+        }
+
+    }
+
+
+}
+
+
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        flexDirection: 'column',
+        alignItems: 'stretch',
+        justifyContent: 'flex-start',
+        backgroundColor: backGroundColor()
+    },
+    text: {
+        fontSize: 20,
+        textAlign: 'center'
+    },
+    item: {
+        marginTop: 0,
+        marginLeft: 0,
+        marginRight: 0,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center'
+
+    },
+    shareImage: {
+        width: 40,
+        height: 40
+    },
+    shareView: {
+        flex: 1,
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center"
+    },
+    checkImgStyle:{
+        width:12,
+        height:12,
+        marginLeft:15,
+    },
+    textStyle:{
+        color:darkLightColor(),
+        marginLeft:15,
+        fontSize:12,
+        height:25,
+        width:Dimensions.get('window').width-40
+    },
+    shopButtonStyle:{
+        height:36,
+        width:Dimensions.get('window').width-50,
+        borderColor:yfwGreenColor(),
+        borderWidth:1,
+        borderRadius:18,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+
+});

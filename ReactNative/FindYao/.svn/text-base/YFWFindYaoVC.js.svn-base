@@ -1,0 +1,283 @@
+/**
+ * Sample React Native App
+ * https://github.com/facebook/react-native
+ * @flow
+ */
+
+import React, {Component} from 'react';
+import {
+    Platform,
+    StyleSheet,
+    Text,
+    View,
+    SectionList,
+    Image,
+    TouchableOpacity,
+    FlatList
+} from 'react-native';
+import YFWToast from "../Utils/YFWToast";
+import {log, logWarm, logErr} from '../Utils/YFWLog'
+import YFWSearchHeader from '../HomePage/YFWHomeSearchHeaderView'
+import {getItem, setItem} from "../Utils/YFWStorage";
+import YFWRequest from "../Utils/YFWRequest";
+import YFWRequestParam from "../Utils/YFWRequestParam";
+
+var bean = require('../data/Bean.json');
+var Dimensions = require('Dimensions');
+var {width} = Dimensions.get('window');
+
+export default class YFWFindYaoVC extends Component {
+
+    constructor(props) {
+        super(props)
+        this.state = {
+            item: null,
+            show: false,
+            shopItem:null
+        };
+    }
+
+    render() {
+        return (<View style={styles.container}>
+                <YFWSearchHeader height={100}/>
+                {this._renderList()}
+            </View>
+        );
+    }
+
+    _renderHeader() {
+        if (null != this.state.item) {
+            return <View style={styles.list}>
+                {this._renderHeaderList()}
+            </View>
+        }
+    }
+
+    _renderHeaderList() {
+        let Menu1 = [];
+        for (let i = 0; i < this.state.item.main_category.length; i++) {
+            var item = this.state.item.main_category[i];
+            Menu1.push(
+                <TouchableOpacity key={i} onPress={() => this.props.navigation.navigate('ShopCategoryPage',"")} underlayColor="transparent">
+                    <View style={styles.row2}>
+                        <Text>{item.name}</Text>
+                    </View>
+                </TouchableOpacity>
+            )
+        }
+        return Menu1;
+    }
+
+    _renderList() {
+        if (null != this.state.item&&null!=this.state.shopItem) {
+            return <SectionList
+                renderSectionHeader={this.renderSectionHeader}
+                keyExtractor={this._keyExtractor}
+                onRefresh={() => alert('刷新成功')}
+                refreshing={false}
+                showsVerticalScrollIndicator={false}
+                sections={[
+                    {key: '', renderItem: this._renderHeader.bind(this), data: [{title: 'Item',}]},
+                    {key: '附近的药房', renderItem: this._renderNearByPharmacy.bind(this), data: [{title: 'Item',}]},
+                    {key: '高发疾病', renderItem: this._renderDisease.bind(this), data: [{title: 'Item',}]},
+                    {key: '热门品牌', renderItem: this._renderBrand.bind(this), data: [{title: 'Item',}]},
+                ]}
+            />
+        }
+    }
+
+    renderSectionHeader({section}) {
+        if ("附近的药房"==section.key){
+            return <View style={{flexDirection:"row",paddingRight:10,alignItems:'center'}}>
+                <Text style={styles.SectionHeader}>{section.key}</Text>
+                <Image  style={{height:20,width:20}}source={require("../../img/uc_next.png")}/>
+            </View>
+        }
+        if ("" != section.key) {
+            return <View>
+                <Text style={styles.SectionHeader}>{section.key}</Text>
+            </View>
+        }
+    }
+
+    _keyExtractor = (item, index) => item.key;
+
+    _renderNearByPharmacy({item}) {
+        if (null != this.state.shopItem) {
+            return (<View>{
+                    <FlatList
+                        data={this.state.shopItem}
+                        extraData={this.state}
+                        keyExtractor={this._keyExtractor}
+                        renderItem={({item}) => {
+                            return <TouchableOpacity onPress={() =>
+                                this.props.navigation.navigate('ShopDetailPage',{
+                                    shopID:item.id,
+                                })
+                            } underlayColor="transparent">
+                                <View style={styles.pharmacy}>
+                                    <View style={{}}>
+                                        <Image style={{height: 40, width: 70, resizeMode: "contain"}}
+                                               source={{uri: item.logo_img_url}}></Image>
+                                    </View>
+                                    <View style={{flex:1,flexDirection: "column", marginLeft: 15}}>
+                                        <Text>{item.title}</Text>
+                                        <View style={{flexDirection: "row"}}>
+
+                                        </View>
+                                    </View>
+                                    <View style={{}}>
+                                        <Text style={styles.button}>进店看看</Text>
+                                    </View>
+                                </View>
+                            </TouchableOpacity>
+                            }
+                        }
+                    />
+                }
+                </View>
+            );
+        }
+    }
+
+    _renderDisease({info}) {
+        if (null != this.state.item) {
+            return (<View style={styles.list}>{
+
+                this.state.item.top_disease.map((item, i) => {
+                    return <TouchableOpacity key={i} onPress={() => this._pressRow(item)} underlayColor="transparent">
+                        <View style={styles.row}>
+                            <Text>{item.name}</Text>
+                        </View>
+                    </TouchableOpacity>;
+                })
+            }
+            </View>);
+        }
+    }
+
+    _renderBrand({info}) {
+        if (null != this.state.item) {
+            return (<View style={styles.list}>{
+                this.state.item.top_brand.map((item, i) => {
+                    return <TouchableOpacity key={i} onPress={() => this._pressRow(item)} underlayColor="transparent">
+                        <Image style={styles.row3} source={{uri: item.img_url}}></Image>
+                    </TouchableOpacity>;
+                })
+            }
+            </View>);
+        }
+    }
+
+    componentDidMount() {
+        this._requestData();
+        this._requestNearByPharmacyData();
+    }
+
+    _requestData() {
+        let req = new YFWRequest();
+        let paramObj = new YFWRequestParam();
+        let paramMap = new Map();
+        paramMap.set('service', 'get_yao_index_data');
+        let url = paramObj.getURL(paramMap);
+        req.get(url, null).then((res) => {
+            if (res.code === '1') {
+                this.setState(() => ({
+                            item: res.items,
+                        }
+                    )
+                )
+            } else {
+                Toast("--------")
+            }
+        });
+    }
+
+    _requestNearByPharmacyData(){
+        let req = new YFWRequest();
+        let paramObj = new YFWRequestParam();
+        let paramMap = new Map();
+        paramMap.set('service', 'get_shop_near_top');
+        paramMap.set('latitude', '31.209132');
+        paramMap.set('longitude', '127.121212');
+        let url = paramObj.getURL(paramMap);
+        req.get(url, null).then((res) => {
+            if (res.code === '1') {
+                this.setState(() => ({
+                        shopItem: res.items,
+                        }
+                    )
+                )
+            } else {
+                Toast("--------")
+            }
+        });
+    }
+    static navigationOptions = ({navigation}) => ({
+        tabBarVisible: true,
+        header: null,
+    });
+
+}
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#FFFFFF'
+    },
+    SectionHeader: {
+        flex:1,
+        padding: 10,
+        color: "#16c08e",
+    },
+    list: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        backgroundColor: '#FFFFFF',
+        width: width
+    },
+    row: {
+        width: width / 4,
+        height: 50,
+        borderWidth: 0.3,
+        borderColor: '#E5E5E5',
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    row2: {
+        width: width / 3,
+        height: 50,
+        borderWidth: 0.3,
+        borderColor: '#E5E5E5',
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    row3: {
+        width: width / 4,
+        height: 50,
+        borderWidth: 0.3,
+        borderColor: '#E5E5E5',
+        justifyContent: "center",
+        alignItems: "center",
+        resizeMode: "contain"
+    },
+    pharmacy: {
+        padding: 10,
+        flexDirection: "row",
+        justifyContent: "space-between",
+        flexWrap:"nowrap",
+        borderWidth: 0.3,
+        borderColor: '#E5E5E5',
+        alignItems: "center"
+    },
+    button: {
+        fontSize: 12,
+        borderWidth: 0.3,
+        borderColor: '#FF7920',
+        borderRadius: 5,
+        color: '#FF7920',
+        padding: 3,
+    }
+});
+
+

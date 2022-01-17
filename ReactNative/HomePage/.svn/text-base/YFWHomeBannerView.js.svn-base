@@ -1,0 +1,71 @@
+import React, { Component } from 'react';
+import {
+    Platform,
+    StyleSheet,
+    Image,
+    View,
+    Text,
+    TouchableOpacity
+} from 'react-native';
+import YFWHomeAdvertHeaderView from "./YFWHomeAdvertHeaderView";
+import YFWToast from "../Utils/YFWToast";
+import YFWBaseView from '../BaseVC/YFWBaseView'
+
+
+var Swiper = require('react-native-swiper');
+
+/*
+var images=[
+    'https://c1.yaofangwang.net/Common/Upload/Imggg/20180315/36fbca29-0563-46df-8640-be25038845f22566.png',
+    'https://c1.yaofangwang.net/Common/Upload/Imggg/20180302/63463a6a-aae2-45e6-9ad8-9cae77ec20e35160.png',
+    'https://c1.yaofangwang.net/Common/Upload/Imggg/20180224/95094962-7e07-4eaa-8e72-2ce1c30ac6f22219.jpg',
+    'https://c1.yaofangwang.net/Common/Upload/Imggg/20171117/56099c62-beb6-4a55-8786-3b020c91d0687922.png',
+    'https://c1.yaofangwang.net/Common/Upload/Imggg/20171117/6960cd79-a02b-435a-93e1-3b2b0b9bd5f52601.jpg',
+];
+*/
+
+export default class YFWHomeBannerView extends YFWBaseView {
+
+    static defaultProps = {
+        imagesData:new Array(),
+    }
+
+    render() {
+        return (
+            <Swiper height={200} autoplay={true} toplayTimeout={3}>
+                {this.renderImg()}
+            </Swiper>
+        );
+    }
+
+    clickItems(badge){
+
+        const { navigate } = this.props.navigation;
+        this.pushNavigation(navigate,badge);
+    }
+
+    renderImg(){
+        var imageViews=[];
+        let images = this.props.imagesData;
+        for(let i=0;i<images.length;i++){
+            imageViews.push(
+
+            <View key={'banner'+i} style={{flex:1,justifyContent: 'center'}}>
+                <TouchableOpacity  style={{flex:1}}  onPress={()=>this.clickItems(images[i])}>
+                    <Image
+                        style={{flex:1}}
+                        source={{uri:images[i].img_url}}
+                    />
+
+                </TouchableOpacity>
+
+            </View>
+
+
+
+            );
+        }
+        return imageViews;
+    }
+}
+

@@ -1,0 +1,613 @@
+import React, {Component} from 'react';
+import {
+    Platform,
+    StyleSheet,
+    Text,
+    View,
+    TouchableOpacity,
+    ScrollView,
+    Modal,
+    Image, Dimensions
+} from 'react-native';
+
+
+import YFWRequest from '../Utils/YFWRequest'
+import YFWToast from '../Utils/YFWToast'
+import {log, logWarm, logErr} from '../Utils/YFWLog'
+import {backGroundColor, darkNomalColor, yfwGreenColor, yfwOrangeColor,darkLightColor,separatorColor,darkTextColor} from '../Utils/YFWColor'
+import YFWRequestParam from '../Utils/YFWRequestParam'
+import Navigation from "react-navigation";
+import YFWBaseView from '../BaseVC/YFWBaseView'
+
+export default class YFWGoodsDetailInfoDetailVC extends Component {
+
+    static defaultProps = {
+        data:undefined,
+    }
+
+    constructor(...args) {
+        super(...args);
+        this.state = {
+            selectIndex:0,
+            otherVisitedArray:[],
+            shopRecommendArray:[],
+            commodityManual:undefined,
+            qualificationImages:[],
+            shopLiveImages:[],
+        };
+    }
+
+    componentDidMount () {
+
+        if (this.props.data != null){
+            this._requestOtherVisitedMethod();
+            this._requestShopRecommendMethod();
+            this._renderCommodityManualMethod();
+            this._requestShopImageListMethod();
+        }
+
+    }
+
+    render() {
+        return (
+            <View style={{flex:1 , backgroundColor:backGroundColor()}}>
+                <ScrollView style={[{flex:1}]}>
+                    <View style={[styles.item,{height:50,backgroundColor:'white'}]}>
+                        <TouchableOpacity style={[styles.item,{flex:1}]} onPress={()=>this._changeIndex(0)}>
+                            <Text style={{flex:1,color:this.state.selectIndex===0?yfwGreenColor():darkNomalColor(),fontSize:12,textAlign:'center'}}>基本信息</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={[styles.item,{flex:1}]} onPress={()=>this._changeIndex(1)}>
+                            <Text style={{flex:1,color:this.state.selectIndex===1?yfwGreenColor():darkNomalColor(),fontSize:12,textAlign:'center'}}>说明书</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={[styles.item,{flex:1}]} onPress={()=>this._changeIndex(2)}>
+                            <Text style={{flex:1,color:this.state.selectIndex===2?yfwGreenColor():darkNomalColor(),fontSize:12,textAlign:'center'}}>服务保障</Text>
+                        </TouchableOpacity>
+                    </View>
+                    {this._renderCheckView()}
+                    {this._renderotherVisitedView()}
+                    {this._rendershopRecommendView()}
+
+                </ScrollView>
+            </View>
+        );
+    }
+
+
+    // # Create View #
+
+    //切换视图
+    _renderCheckView(){
+
+        switch (this.state.selectIndex){
+            case 0:{
+                return this._renderInfoView();
+                break;
+            }
+            case 1:{
+                return this._renderManualView();
+                break;
+            }
+            case 2:{
+                return this._renderServiceGuaranteeView();
+                break;
+            }
+            default:{}
+        }
+
+    }
+
+    //基本信息视图
+    _renderInfoView(){
+
+        var items = [];
+
+        if (this.props.data != null){
+            if (this.props.data.package_prompt_info.length > 0){
+
+                items.push(
+                    <View style={{flex:1,backgroundColor:backGroundColor(),justifyContent:'center'}} key={'package_prompt_info'}>
+                        <Text style={{color:yfwOrangeColor(),fontSize:12,
+                            marginLeft:10,marginRight:10,marginTop:10,marginBottom:10}}>{this.props.data.package_prompt_info}</Text>
+                    </View>
+                );
+            }
+
+            var infoArray = [{'key':'通用名：','value':this.props.data.name_cn},
+                             {'key':'商品品牌：','value':this.props.data.alias_cn},
+                             {'key':'批准文号：','value':this.props.data.authorized_code},
+                             {'key':'包装规格：','value':this.props.data.Standard},
+                             {'key':'剂型/型号：','value':this.props.data.troche_type},
+                             {'key':'英文名称：','value':this.props.data.name_en},
+                             {'key':'汉语拼音：','value':this.props.data.alias_en},
+                             {'key':'有效期：','value':this.props.data.period},
+                             {'key':'生产企业：','value':this.props.data.mill_title},];
+
+            for (let i = 0 ; i<infoArray.length ; i++){
+                let infoModel = infoArray[i];
+                items.push(
+                    <View style={{flex:1,alignItems:'center',height:30,flexDirection: 'row',backgroundColor:'white'}} key={'info_View'+i}>
+                        <Text style={{color:darkLightColor(),fontSize:12,width:80,marginLeft:10}}>{infoModel.key}</Text>
+                        <Text style={{color:darkNomalColor(),fontSize:12}}>{infoModel.value}</Text>
+                    </View>
+                );
+            }
+            
+            
+            for (let i = 0; i<this.props.data.img_url.length;i++){
+                let imgUrl = this.props.data.img_url[i];
+                items.push(
+                    <View style={{flex:1,backgroundColor:'white'}} key={'img_url'+i}>
+                        <Image
+                            style={{flex:1 , resizeMode:'contain' , backgroundColor:'white',
+                                marginLeft:10,marginLeft:10,marginRight:10,marginTop:5,marginBottom:5,borderWidth:1,borderColor:separatorColor(),
+                                width:Dimensions.get('window').width-20 , height:Dimensions.get('window').width-20}}
+                            source={{uri:imgUrl}}
+                        />
+                    </View>
+                );
+
+            }
+
+        }
+
+
+
+        return items;
+    }
+
+    //说明书视图
+    _renderManualView(){
+
+        var items = [];
+        if (this.state.commodityManual != null){
+
+            const keys = Object.keys(this.state.commodityManual);
+
+            for (let i = 0 ; i < keys.length ; i++){
+                let key = keys[i];
+                items.push(
+                    <View style={{flex:1,backgroundColor:'white'}} key={'Manual'+i}>
+                        <Text style={{color:darkNomalColor(),fontSize:13,marginLeft:10,marginRight:10,marginTop:5}}>{key}</Text>
+                        <Text style={{color:darkTextColor(),fontSize:13,marginLeft:10,marginRight:10,marginTop:5}}>{this.state.commodityManual[key]}</Text>
+                    </View>
+                );
+            }
+
+            items.push(
+                <View style={{flex:1,backgroundColor:'white'}} key={'Manual999'}>
+                    <View style={{marginLeft:10,marginRight:10,marginTop:10,marginBottom:10,
+                        backgroundColor:'#FAF7E7',borderWidth:1,borderColor:yfwOrangeColor()}}>
+                        <Text style={{color:yfwOrangeColor(),fontSize:13,
+                            marginLeft:5,marginRight:5,marginTop:10,marginBottom:10}}>
+                            友情提示：商品说明书均由药房网商城客服手工录入，可能会与实际有所误差，仅供参考，具体请以实际商品为准。
+                        </Text>
+                    </View>
+                </View>
+            );
+
+        }
+
+        return items;
+    }
+
+    //服务保障视图
+    _renderServiceGuaranteeView(){
+
+        var items = [];
+
+        items.push(
+            <View style={{flex:1,backgroundColor:'white'}} key={'Service_header'}>
+                <View style={[styles.item ,{height:80}]}>
+                    <View style={[styles.item,{flex:1}]}>
+                        <Image
+                            style={{width:25,height:25,resizeMode:'contain'}}
+                            source={require('../../img/real_thing_icon.png')}/>
+                        <Text style={{color:yfwOrangeColor(),fontSize:18,marginLeft:5}}>正品保证</Text>
+                    </View>
+                    <View style={{height:30,width:1,backgroundColor:separatorColor()}}/>
+                    <View style={[styles.item,{flex:1}]}>
+                        <Image
+                            style={{width:25,height:25,resizeMode:'contain'}}
+                            source={require('../../img/provide_invoice_icon.png')}/>
+                        <Text style={{color:yfwOrangeColor(),fontSize:18,marginLeft:5}}>提供发票</Text>
+                    </View>
+                </View>
+                <View style={{flex:1}}>
+                    <Text style={{marginLeft:10,color:darkTextColor(),fontSize:13}}>正品保证</Text>
+                    <Text style={{marginLeft:10,marginRight:10,marginTop:5,marginBottom:5,color:darkNomalColor(),fontSize:13}}>
+                        药房网商城在售商品均由正规实体签约商家供货，商家提供正品保证。在购物过程中发现任何商家有违规行为，请直接向我们投诉举报！
+                    </Text>
+                    <Text style={{marginLeft:10,marginTop:5,color:darkTextColor(),fontSize:13}}>提供发票</Text>
+                    <Text style={{marginLeft:10,marginRight:10,marginTop:5,marginBottom:10,color:darkNomalColor(),fontSize:13}}>
+                        药房网商城所有在售商家均可提供商品发票
+                    </Text>
+                </View>
+            </View>
+        );
+
+        if (this.state.qualificationImages.length > 0){
+
+            items.push(
+                <View style={{flex:1}}>
+                    <View style={{flex:1,height:40,marginTop:10,justifyContent: 'center',backgroundColor:'white'}}>
+                        <Text style={{marginLeft:10,color:darkNomalColor(),fontSize:12}}>商家资质</Text>
+                    </View>
+                    <View style={{marginLeft:10,height:1,marginRight:0,backgroundColor:separatorColor()}}/>
+                    <View style={{flex:1,flexDirection:'row', flexWrap:'wrap',backgroundColor:'white'}}>
+                        {this._renderShopImagesView(this.state.qualificationImages)}
+                    </View>
+                </View>
+
+            );
+
+
+
+        }
+
+        if (this.state.shopLiveImages.length > 0){
+
+            items.push(
+                <View style={{flex:1}}>
+                    <View style={{flex:1,height:40,marginTop:10,justifyContent: 'center',backgroundColor:'white'}}>
+                        <Text style={{marginLeft:10,color:darkNomalColor(),fontSize:12}}>商家实景</Text>
+                    </View>
+                    <View style={{marginLeft:10,height:1,marginRight:0,backgroundColor:separatorColor()}}/>
+                    <View style={{flex:1,flexDirection:'row', flexWrap:'wrap',backgroundColor:'white'}}>
+                        {this._renderShopImagesView(this.state.shopLiveImages)}
+                    </View>
+                </View>
+            );
+
+        }9
+
+        items.push(
+            <View style={{flex:1,backgroundColor:'white',marginTop:10}} key={'Service_end'}>
+                <View style={{flex:1,height:40,justifyContent: 'center',backgroundColor:'white'}}>
+                    <Text style={{marginLeft:10,color:darkTextColor(),fontSize:13}}>退换货标准</Text>
+                </View>
+                <View style={{marginLeft:10,height:1,marginRight:0,backgroundColor:separatorColor()}}/>
+                <View style={{flex:1}}>
+                    <Text style={{marginLeft:10,color:darkTextColor(),fontSize:13,marginTop:10}}>退换货政策</Text>
+                    <Text style={{marginLeft:10,marginRight:10,marginTop:5,marginBottom:5,color:darkNomalColor(),fontSize:13}}>
+                        由商品售出之日（以实际收货时间为准）起七日内符合退换货条件的商品享受退换货政策。
+                    </Text>
+                    <Text style={{marginLeft:10,marginTop:10,color:darkTextColor(),fontSize:13}}>退换货条件</Text>
+                    <Text style={{marginLeft:10,marginRight:10,marginTop:5,marginBottom:5,color:darkNomalColor(),fontSize:13}}>
+                        因物流配送导致外包装污损、破损的商品。{"\n"}
+                        经质量管理部门检验，确属产品本身存在质量问题。{"\n"}
+                        国家权威管理部门发布公告的产品（如停售、召回等）。{"\n"}
+                        因商家失误造成发货错误，如商品的名称、规格、数量、产品批次等信息与所订商品不符。
+                    </Text>
+                    <Text style={{marginLeft:10,marginTop:10,color:yfwOrangeColor(),fontSize:13}}>特殊说明</Text>
+                    <Text style={{marginLeft:10,marginRight:10,marginTop:5,marginBottom:10,color:darkNomalColor(),fontSize:13}}>
+                        因药品是特殊商品，依据中华人民共和国《药品经营质量管理规范》及其实施细则（GSP）、《互联网药品交易服务审批暂行规定》等法律、法规的相关规定：药品一经售出，无质量问题，不退不换。
+                    </Text>
+                    <Text style={{marginLeft:10,marginTop:10,color:darkTextColor(),fontSize:13}}>退换货流程</Text>
+                    <Text style={{marginLeft:10,marginRight:10,marginTop:5,marginBottom:15,color:darkNomalColor(),fontSize:13}}>
+                        1、联系商家客服或自行确认符合退换货政策。{"\n"}
+                        2、在线提交退换货申请及相关证明。{"\n"}
+                        3、退换货申请通过后寄回商品。{"\n"}
+                        4、确认商家为您重寄的商品或退款。
+                    </Text>
+                </View>
+            </View>
+        );
+
+        return items;
+    }
+
+
+    //商家资质、实景视图
+    _renderShopImagesView(array){
+        let items = [];
+        let i = 0;
+        for (let imageItem of array){
+
+            items.push(
+                <TouchableOpacity key={'qualification'+i} style={[styles.outViewStyle,{height:boxW+20}]}  onPress={()=>this.clickShopimage(imageItem)}>
+                    <View style={{flex:1 , backgroundColor:'white' , alignItems:'center',}} >
+                        <Image
+                            style={styles.iconStyle}
+                            resizeMode={'contain'}
+                            source={{uri:imageItem.image_file}}
+                        ></Image>
+                        <Text style={[styles.visitedTitleStyle,{fontSize:11,marginTop:5}]}>
+                            {imageItem.image_name}
+                        </Text>
+                    </View>
+                </TouchableOpacity>
+            );
+            i++;
+        }
+
+        return items;
+    }
+
+    //其他浏览视图
+    _renderotherVisitedView(){
+
+        if (this.state.otherVisitedArray.length > 0){
+            return(
+                <View style={{flex:1}}>
+                    <View style={{height : 40 ,width:Dimensions.get('window').width ,
+                        justifyContent:'center',backgroundColor:'white' ,marginTop:10,marginBottom:5}}>
+                        <Text style={{marginLeft:15,color:darkLightColor(),fontSize:12}}>浏览过此商品的人还浏览了</Text>
+                    </View>
+                    <View style={{flex:1,flexDirection:'row', flexWrap:'wrap'}}>
+                        {this._renderOtherlayoutView(this.state.otherVisitedArray,'1')}
+                    </View>
+                </View>
+            );
+        }
+
+    }
+
+    //商家推荐视图
+    _rendershopRecommendView(){
+
+        if (this.state.shopRecommendArray.length > 0){
+            return(
+                <View style={{flex:1}}>
+                    <View style={{height : 40 ,width:Dimensions.get('window').width ,
+                        justifyContent:'center',backgroundColor:'white' ,marginTop:10 ,marginBottom:5}}>
+                        <Text style={{marginLeft:15,color:darkLightColor(),fontSize:12}}>商家推荐</Text>
+                    </View>
+                    <View style={{flex:1,flexDirection:'row', flexWrap:'wrap'}}>
+                        {this._renderOtherlayoutView(this.state.shopRecommendArray,'2')}
+                    </View>
+                </View>
+            );
+        }
+
+    }
+
+    _renderOtherlayoutView(array,type){
+
+        let dataArray = array;
+        // 定义数组装所有的子组件
+        var items = [];
+        if (dataArray != null){
+            // 遍历json数据
+            for (var i=0;i<dataArray.length;i++){
+                // 取出每一个数据对象
+                let badge = dataArray[i];
+                // 装入数据
+                items.push(
+
+                    <View key={'footer'+i} style={[styles.outViewStyle,{ backgroundColor:'white' , alignItems:'center'}]} >
+                        <TouchableOpacity  style={{flex:1,alignItems:'center'}}  onPress={()=>{
+                            if (type === '1'){
+                                this._clickOtherVisitedItems(badge);
+                            } else {
+                                this._clickShopRecommendItems(badge);
+                            }
+                        }}>
+                            <Image
+                                style={styles.iconStyle}
+                                source={{uri:badge.intro_image}}
+                            ></Image>
+                            <Text style={styles.visitedTitleStyle}>
+                                {badge.name_cn}
+                            </Text>
+                            <Text style={styles.visitedPriceStyle}>
+                                ￥{badge.price}
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+
+                );
+            }
+        }
+
+        // 返回数组
+        return items;
+    }
+
+   // # Method #
+    _changeIndex(index){
+
+        this.setState({
+            selectIndex:index,
+        });
+
+    }
+
+    //点击大家关注商品
+    _clickOtherVisitedItems(badge){
+
+        YFWToast('跳转比价页面');
+        //this.props.navigation.navigate("YFWSellersListView",{state:{title:badge.name_cn,value:badge.medicine_id}});
+
+    }
+
+    //点击商家推荐商品
+    _clickShopRecommendItems(badge){
+
+        YFWToast('跳转商品详情页面');
+        //this.props.navigation.navigate("YFWGoodsDetailRootVC",{state:{value:this.props.data.shop_goods_id}});
+
+    }
+
+
+    //点击商家资质、实景
+    clickShopimage(badge){
+
+    }
+
+    // # Request #
+    //大家浏览
+    _requestOtherVisitedMethod(){
+
+        try {
+
+            let request = new YFWRequest();
+            let paramObj = new YFWRequestParam();
+            let paramMap = new Map();
+            paramMap.set('service','get_other_visited_medicine');
+            paramMap.set('num','6');
+            paramMap.set('goods_id',this.props.data.goods_id);
+            var url = paramObj.getURL(paramMap);
+            request.get(url,null).then((res)=>{
+                if (res.code === '1'){
+                    this.setState({
+                        otherVisitedArray:res.item,
+                    });
+                }
+            });
+
+        }catch (e) {
+
+        }
+
+    }
+
+    //商家推荐
+    _requestShopRecommendMethod(){
+
+        try {
+
+            let request = new YFWRequest();
+            let paramObj = new YFWRequestParam();
+            let paramMap = new Map();
+            paramMap.set('service','get_shop_recommend_medicine');
+            paramMap.set('num','6');
+            paramMap.set('shop_id',this.props.data.shop_id);
+            var url = paramObj.getURL(paramMap);
+            request.get(url,null).then((res)=>{
+                if (res.code === '1'){
+                    this.setState({
+                        shopRecommendArray:res.item,
+                    });
+                }
+            });
+
+        }catch (e) {
+
+        }
+
+
+    }
+
+
+    //说明书
+    _renderCommodityManualMethod(){
+
+        try {
+
+            let request = new YFWRequest();
+            let paramObj = new YFWRequestParam();
+            let paramMap = new Map();
+            paramMap.set('service','get_goods_guide');
+            paramMap.set('goods_id',this.props.data.goods_id);
+            var url = paramObj.getURL(paramMap);
+            request.get(url,null).then((res)=>{
+                if (res.code === '1'){
+                    this.setState({
+                        commodityManual:res.items,
+                    });
+                }
+            });
+
+        }catch (e) {
+
+        }
+
+    }
+
+
+    //商家资质
+    _requestShopImageListMethod(){
+
+        try {
+
+            let request = new YFWRequest();
+            let paramObj = new YFWRequestParam();
+            let paramMap = new Map();
+            paramMap.set('service','get_shop_image_list');
+            paramMap.set('shop_id',this.props.data.shop_id);
+            var url = paramObj.getURL(paramMap);
+            request.get(url,null).then((res)=>{
+                if (res.code === '1'){
+                    this.setState({
+                        qualificationImages:res.items.qualification,
+                        shopLiveImages:res.items.scene,
+                    });
+                }
+            });
+
+        }catch (e) {
+
+        }
+
+    }
+
+
+}
+
+
+
+var cols = 2;
+var boxW = (Dimensions.get('window').width-40) / 2;
+var vMargin = (Dimensions.get('window').width - cols*boxW)/(cols+1);
+var hMargin = 10;
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        flexDirection: 'column',
+        alignItems: 'stretch',
+        justifyContent: 'flex-start',
+        backgroundColor: backGroundColor()
+    },
+    text: {
+        fontSize: 20,
+        textAlign: 'center'
+    },
+    item: {
+        marginTop: 0,
+        marginLeft: 0,
+        marginRight: 0,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center'
+
+    },
+    shareImage: {
+        width: 40,
+        height: 40
+    },
+    shareView: {
+        flex: 1,
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center"
+    },
+    outViewStyle:{
+        //    设置侧轴的对齐方式
+        alignItems:'center',
+        width:boxW,
+        height:boxW + 60,
+        marginLeft:vMargin,
+        marginTop:hMargin,
+    },
+    iconStyle:{
+        width:boxW - 20,
+        height:boxW - 20,
+        marginTop:10,
+    },
+    visitedTitleStyle:{
+
+        width:boxW,
+        textAlign:'center',
+        fontSize: 14,
+        color:darkNomalColor(),
+        marginTop:15,
+    },
+    visitedPriceStyle:{
+
+        width:boxW,
+        textAlign:'center',
+        fontSize: 14,
+        color:yfwOrangeColor(),
+        marginTop:10,
+    },
+});

@@ -1,0 +1,95 @@
+import React, { Component } from 'react';
+import {
+    Platform,
+    StyleSheet,
+    Image,
+    View,
+    Text,
+    TouchableOpacity,
+    ScrollView
+} from 'react-native';
+import {yfwOrangeColor} from '../Utils/YFWColor'
+import YFWToast from "../Utils/YFWToast";
+import YFWBaseView from '../BaseVC/YFWBaseView'
+
+
+export default class YFWHomeScrollListView extends YFWBaseView {
+
+    static defaultProps = {
+        Data:new Array(),
+    }
+
+    render() {
+        var img_url = '';
+        if (this.props.Data.length > 0){
+            img_url = this.props.Data[0].img_url;
+        }
+        return (
+            <ScrollView style={styles.scrollViewStyle} horizontal={true}>
+                {this.renderItem()}
+            </ScrollView>
+        );
+
+    }
+
+    renderItem() {
+        // 数组
+        var itemAry = [];
+        // 遍历
+        for (let i = 0; i<this.props.Data.length; i++) {
+            let dataItem = this.props.Data[i];
+            let img_url = dataItem.img_url;
+            let price = dataItem.price;
+            itemAry.push(
+                <View key={i} style={[styles.itemStyle ]}>
+                    <TouchableOpacity  style={{flex:1}}  onPress={()=>this.clickItems(dataItem)}>
+                        <Image
+                            style={[styles.imgStyle ]}
+                            source={{uri:img_url}}
+                        />
+                        <Text style={[styles.textStyle ]}>￥{price}</Text>
+                    </TouchableOpacity>
+
+                </View>
+            );
+        }
+        return itemAry;
+    }
+
+    clickItems(badge){
+
+        const { navigate } = this.props.navigation;
+        //navigate('YFWWebView',{state:badge});
+        this.pushNavigation(navigate,badge);
+    }
+
+}
+
+var styles = StyleSheet.create({
+    scrollViewStyle: {
+        // 背景色
+        backgroundColor:'white',
+        height:120,
+    },
+
+    itemStyle: {
+        // 尺寸
+        width:100,
+        height:120,
+
+    },
+    imgStyle:{
+        flex:1,
+        width: 100,
+        height:60,
+        resizeMode:'contain',
+
+    },
+    textStyle:{
+
+        color:yfwOrangeColor(),
+        textAlign:'center',
+        marginTop:5,
+        marginBottom:5,
+    }
+});

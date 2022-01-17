@@ -1,0 +1,108 @@
+import React, { Component } from 'react';
+import {
+    Platform,
+    StyleSheet,
+    Image,
+    View,
+    Text,
+    TouchableOpacity
+} from 'react-native';
+import YFWToast from "../Utils/YFWToast";
+import Navigation from "react-navigation";
+import YFWBaseView from '../BaseVC/YFWBaseView'
+
+
+//导入屏幕分辨率的框架
+var Dimensions = require('Dimensions');
+//定义一些全局的变量
+//屏幕的宽度
+var {width} = Dimensions.get('window');
+
+//定义一些全局的变量
+var cols = 4;
+var boxW = 80;
+var vMargin = (width - cols*boxW)/(cols+1);
+var hMargin = 25;
+
+
+export default class YFWHomeMenuView extends YFWBaseView {
+
+
+    static defaultProps = {
+        badgeData:new Array(),
+    }
+
+    render() {
+        return (
+            <View style={styles.container}>
+                {/*返回6个包*/}
+                {this.renderAllBadge()}
+            </View>
+        );
+    }
+
+    // 返回所有的包
+    renderAllBadge(){
+        // 定义数组装所有的子组件
+        var allBadge = [];
+        // 遍历json数据
+        let menuaArray = this.props.badgeData;
+        for (var i=0;i<menuaArray.length;i++){
+            // 取出每一个数据对象
+            let badge = menuaArray[i];
+            // 装入数据
+            allBadge.push(
+
+                <TouchableOpacity key={'menu'+i} style={styles.outViewStyle}  onPress={()=>this.clickItems(badge)}>
+                    <Image
+                        style={styles.iconStyle}
+                        source={{uri:badge.img_url}}
+                    ></Image>
+                    <Text style={styles.mainTitleStyle}>
+                        {badge.name}
+                    </Text>
+                </TouchableOpacity>
+
+            );
+        }
+
+        // 返回数组
+        return allBadge;
+    }
+
+    clickItems(badge){
+        const { navigate } = this.props.navigation;
+        //navigate('YFWWebView',{state:badge});
+        this.pushNavigation(navigate,badge);
+    }
+}
+
+
+
+
+//设置样式
+const styles = StyleSheet.create({
+    container: {
+        //    确定主轴的方向
+        flexDirection:'row',
+        //    一行显示不完的话换行显示
+        flexWrap:'wrap',
+        //    换行以后
+    },
+    outViewStyle:{
+        //    设置侧轴的对齐方式
+        alignItems:'center',
+        width:boxW,
+        height:boxW,
+        marginLeft:vMargin,
+        marginTop:hMargin
+    },
+    iconStyle:{
+        width:40,
+        height:40,
+        marginBottom:5
+    },
+    mainTitleStyle:{
+
+    }
+});

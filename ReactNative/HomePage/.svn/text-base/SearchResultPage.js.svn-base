@@ -1,0 +1,114 @@
+import React, { Component } from 'react';
+import {
+    Platform,
+    StyleSheet,
+    Image,
+    View,
+    Text,
+    TouchableOpacity,
+    ScrollView
+} from 'react-native';
+import {yfwOrangeColor} from '../Utils/YFWColor'
+import YFWToast from "../Utils/YFWToast";
+import YFWBaseView from '../BaseVC/YFWBaseView'
+import YFWRequestParam from "../Utils/YFWRequestParam";
+import YFWRequest from "../Utils/YFWRequest";
+
+
+export default class SearchResultPage extends YFWBaseView {
+
+    constructor(props, context) {
+
+        super(props, context);
+        this.state = {
+            item: [],
+        }
+    }
+
+    render(){
+        return <View>
+            {this.renderHeader()}
+            {this.renderHotWord()}
+        </View>
+
+    }
+
+    renderHeader() {
+            return <View
+                style={{flexDirection: "row", height: 50, padding: 10, backgroundColor: "white", alignItems: "center"}}>
+                <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+                    <Image style={{height: 20, width: 20}} source={require("../../img/top_back_green.png")}></Image>
+                </TouchableOpacity>
+                <View style={{flex: 1, paddingRight: 10, paddingLeft: 10}}>
+                    <View style={{
+                        flexDirection: 'row',
+                        backgroundColor: '#F5F5F5',
+                        flex: 1,
+                        padding: 5,
+                        borderRadius: 5,
+                        alignItems: 'center'
+                    }}>
+                        <Image style={{width: 15, height: 15, marginRight: 10}}
+                               source={require('../../img/wenda_icon_search.png')}></Image>
+                        <Text>搜索店内商品</Text>
+                    </View>
+                </View>
+                <TouchableOpacity onPress={() => YFWToast("more")}>
+                   <Text style={{color:"#16c08e"}}>搜索</Text>
+                </TouchableOpacity>
+                {this.renderHotWord()}
+            </View>
+    }
+
+    clickItems(badge){
+
+        const { navigate } = this.props.navigation;
+        this.pushNavigation(navigate,badge);
+    }
+
+    renderHotWord(){
+        var imageViews=[];
+        for(let i=0;i<this.state.item.length;i++){
+            imageViews.push(
+
+                <View key={'i'+i} style={{flex:1,justifyContent: 'center'}}>
+                    <TouchableOpacity  style={{flex:1}}  onPress={()=>this.clickItems(images[i])}>
+                        <Text>DDDD</Text>
+
+                    </TouchableOpacity>
+
+                </View>
+            );
+        }
+        return imageViews;
+    }
+
+    static navigationOptions = ({navigation}) => ({
+        tabBarVisible: false,
+        header: null,
+    });
+
+    _requestData() {
+        let req = new YFWRequest();
+        let paramObj = new YFWRequestParam();
+        let paramMap = new Map();
+        paramMap.set('service', 'get_search_hot_words');
+        let url = paramObj.getURL(paramMap);
+        req.get(url, null).then((res) => {
+            if (res.code === '1') {
+                YFWToast(res.items)
+                this.setState(() => ({
+                            item: res.items,
+                        }
+                    )
+                )
+            } else {
+                YFWToast("--------")
+            }
+        });
+    }
+
+    componentDidMount() {
+        this._requestData();
+    }
+}

@@ -1,0 +1,226 @@
+import React, {Component} from 'react';
+import {
+    Platform,
+    StyleSheet,
+    Text,
+    View,
+    ListView,
+    FlatList,
+    TouchableOpacity,
+    Modal,
+    ImageBackground,
+    Image, Dimensions
+} from 'react-native';
+
+
+import YFWRequest from '../../Utils/YFWRequest'
+import YFWRequestParam from '../../Utils/YFWRequestParam'
+import YFWToast from '../../Utils/YFWToast'
+import {log, logWarm, logErr} from '../../Utils/YFWLog'
+import {
+    backGroundColor,
+    darkLightColor,
+    darkNomalColor,
+    separatorColor,
+    yfwGreenColor,
+    yfwOrangeColor,
+    darkTextColor
+} from '../../Utils/YFWColor'
+
+
+export default class YFWAlertPackageListView extends Component {
+
+    static defaultProps = {
+        data:undefined,
+    }
+
+    constructor(...args) {
+        super(...args);
+        this.state = {
+            selectIndex:0,
+            selectItem:{},
+        };
+    }
+
+
+    requestData(){
+        if (this.props.data != null){
+            var item = this.props.data.shopmedicine_package[this.state.selectIndex];
+            this.setState({
+                selectItem:item,
+            });
+        }
+    }
+
+    render() {
+        return (
+            <View style={{backgroundColor:'white' , flex:1}}>
+                <View style={{height:90}}>
+                    <View style={{height:40,alignItems:'center',flexDirection: 'row'}}>
+                        <Text style={{color:darkNomalColor(),fontSize:13,marginLeft:15,height:20,flex:1}}>选择套餐</Text>
+                        <TouchableOpacity style={{width:40,height:40,marginRight:10,alignItems: 'center',justifyContent: 'center'}}
+                                          onPress={()=>this._closeMethod()}>
+                            <Image style={{width:15,height:15}}
+                                   source={require('../../../img/close_button.png')}/>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={{flex:1,flexDirection: 'row',}}>
+                        {this._renderSelectView()}
+                    </View>
+                    <View style={{backgroundColor:separatorColor(),height:1,width:Dimensions.get('window').width,marginBottom:0}}/>
+                </View>
+                <FlatList
+                    ref={(flatList)=>this._flatList = flatList}
+                    extraData={this.state}
+                    data={this.state.selectItem.sub_items}
+                    renderItem = {this._renderItem.bind(this)}
+                    ListHeaderComponent={() => this._headerView()}
+                />
+                <View style={{height:50 , width:Dimensions.get('window').width , backgroundColor:yfwGreenColor()}}>
+                    <TouchableOpacity style={{flex:1 ,alignItems: 'center', justifyContent: 'center' }} onPress={()=>this._addShopCarMethod()}>
+                        <Text style={{color:'white',fontSize:16}}>加入购物车</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
+        );
+    }
+
+
+    _renderItem = (item,index) => {
+
+        return (
+            <View style={{height:80, backgroundColor:'white'}}>
+                <View style={{flex:1,flexDirection: 'row', alignItems: 'center'}}>
+                    <Image style={{marginLeft:5,width:60,height:60}}
+                           source={{uri:item.item.image_url}}/>
+                    <View style={{flex:1 , justifyContent: 'center' }}>
+                        <Text style={{marginLeft:15,fontSize:13,width:Dimensions.get('window').width-100,color:darkNomalColor()}}>{item.item.title}</Text>
+                        <View style={{height:30,marginLeft:15,marginTop:5,flexDirection: 'row' , alignItems:'center'}}>
+                            <Text style={{fontSize:13 , color:darkNomalColor(),flex:1}}>￥{item.item.price}</Text>
+                            <Text style={{fontSize:13 , color:yfwGreenColor(),width:30,marginRight:0}}>x{item.item.quantity}</Text>
+                        </View>
+                    </View>
+                </View>
+                <View style={{backgroundColor:separatorColor(),height:1,width:Dimensions.get('window').width,marginBottom:0}}/>
+            </View>
+        );
+
+    }
+
+    _headerView(){
+
+        if (this.state.selectItem != null){
+
+            var item = this.state.selectItem;
+
+            return (
+                <View style={{height:80 , flex:1 }}>
+                    <View style={{flex:1 , justifyContent:'center' }}>
+                        <Text style={{marginLeft:15,fontSize:16,color:darkNomalColor(),width:Dimensions.get('window').width-30}}>{item.name}</Text>
+                        <View style={{height:30,marginTop:5,flexDirection: 'row', alignItems: 'center',}}>
+                            <Text style={{marginLeft:15,fontSize:16,color:yfwOrangeColor()}}>￥{Number.parseFloat(item.price_total).toFixed(2)}</Text>
+                            <Text style={{marginLeft:25,fontSize:13,marginTop:2,color:yfwGreenColor()}}>省￥{Number.parseFloat(item.save_price).toFixed(2)}</Text>
+                        </View>
+                    </View>
+                    <View style={{backgroundColor:separatorColor(),height:1,width:Dimensions.get('window').width,marginBottom:0}}/>
+                </View>
+
+            );
+        }else {
+
+            return (<View/>);
+
+        }
+
+    }
+
+
+    _renderSelectView(){
+
+        // 数组
+        var itemAry = [];
+        if (this.props.data.shopmedicine_package != null){
+
+            for (let i = 0; i < this.props.data.shopmedicine_package.length ; i++){
+                let item = this.props.data.shopmedicine_package[i];
+                itemAry.push(
+                    <View key={'package'+i} style={{marginLeft:10,width:60,height:30,borderWidth:this.state.selectIndex === i?0:1,
+                        borderColor:separatorColor(),backgroundColor:this.state.selectIndex === i ? yfwGreenColor():'white'}}>
+                        <TouchableOpacity  style={{flex:1,alignItems: 'center', justifyContent: 'center'}} onPress={()=>this._changeSelectIndex(i)}>
+                            <Text style={{fontSize:14,color:this.state.selectIndex === i?'white':darkNomalColor()}}>{item.name_aliase}</Text>
+                        </TouchableOpacity>
+                    </View>
+                );
+            }
+        }
+
+        return itemAry;
+    }
+
+    //关闭弹框
+    _closeMethod(){
+        if (this.props.closeMethod){
+            this.props.closeMethod();
+        }
+
+    }
+
+
+    //切换套餐
+    _changeSelectIndex(index){
+
+        var item = this.props.data.shopmedicine_package[index];
+        this.setState({
+            selectIndex:index,
+            selectItem:item,
+        });
+
+    }
+
+    //加入购物车
+    _addShopCarMethod(){
+
+        if (this.props.addShopCarMethod){
+            this.props.addShopCarMethod(this.state.selectItem.package_id);
+        }
+
+    }
+
+}
+
+
+
+
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        flexDirection: 'column',
+        alignItems: 'stretch',
+        justifyContent: 'flex-start',
+        backgroundColor: backGroundColor()
+    },
+    text: {
+        fontSize: 20,
+        textAlign: 'center'
+    },
+    item: {
+        marginTop: 0,
+        marginLeft: 0,
+        marginRight: 0,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center'
+
+    },
+    shareImage: {
+        width: 40,
+        height: 40
+    },
+    shareView: {
+        flex: 1,
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center"
+    }
+});

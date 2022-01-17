@@ -1,0 +1,229 @@
+import React, {Component} from 'react';
+import {
+    Platform,
+    StyleSheet,
+    Text,
+    View,
+    ListView,
+    FlatList,
+    TouchableOpacity,
+    Modal,
+    ImageBackground,
+    Image, Dimensions
+} from 'react-native';
+
+
+import YFWRequest from '../../Utils/YFWRequest'
+import YFWRequestParam from '../../Utils/YFWRequestParam'
+import YFWToast from '../../Utils/YFWToast'
+import {log, logWarm, logErr} from '../../Utils/YFWLog'
+import {
+    backGroundColor,
+    darkLightColor,
+    darkNomalColor,
+    separatorColor,
+    yfwGreenColor,
+    yfwOrangeColor,
+    darkTextColor
+} from '../../Utils/YFWColor'
+
+
+export default class YFWAlertCouponCollectionListView extends Component {
+
+    static defaultProps = {
+        data:undefined,
+    }
+
+    constructor(...args) {
+        super(...args);
+        this.state = {
+            dataArray:[],
+        };
+    }
+
+
+    requestData(){
+        if (this.props.data != null){
+            this._requestCommentsMethod();
+        }
+    }
+
+    render() {
+        return (
+            <View style={{backgroundColor:backGroundColor() , flex:1}}>
+                <View style={{height:50}}>
+                    <View style={{flex:1,alignItems:'center',flexDirection: 'row'}}>
+                        <Text style={{color:darkNomalColor(),fontSize:13,marginLeft:15,height:20,flex:1}}>优惠券领取</Text>
+                        <TouchableOpacity style={{width:40,height:40,marginRight:10,alignItems: 'center',justifyContent: 'center'}}
+                                          onPress={()=>this._closeMethod()}>
+                            <Image style={{width:15,height:15}}
+                                   source={require('../../../img/close_button.png')}/>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={{backgroundColor:separatorColor(),height:1,width:Dimensions.get('window').width,marginBottom:0}}/>
+                </View>
+                <FlatList
+                    ref={(flatList)=>this._flatList = flatList}
+                    extraData={this.state}
+                    data={this.state.dataArray}
+                    renderItem = {this._renderItem.bind(this)}
+                    ListFooterComponent={() => this._footerView()}
+                />
+                <View style={{height:10}}/>
+            </View>
+        );
+    }
+
+
+    _renderItem = (item,index) => {
+
+        return (
+            <View style={{height:75,flex:1}}>
+                <View style={{marginLeft:15,marginRight:15,marginTop:15,height:60,borderWidth:1,
+                    borderColor:separatorColor(),alignItems: 'center',flexDirection: 'row'}}>
+                    <Text style={{color:yfwOrangeColor(),fontSize:16,width:80,marginLeft:5}}>￥{item.item.money}</Text>
+                    <View style={{flex:1}}>
+                        <Text style={{color:darkLightColor(),fontSize:12}}>{item.item.title}</Text>
+                        <Text style={{color:darkLightColor(),fontSize:12,marginTop:5}}>{item.item.valid_period_time}</Text>
+                    </View>
+                    {
+                        item.item.get === '0' ? (
+                            <ImageBackground
+                                style={{width:80,height:60,marginRight:0,alignItems: 'center',justifyContent: 'center'}}
+                                source={require('../../../img/coupon_lin_off.png')}>
+                                <Text style={{color:'white',fontSize:14}}>已领取</Text>
+                            </ImageBackground>
+                        ):(
+                            <TouchableOpacity  style={{width:80,height:60,marginRight:0}} onPress={()=>this._getCouponMethod(item.item.id,index)}>
+                                <ImageBackground
+                                    style={{flex:1,alignItems: 'center',justifyContent: 'center'}}
+                                    source={require('../../../img/coupon_lin_on.png')}>
+                                    <Text style={{color:'white',fontSize:14}}>领取</Text>
+                                </ImageBackground>
+                            </TouchableOpacity>
+                        )
+                    }
+                </View>
+            </View>
+        );
+
+    }
+
+    _footerView(){
+
+        return(
+            <View style={{height:20}}/>
+        );
+
+    }
+
+    //关闭弹框
+    _closeMethod(){
+        if (this.props.closeMethod){
+            this.props.closeMethod();
+        }
+
+    }
+
+    //领取优惠券
+    _getCouponMethod(coupon_id,index){
+
+        if (coupon_id == null){
+            return;
+        }
+
+        try {
+
+            let request = new YFWRequest();
+            let paramObj = new YFWRequestParam();
+            let paramMap = new Map();
+            paramMap.set('service','collect_shop_coupon');
+            paramMap.set('account_id','1');
+            paramMap.set('coupon_id',coupon_id);
+
+            var url = paramObj.getURL(paramMap);
+
+            request.get(url,null).then((res)=>{
+                if (res.code === '1'){
+                    YFWToast('领取成功');
+                    this._requestCommentsMethod();
+                }else {
+                    YFWToast('已领取');
+                }
+            });
+
+        }catch (e) {
+
+        }
+
+    }
+
+
+    //数据请求
+    _requestCommentsMethod(){
+
+        try {
+
+            let request = new YFWRequest();
+            let paramObj = new YFWRequestParam();
+            let paramMap = new Map();
+            paramMap.set('service','get_shop_coupon');
+            paramMap.set('account_id','1');
+            paramMap.set('shop_id',this.props.data.shop_id);
+            paramMap.set('shop_goods_id',this.props.data.shop_goods_id);
+
+            var url = paramObj.getURL(paramMap);
+
+            request.get(url,null).then((res)=>{
+                if (res.code === '1'){
+                    this.setState({
+                        dataArray:res.items,
+                    });
+                }
+            });
+
+        }catch (e) {
+
+        }
+
+
+    }
+
+
+
+}
+
+
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        flexDirection: 'column',
+        alignItems: 'stretch',
+        justifyContent: 'flex-start',
+        backgroundColor: backGroundColor()
+    },
+    text: {
+        fontSize: 20,
+        textAlign: 'center'
+    },
+    item: {
+        marginTop: 0,
+        marginLeft: 0,
+        marginRight: 0,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center'
+
+    },
+    shareImage: {
+        width: 40,
+        height: 40
+    },
+    shareView: {
+        flex: 1,
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center"
+    }
+});

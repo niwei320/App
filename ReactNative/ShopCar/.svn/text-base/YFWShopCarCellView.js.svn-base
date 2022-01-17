@@ -1,0 +1,262 @@
+import React, { Component } from 'react';
+import {
+    Platform,
+    StyleSheet,
+    Image,
+    View,
+    Text,
+    TextInput,
+    TouchableOpacity, Dimensions
+} from 'react-native';
+
+import YFWRequest from "../Utils/YFWRequest";
+import YFWRequestParam from "../Utils/YFWRequestParam";
+import YFWToast from "../Utils/YFWToast";
+import YFWCheckButton from './YFWCheckButtonView';
+import {darkNomalColor,darkTextColor,darkLightColor,separatorColor,yfwOrangeColor} from "../Utils/YFWColor";
+
+export default class YFWShopCarCellView extends Component {
+
+    static defaultProps = {
+        Data:undefined,
+        select:false,
+    }
+
+    render() {
+        return (
+            <View style={styles.container}>
+                <View style={styles.checkButton}>
+                    <YFWCheckButton style={{flex:1}} selectFn={()=>this._selectFn()}
+                                    select={this.props.select}/>
+                </View>
+                <Image style={styles.imageStyle}
+                       source={{uri:this.props.Data.img_url}}/>
+                <View style={styles.view1Style}>
+                    <Text style={styles.titleStyle} numberOfLines={1}>{this.props.Data.title}</Text>
+                    <Text style={styles.regionStyle}>{this.props.Data.standard}</Text>
+                    <View style={styles.view2Style}>
+                        <Text style={styles.priceStyle}>￥{this.props.Data.price}</Text>
+                        <View style={styles.operatingBox}>
+                            {this.props.Data.quantity == 1
+                                ? <TouchableOpacity
+                                activeOpacity={0.8} style={styles.reduce}>
+                                <View style={styles.reduce}>
+                                    <Text allowFontScaling={false} style={[styles.btn1, styles.color_disabled1]}>-</Text>
+                                </View>
+                            </TouchableOpacity>
+                                : <TouchableOpacity
+                                activeOpacity={0.8} style={styles.reduce} onPress={()=>this._subtractionFn()}>
+                                <View style={styles.reduce}>
+                                    <Text allowFontScaling={false} style={styles.btn1}>-</Text>
+                                </View>
+                            </TouchableOpacity>
+                            }
+                            <View style={styles.reduce}>
+                                <TextInput allowFontScaling={false}
+                                           style={[styles.btn1,styles.inputBorder]}
+                                           defaultValue={String(this.props.Data.quantity)}
+                                           keyboardType="numeric"
+                                           autoFocus={false}
+                                           underlineColorAndroid="transparent">
+                                </TextInput>
+                            </View>
+
+                            <TouchableOpacity
+                                activeOpacity={0.8} style={styles.reduce} onPress={()=>this._plusFn()}>
+                                <View style={styles.reduce}>
+                                    <Text allowFontScaling={false} style={styles.btn1}>+</Text>
+                                </View>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                    <View style={styles.separatorStyle}/>
+                </View>
+            </View>
+        );
+    }
+
+
+    //Method
+    _subtractionFn(){
+
+        var quantity = Number.parseInt(this.props.Data.quantity)-1;
+        this._requestUpdateCount(quantity);
+
+    }
+
+    _plusFn(){
+
+        var quantity = Number.parseInt(this.props.Data.quantity)+1;
+        if(quantity > Number.parseInt(this.props.Data.reserve)){
+            YFWToast('超过库存上限');
+            return;
+        }
+        this._requestUpdateCount(quantity);
+
+    }
+
+    _getchangeInfo(quantity){
+
+        var changeInfo = this.props.Data.shop_goods_id+','+quantity;
+
+        return changeInfo;
+    }
+
+    _selectFn(){
+        if (this.props.selectFn){
+            this.props.selectFn();
+        }
+    }
+
+
+    //Request
+    _requestUpdateCount(quantity){
+
+        if (Number.parseInt(quantity) === 0){
+
+            return;
+        }
+
+        var changeInfo = this._getchangeInfo(quantity);
+
+        let request = new YFWRequest();
+        let paramObj = new YFWRequestParam();
+        let paramMap = new Map();
+        paramMap.set('service','update_cart_quantity');
+        paramMap.set('shop_goods_info',changeInfo);
+        var url = paramObj.getURL(paramMap);
+
+        request.get(url,null).then((res)=>{
+            if (res.code === '1'){
+                //this.props.Data.quantity = quantity;
+                this.props.changeQuantity(quantity);
+            }
+        });
+
+    }
+
+
+}
+
+//设置样式
+const styles = StyleSheet.create({
+    container: {
+        flex:1,
+        height:100,
+        backgroundColor:'white',
+        flexDirection: 'row',
+        alignItems:'center'
+    },
+    checkButton:{
+        marginLeft:10,
+        width:30,
+        height:30,
+    },
+    imageStyle:{
+        marginLeft:0,
+        height:60,
+        width:60,
+    },
+    view1Style:{
+        flex:1,
+    },
+    titleStyle:{
+
+        fontSize: 14,
+        height:30,
+        width : Dimensions.get('window').width - 130,
+        color:darkTextColor(),
+        marginTop:10,
+        marginLeft:10,
+    },
+    regionStyle:{
+
+        fontSize: 12,
+        //width:100,
+        color:darkNomalColor(),
+        marginLeft:10,
+
+    },
+    view2Style:{
+        flex : 1,
+        flexDirection:'row',
+    },
+
+    separatorStyle:{
+        backgroundColor:separatorColor(),
+        height:0.5,
+        width: Dimensions.get('window').width - 10,
+        marginLeft:10,
+    },
+    priceStyle:{
+
+        fontSize: 15,
+        width:120,
+        color:yfwOrangeColor(),
+        marginTop:13,
+        marginLeft:10,
+        marginRight:15,
+    },
+    starStyle:{
+
+        fontSize: 12,
+        //width:100,
+        color:darkNomalColor(),
+        marginLeft:15,
+    },
+    shippingPriceStyle:{
+
+        fontSize: 12,
+        color:darkNomalColor(),
+        width:85,
+        marginRight:15,
+        textAlign: 'right',
+    },
+    checkImgStyle:{
+        width:12,
+        height:12,
+        marginLeft:10,
+        marginTop:5,
+    },
+    textStyle:{
+
+        fontSize: 12,
+        color:darkNomalColor(),
+        marginTop:5,
+        marginLeft:2,
+    },
+    operatingBox:{
+
+        width:90,
+        height:30,
+        borderColor:separatorColor(),
+        borderWidth:1,
+        marginLeft:25,
+        marginTop:10,
+        borderRadius:3,
+        flexDirection: 'row',
+
+    },
+    reduce:{
+        flex:1,
+        width:30,
+        height:30,
+        alignItems:'center',
+        justifyContent:'center',
+    },
+    btn1:{
+        fontSize:14,
+        color:darkTextColor(),
+    },
+    inputBorder:{
+        borderColor:separatorColor(),
+        borderLeftWidth:1,
+        borderRightWidth:1,
+        width:30,
+        height:30,
+        textAlign:'center',
+    },
+    color_disabled1:{
+        color:darkLightColor(),
+    },
+});
