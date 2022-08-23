@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+    <LinearLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/fragment_nearly_map_overlay_item"
+        android:layout_width="350dp"
+        android:layout_height="120dp"
+        android:layout_margin="20dp"
+        android:orientation="horizontal" >
+
+        <android.support.v7.widget.CardView
+            tools:targetApi="lollipop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            app:cardCornerRadius="8dp"
+            app:cardPreventCornerOverlap="false"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/shop_img"
+                    android:layout_width="76dp"
+                    android:layout_height="60dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="10dp"
+                    app:roundedCornerRadius="8dp"
+                    app:actualImageScaleType="fitEnd"
+                    app:placeholderImage="@drawable/default_img"
+                    app:failureImage="@drawable/noyaodian_logo" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" >
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingTop="10dp"
+                        android:paddingStart="10dp"
+                        android:paddingBottom="5dp">
+
+                        <TextView
+                            android:id="@+id/fragment_nearly_map_overlay_name"
+                            android:layout_width="200dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:ellipsize="end"
+                            android:maxLines="2"
+                            android:paddingEnd="5dp"
+                            android:textStyle="bold"
+                            android:text=""
+                            android:textColor="@color/color_appblack"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingBottom="5dp"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="5dp" >
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/qianyue_on"
+                            android:scaleType="fitXY"/>
+                        <TextView
+                            android:id="@+id/contract_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="签约"
+                            android:textColor="@color/color_appgreen"
+                            android:textSize="12sp" />
+
+                        <ImageView
+                            android:layout_marginLeft="15dp"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_gravity="center"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/star_enable"/>
+
+                        <TextView
+                            android:id="@+id/item_nearly_list_ratingbar_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:paddingStart="5dp"
+                            android:text="评价"
+                            android:textColor="@color/color_text_descript"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/item_nearly_list_distance"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:paddingLeft="15dp"
+                            android:text="__KM"
+                            android:textColor="@color/color_text_descript"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp" >
+
+                        <TextView
+                            android:id="@+id/fragment_nearly_map_overlay_place"
+                            android:layout_width="200dp"
+                            android:layout_height="wrap_content"
+                            android:singleLine="true"
+                            android:ellipsize="end"
+                            android:text=""
+                            android:textColor="@color/color_text_content2"
+                            android:textSize="10sp" />
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal" >
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            >
+
+                            <ImageView
+                                android:id="@+id/location_tv"
+                                android:layout_width="80dp"
+                                android:layout_height="25dp"
+                                android:layout_gravity="center"
+                                android:scaleType="fitCenter"
+                                android:src="@drawable/icon_jdkk" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/goto_tv"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="right"
+                            android:padding="10dp"
+                            android:text="点击前往"
+                            android:textColor="@color/color_appgreen"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+    </LinearLayout>

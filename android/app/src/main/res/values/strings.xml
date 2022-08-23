@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">药房网商城</string>
+    <string name="string_RNB">¥ </string>
+    <string name="toast_download_prompt">下载提示</string>
+    <string name="toast_download_wait">正在下载安装包,请稍候</string>
+    <string name="toast_levelup_prompt">升级提示</string>
+    <string name="toast_confirm">确定</string>
+    <string name="toast_share_true">分享成功</string>
+    <string name="toast_share_false">分享失败</string>
+    <string name="toast_no_version">无新版本</string>
+    <string name="denied">拒绝</string>
+    <string name="agree">同意</string>
+    <string name="next">下一步</string>
+</resources>

@@ -1,0 +1,467 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.yaofangwang.mall.activity.ValueTrendChartViewModel" />
+
+        <variable
+            name="bean"
+            type="com.yaofangwang.mall.bean.ValueTrendChartInfoBean" />
+
+        <import type="com.yaofangwang.mall.TUtils.TUtils" />
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorFDFDFD"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/statusView"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/status_bar"/>
+
+        <FrameLayout
+            android:layout_width="fill_parent"
+            android:layout_height="50dp">
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/status_bar" />
+            <RelativeLayout
+                android:id="@+id/top_background"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/top_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:maxLines="1"
+                    android:maxWidth="230dp"
+                    android:text="价格趋势"
+                    android:textColor="@color/color_appwhite"
+                    android:textSize="16sp"/>
+
+                <ImageView
+                    android:id="@+id/top_left"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/dingdan_back"
+                    android:layout_marginLeft="13dp"
+                    android:scaleType="fitCenter"/>
+
+                <ImageView
+                    android:id="@+id/top_right_tv"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginRight="13dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/home_share"
+                    android:scaleType="fitXY"
+                    tools:visibility="visible"/>
+
+            </RelativeLayout>
+        </FrameLayout>
+
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorFDFDFD"
+                android:orientation="vertical">
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginBottom="8dp"
+                    android:elevation="5dp"
+                    android:orientation="vertical"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    app:cardCornerRadius="8dp"
+                    app:cardPreventCornerOverlap="false"
+                    tools:targetApi="lollipop">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingLeft="27dp"
+                        android:paddingTop="20dp"
+                        android:paddingRight="27dp">
+
+                        <TextView
+                            android:id="@+id/goodsNameTv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:gravity="center_vertical"
+                            android:lineSpacingExtra="2dp"
+                            android:textColor="@color/color333333"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:text="@{bean.goods_name}"
+                            tools:text="健胃消食片" />
+
+                        <TextView
+                            android:id="@+id/companyTv"
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            android:ellipsize="end"
+                            android:gravity="center_vertical"
+                            android:maxLines="1"
+                            android:textColor="@color/color999999"
+                            android:textSize="10sp"
+                            tools:text="沈阳制药厂沈阳制药厂沈阳制" />
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="30dp"
+                            android:layout_marginBottom="20dp"
+                            android:orientation="horizontal">
+
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center_horizontal"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="均价"
+                                    android:textColor="@color/color999999"
+                                    android:textSize="14sp" />
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="8dp"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/string_RNB"
+                                        android:textColor="#ff3300"
+                                        android:textSize="14sp"
+                                        android:textStyle="bold" />
+
+                                    <TextView
+                                        android:id="@+id/averageBigTv"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="@{TUtils.priceBig(Double.valueOf(bean.price))}"
+                                        android:textColor="#ff3300"
+                                        android:textSize="14sp"
+                                        android:textStyle="bold"
+                                        tools:text="121" />
+                                    <TextView
+                                        android:id="@+id/averageTv"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="@{TUtils.priceSmall(Double.valueOf(bean.price))}"
+                                        android:textColor="#ff3300"
+                                        android:textSize="10sp"
+                                        android:textStyle="bold"
+                                        tools:text=".11" />
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center_horizontal"
+                                android:orientation="vertical">
+
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="浏览次数"
+                                    android:textColor="@color/color999999"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="8dp"
+                                    android:text="@{String.valueOf(bean.visit_count)}"
+                                    android:textColor="@color/color333333"
+                                    android:textSize="14sp"
+                                    android:textStyle="bold"
+                                    tools:text="121.11" />
+
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical"
+                                android:gravity="center_horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="在售商家"
+                                    android:textColor="@color/color999999"
+                                    android:textSize="14sp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="8dp"
+                                    android:text="@{String.valueOf(bean.shop_count)}"
+                                    android:textColor="@color/color333333"
+                                    android:textSize="14sp"
+                                    android:textStyle="bold"
+                                    tools:text="121.11" />
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginBottom="8dp"
+                    android:elevation="5dp"
+                    android:orientation="vertical"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    app:cardCornerRadius="8dp"
+                    app:cardPreventCornerOverlap="false"
+                    tools:targetApi="lollipop">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="26dp"
+                        android:paddingRight="20dp"
+                        android:paddingTop="20dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/color333333"
+                            android:textStyle="bold"
+                            android:text="价格趋势"
+                            android:textSize="14sp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginTop="12dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="bottom"
+                                android:paddingBottom="10dp"
+                                android:textColor="@color/color333333"
+                                android:text="时间"
+                                android:textSize="12sp" />
+
+                            <RadioGroup
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="12dp"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal" >
+
+                                <RelativeLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/shadow_green"
+                                    >
+
+                                    <RadioButton
+                                        android:id="@+id/dayForMonthRb"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:background="@drawable/select_value_trend_chart_date"
+                                        android:button="@null"
+                                        android:checked="@{viewModel.clickIndex ==1?true:false}"
+                                        android:gravity="center"
+                                        android:minWidth="65dp"
+                                        android:onClick="@{() -> viewModel.changeDate(1)}"
+                                        android:paddingLeft="6dp"
+                                        android:paddingTop="3dp"
+                                        android:paddingRight="6dp"
+                                        android:paddingBottom="3dp"
+                                        android:text="近一个月"
+                                        android:textColor="@color/color_true_fdfdfd_false_333333"
+                                        android:textSize="12sp"/>
+                                </RelativeLayout>
+
+                                <RelativeLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/shadow_green"
+                                    >
+
+                                    <RadioButton
+                                        android:id="@+id/monthForThreeRb"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:background="@drawable/select_value_trend_chart_date"
+                                        android:button="@null"
+                                        android:checked="@{viewModel.clickIndex ==2?true:false}"
+                                        android:gravity="center"
+                                        android:minWidth="65dp"
+                                        android:onClick="@{() -> viewModel.changeDate(2)}"
+                                        android:paddingLeft="6dp"
+                                        android:paddingTop="3dp"
+                                        android:paddingRight="6dp"
+                                        android:paddingBottom="3dp"
+                                        android:text="近三个月"
+                                        android:textColor="@color/color_true_fdfdfd_false_333333"
+                                        android:textSize="12sp" />
+
+                                </RelativeLayout>
+
+                                <RelativeLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/shadow_green"
+                                    >
+
+                                    <RadioButton
+                                        android:id="@+id/monthForYearRb"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:background="@drawable/select_value_trend_chart_date"
+                                        android:button="@null"
+                                        android:checked="@{viewModel.clickIndex ==3?true:false}"
+                                        android:gravity="center"
+                                        android:minWidth="55dp"
+                                        android:onClick="@{() -> viewModel.changeDate(3)}"
+                                        android:paddingLeft="9dp"
+                                        android:paddingTop="3dp"
+                                        android:paddingRight="9dp"
+                                        android:paddingBottom="3dp"
+                                        android:text="近一年"
+                                        android:textColor="@color/color_true_fdfdfd_false_333333"
+                                        android:textSize="12sp" />
+
+                                </RelativeLayout>
+                            </RadioGroup>
+                        </LinearLayout>
+
+                        <com.yaofangwang.mall.widgtes.chart.ExtraLineChart
+                            android:id="@+id/chart"
+                            android:layout_width="match_parent"
+                            android:layout_height="180dp"
+                            android:layout_marginBottom="20dp" />
+
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginBottom="8dp"
+                    android:elevation="5dp"
+                    android:orientation="vertical"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    app:cardCornerRadius="8dp"
+                    app:cardPreventCornerOverlap="false"
+                    tools:targetApi="lollipop">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingLeft="26dp"
+                        android:paddingRight="26dp">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentTop="true"
+                                android:layout_alignParentBottom="true"
+                                android:layout_marginTop="2dp"
+                                android:text="指数解读"
+                                android:textColor="@color/color333333"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/goBuyTv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_alignParentBottom="true"
+                                android:layout_marginBottom="0dp"
+                                android:background="@drawable/shape_rr_20dp_f_fd6c01"
+                                android:paddingLeft="6dp"
+                                android:paddingTop="4dp"
+                                android:paddingRight="6dp"
+                                android:paddingBottom="4dp"
+                                android:text="去购买"
+                                android:textColor="@color/colorFD6C01"
+                                android:textSize="10sp" />
+                        </RelativeLayout>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:layout_marginBottom="20dp"
+                            android:lineSpacingExtra="4dp"
+                            android:text="@{bean.chart_desc}"
+                            android:textColor="@color/color666666"
+                            android:textSize="12sp"
+                            tools:text="最近一周内，奥吉尔 阿里匹林，最近一周内，奥吉尔 阿里匹林，最近一周内，奥吉尔 阿里匹林，最近一周内，奥吉尔 阿里匹林，最近一周内，奥吉尔 阿里匹林，最近一周内，奥吉尔 阿里匹林，最近一周内，奥吉尔 阿里匹林" />
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+            </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
+    </LinearLayout>
+</layout>

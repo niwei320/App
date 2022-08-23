@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="color_appwhite">#FFFFFF</color>
+    <color name="color_appblack">#000000</color>
+    <color name="color_apptran">#00000000</color>
+    <color name="color_appgreen">#16c08e</color> <!-- #0DB95E -->
+    <color name="color_appred">#FF6E40</color> <!-- #FB4C71 -->
+    <color name="color_appyellow">#EABD1C</color>
+    <color name="color_apporange">#FF7920</color>
+    <color name="color_appbackyellow">#fdf8c5</color>
+    <color name="color_yellow_bg">#FFFFDF94</color>
+    <color name="color_applightyellow">#B25900</color>
+    <color name="color_back_little_red">#FFFAE4</color>V
+    <color name="color_text_little_red">#AFA67F</color>
+    <color name="color_back_little_green">#f0fff0</color>
+    <color name="color_appdarkyellow">#FF7F00</color>
+    <color name="color_applightdarkyellow">#FFF8E1</color>
+    <color name="color_shopcar_mess">#AEA681</color>
+    <color name="color_shop">#1DA4C6</color>
+    <color name="red_point">#fc4c4d</color>
+    <color name="withe_b">#D8D8D8</color>
+    <color name="red">#FF3F00</color>
+    <!--  -->
+    <color name="color_text_title">#333333</color>
+    <color name="color_text_content1">#333333</color> <!-- #777777 -->
+    <color name="color_text_content2">#666666</color>
+    <color name="color_text_content3">#999999</color>
+    <color name="color_text_descript">#999999</color>
+    <color name="color_order_bt_color">#666666</color>
+    <color name="color_text_bg">#cccccc</color>
+    <color name="color_back_dialog">#c0999999</color>
+    <color name="color_conpon">#BBBBBB</color>
+    <!--  -->
+    <color name="back_little_green">#F0FDE9</color>
+    <!--  -->
+    <!-- <color name="color_split_line">#ffffff</color> -->
+    <color name="color_split_line">#DDDDDD</color> <!-- #D9D9D9 -->
+    <color name="color_split_grayline">#F5F5F5</color>
+    <color name="color_split_line_share">#D8D8D8</color>
+    <color name="color_content_back">#F5F5F5</color> <!-- #EEEEEE -->
+    <!--  -->
+    <color name="clickable_white">#FFFFFF</color>
+    <color name="clickable_green">#dddddd</color>
+    <!--  -->
+    <color name="contents_text">#ff000000</color>
+    <color name="encode_view">#ffffffff</color>
+    <color name="possible_result_points">#c0ffbd21</color> <!-- Android standard ICS color -->
+    <color name="result_minor_text">#ffc0c0c0</color>
+    <color name="result_points">#c099cc00</color> <!-- Android standard ICS color -->
+    <color name="result_text">#ffffffff</color>
+    <color name="result_view">#b0000000</color>
+    <color name="status_text">#ffffffff</color>
+    <color name="transparent">#00000000</color>
+    <color name="viewfinder_laser">#ffcc0000</color> <!-- Android standard ICS color -->
+    <color name="viewfinder_mask">#60000000</color>
+    <color name="coupons_get_back">#60ffffff</color>
+    <color name="maindataback">#00FFFFFF</color>
+    <color name="btg_global_gray">#ff727272</color>
+    <!-- yujian add -->
+    <color name="second_text_color">#ff333333</color>
+    <color name="standard_text_color">#ff666666</color>
+    <color name="deepgray">#ff404040</color>
+    <color name="darkdarkgray">#ffb9b9b9</color>
+    <color name="darkgray">#ffe1e1e1</color>
+    <color name="gray">#fff1f1f1</color>
+    <color name="tell_gray">#CCCCCC</color>
+    <color name="progress_color">#79ff79</color>
+    <color name="back_memory_color">#FFF9DE</color>
+    <color name="text_memory_color">#D7C15C</color>
+    <!-- yujian add -->
+    <color name="color_green_icon_bg">#00EA2F</color>
+    <color name="color_dd_yhq_text_bg">#F0FA02</color>
+    <color name="color_usercenter_text1">#666666</color>
+    <color name="color_usercenter_text2">#000000</color>
+    <color name="color_usercenter_text3">#444444</color>
+    <color name="color_usercenter_text4">#006F16</color>
+    <color name="color_adress_add_text1">#FAFAFA</color>
+    <color name="color_adress_add_text2">#CCCCCC</color>
+    <color name="color_complaint_add_text1">#AAAAAA</color>
+    <color name="color_message_is_read">#c8c8c8</color>
+    <color name="color_text_green">#16c08e</color>
+    <color name="color_background">#f4f4f4</color>
+    <color name="color_appblue">#0768A3</color>
+    <color name="color_gray5">#333333</color>
+    <color name="shuaxin">#C7EAEA</color>
+    <color name="color_backgroud">#f4f4f4</color>
+    <color name="color_linebg">#FFEEEEEE</color>
+    <drawable name="color_split_line">#DDDDDD</drawable>
+    <drawable name="deepgray">#ff404040</drawable>
+    <drawable name="darkdarkgray">#ffb9b9b9</drawable>
+    <drawable name="darkgray">#ffe1e1e1</drawable>
+    <drawable name="gray">#fff1f1f1</drawable>
+    <drawable name="color_appwhite">#FFFFFF</drawable>
+    <drawable name="color_appgreen">#808080</drawable>  <!--0DB95E-->
+    <drawable name="clickable_green">#dddddd</drawable>
+    <drawable name="progress_color">#79ff79</drawable>
+    <drawable name="color_text_content1">#333333</drawable>
+    <drawable name="color_text_content2">#666666</drawable>
+    <color name="rll_layout_bg_color">#eeeeee</color>
+    <color name="rll_text_color">#666666</color>
+
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorDEDEDE">#DEDEDE</color>
+    <color name="colorEDEDED">#EDEDED</color>
+    <color name="colorFF16BF8D">#FF16BF8D</color>
+    <color name="colorFDFDFD">#FDFDFD</color>
+    <color name="color999999">#999999</color>
+    <color name="color333333">#333333</color>
+    <color name="colorFFF4E5">#FFF4E5</color>
+    <color name="colorFF6E40">#FF6E40</color>
+    <color name="colorE6F8F2">#E6F8F2</color>
+    <color name="colorFFF9C4">#FFF9C4</color>
+    <color name="colorF5F5F5">#F5F5F5</color>
+    <color name="colorFF9100">#FF9100</color>
+    <color name="color666666">#666666</color>
+    <color name="colorEEEEEE">#EEEEEE</color>
+    <color name="colorDDDDDD">#DDDDDD</color>
+    <color name="color_7f2d00">#7f2d00</color>
+    <color name="color66000000">#66000000</color>
+    <color name="bg_transparent">#B3333333</color>
+    <color name="colorFD6C01">#FD6C01</color>
+    <color name="colorF4F4F4">#F4F4F4</color>
+    <color name="colorFFC97C">#FFC97C</color>
+    <color name="colorE5F8F2">#E5F8F2</color>
+    <color name="full_transparent">#00000000</color>
+    <color name="half_transparent">#aa000000</color>
+    <color name="colorF57F17">#F57F17</color>
+    <color name="colorFF969696">#FF969696</color>
+</resources>

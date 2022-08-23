@@ -1,0 +1,86 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:widget="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <View
+        android:id="@+id/status_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"></View>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:background="@color/color_appwhite"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:id="@+id/activity_search_result_topback"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@null"
+            android:paddingBottom="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="5dp"
+            android:paddingTop="5dp"
+            android:src="@drawable/top_back_green" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/shape_textedit_back_line"
+            android:gravity="center_vertical" >
+
+            <com.yaofangwang.mall.widgtes.WidgetAutoEditText
+                android:id="@+id/activity_medicine_search_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/activity_medicine_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:padding="5dp"
+            android:text="搜索"
+            android:textColor="@color/color_appgreen"
+            android:textSize="@dimen/font_size_middle" />
+    </LinearLayout>
+
+    <com.yaofangwang.mall.widgtes.ProgressActivity
+        android:id="@+id/progress"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none" >
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <View style="@style/splitLineStyle" />
+
+                <com.yaofangwang.mall.widgtes.ListViewForScrollView
+                    android:id="@+id/activity_medicine_search_listview"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:divider="@color/color_split_line"
+                    android:dividerHeight="0.5dp"
+                    android:visibility="visible" />
+            </LinearLayout>
+        </ScrollView>
+
+    </com.yaofangwang.mall.widgtes.ProgressActivity>
+
+
+</LinearLayout>

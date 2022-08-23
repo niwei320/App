@@ -1,0 +1,99 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <View
+        android:id="@+id/status_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/color_appwhite">
+
+        <ImageView
+            android:id="@+id/top_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true"
+            android:src="@drawable/top_back_green"
+            android:paddingBottom="10dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp"
+            android:text="" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_margin="5dp"
+            android:layout_toRightOf="@id/top_left"
+            android:background="@drawable/shape_textedit_back_line"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:id="@+id/head_shop_detail_issigned_search_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@null"
+                android:padding="10dp"
+                android:src="@drawable/top_bar_search" />
+
+            <TextView
+                android:id="@+id/head_shop_detail_issigned_search_edit"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:editable="false"
+                android:hint="输入小区、写字楼、学校等"
+                android:paddingBottom="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="10dp"
+                android:textColorHint="@color/color_adress_add_text2"
+                android:textSize="14sp"
+                tools:ignore="Deprecated" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/color_split_line" />
+    </RelativeLayout>
+
+    <com.baidu.mapapi.map.MapView
+        android:id="@+id/bmapView"
+        android:layout_width="fill_parent"
+        android:layout_height="300dp" />
+
+    <TextView
+        android:id="@+id/address_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_appwhite"
+        android:padding="10dp"
+        android:text="附近地址"
+        android:textColor="@color/color_text_content2"
+        android:textSize="12sp" />
+
+    <View style="@style/splitLineStyle" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ListView
+            android:id="@+id/activity_adress_listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/color_appwhite"
+            android:divider="@null"
+            android:listSelector="@color/color_apptran" />
+    </LinearLayout>
+
+</LinearLayout>

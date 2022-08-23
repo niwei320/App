@@ -56,5 +56,4 @@ fastlane/report.xml
 fastlane/Preview.html
 fastlane/screenshots
 node_modules_local/react-native-fast-image/android
-android
 node_modules

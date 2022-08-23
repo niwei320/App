@@ -1,0 +1,322 @@
+apply plugin: "com.android.application"
+apply plugin: 'mtj-circle-plugin'//百度统计插件
+apply plugin: 'com.huawei.agconnect'
+/**
+ * The react.gradle file registers a task for each build variant (e.g. bundleDebugJsAndAssets
+ * and bundleReleaseJsAndAssets).
+ * These basically call `react-native bundle` with the correct arguments during the Android build
+ * cycle. By default, bundleDebugJsAndAssets is skipped, as in debug/dev mode we prefer to load the
+ * bundle directly from the development server. Below you can see all the possible configurations
+ * and their defaults. If you decide to add a configuration block, make sure to add it before the
+ * `apply from: "../../node_modules/react-native/react.gradle"` line.
+ *
+ * project.ext.react = [
+ *   // the name of the generated asset file containing your JS bundle
+ *   bundleAssetName: "index.android.bundle",
+ *
+ *   // the entry file for bundle generation
+ *   entryFile: "index.android.js",
+ *
+ *   // whether to bundle JS and assets in debug mode
+ *   bundleInDebug: false,
+ *
+ *   // whether to bundle JS and assets in release mode
+ *   bundleInRelease: true,
+ *
+ *   // whether to bundle JS and assets in another build variant (if configured).
+ *   // See http://tools.android.com/tech-docs/new-build-system/user-guide#TOC-Build-Variants
+ *   // The configuration property can be in the following formats
+ *   //         'bundleIn${productFlavor}${buildType}'
+ *   //         'bundleIn${buildType}'
+ *   // bundleInFreeDebug: true,
+ *   // bundleInPaidRelease: true,
+ *   // bundleInBeta: true,
+ *
+ *   // whether to disable dev mode in custom build variants (by default only disabled in release)
+ *   // for example: to disable dev mode in the staging build type (if configured)
+ *   devDisabledInStaging: true,
+ *   // The configuration property can be in the following formats
+ *   //         'devDisabledIn${productFlavor}${buildType}'
+ *   //         'devDisabledIn${buildType}'
+ *
+ *   // the root of your project, i.e. where "package.json" lives
+ *   root: "../../",
+ *
+ *   // where to put the JS bundle asset in debug mode
+ *   jsBundleDirDebug: "$buildDir/intermediates/assets/debug",
+ *
+ *   // where to put the JS bundle asset in release mode
+ *   jsBundleDirRelease: "$buildDir/intermediates/assets/release",
+ *
+ *   // where to put drawable resources / React Native assets, e.g. the ones you use via
+ *   // require('./image.png')), in debug mode
+ *   resourcesDirDebug: "$buildDir/intermediates/res/merged/debug",
+ *
+ *   // where to put drawable resources / React Native assets, e.g. the ones you use via
+ *   // require('./image.png')), in release mode
+ *   resourcesDirRelease: "$buildDir/intermediates/res/merged/release",
+ *
+ *   // by default the gradle tasks are skipped if none of the JS files or assets change; this means
+ *   // that we don't look at files in android/ or ios/ to determine whether the tasks are up to
+ *   // date; if you have any other folders that you want to ignore for performance reasons (gradle
+ *   // indexes the entire tree), add them here. Alternatively, if you have JS files in android/
+ *   // for example, you might want to remove it from here.
+ *   inputExcludes: ["android/**", "ios/**"],
+ *
+ *   // override which node gets called and with what additional arguments
+ *   nodeExecutableAndArgs: ["node"],
+ *
+ *   // supply additional arguments to the packager
+ *   extraPackagerArgs: []
+ * ]
+ */
+
+project.ext.react = [
+        entryFile: "index.js"
+]
+
+apply from: "../../node_modules/react-native/react.gradle"
+
+/**
+ * Set this to true to create two separate APKs instead of one:
+ *   - An APK that only works on ARM devices
+ *   - An APK that only works on x86 devices
+ * The advantage is the size of the APK is reduced by about 4MB.
+ * Upload all the APKs to the Play Store and people will download
+ * the correct one based on the CPU architecture of their device.
+ */
+def enableSeparateBuildPerCPUArchitecture = false
+
+/**
+ * Run Proguard to shrink the Java bytecode in release builds.
+ */
+def enableProguardInReleaseBuilds = false
+
+android {
+    compileSdkVersion 27
+    buildToolsVersion '27.0.3'
+    useLibrary 'org.apache.http.legacy'
+    defaultConfig {
+        applicationId "com.yaofangwang.mall"
+        minSdkVersion 17
+        targetSdkVersion 26
+        versionCode 213
+        versionName "4.9.9995"
+        multiDexEnabled true
+
+        ndk {
+            abiFilters "armeabi-v7a", 'armeabi'
+        }
+        manifestPlaceholders = [
+                JPUSH_PKGNAME : applicationId,
+                JPUSH_APPKEY  : "b65c5e428e25f30f1d826b12", //JPush上注册的包名对应的appkey.
+                JPUSH_CHANNEL : "xiaomi", //默认渠道小米
+
+                UMENG_CHANNEL : "xiaomi", //默认渠道小米
+
+                HUAWEI_APPID  : "10414356",
+
+                MEIZU_APPKEY  : "MZ-65a4bc4072ea48c690ab5733f60bca41",
+                MEIZU_APPID   : "MZ-114410",
+
+                XIAOMI_APPKEY : "MI-5381736388263", // 小米平台注册的appkey
+                XIAOMI_APPID  : "MI-2882303761517363263",
+
+                OPPO_APPKEY   : 'OP-4ZI2kXdd75s0w4K8sWc4O8s0k',
+                OPPO_APPID    : 'OP-3004798',
+                OPPO_APPSECRET: 'OP-1d7Ec870154B97b779B4764685beCF3a',
+
+                VIVO_APPKEY : "71cda7d1-cde1-41dd-b890-70c66d10ceb3", // VIVO平台注册的appkey
+                VIVO_APPID : "14306", // VIVO平台注册的appid
+
+        ]
+    }
+
+    packagingOptions {
+        doNotStrip '*/mips/*.so'
+        doNotStrip '*/mips64/*.so'
+    }
+    splits {
+        abi {
+            reset()
+            enable enableSeparateBuildPerCPUArchitecture
+            universalApk false  // If true, also generate a universal APK
+            include "armeabi-v7a", 'armeabi'
+        }
+    }
+
+    buildTypes {
+        release {
+            buildConfigField("String", "Js_Bundle_Code", "\"2.8.0\"")
+            minifyEnabled false
+            signingConfig signingConfigs.debug
+            proguardFiles 'proguard-rules.pro'
+            //应用编译完成，自定义apk输出位置及文件名
+            applicationVariants.all { variant ->
+                variant.outputs.each { output ->
+                    //开始输出,自定义文件名
+                    output.outputFileName = "yfw_"+ buildType.name + "_v${defaultConfig.versionName}-${releaseTime()}.apk"
+                }
+            }
+        }
+        debug {
+            buildConfigField("String", "Js_Bundle_Code", "\"2.8.0\"")
+            minifyEnabled false
+            signingConfig signingConfigs.debug
+            proguardFiles 'proguard-rules.pro'
+            ndk {
+                abiFilters "armeabi-v7a", 'armeabi', "x86"
+            }
+        }
+    }
+
+    signingConfigs {
+        release {
+            keyAlias 'android.keystore'
+            keyPassword 'yaofangwang2016!@#'
+            storeFile file('/Users/mac/Work/AndroidKeystore/yfw/android.keystore')
+            storePassword 'yaofangwang2016!@#'
+        }
+
+        debug {
+            keyAlias 'android.keystore'
+            keyPassword 'yaofangwang2016!@#'
+            storeFile file('/Users/mac/Work/AndroidKeystore/yfw/android.keystore')
+            storePassword 'yaofangwang2016!@#'
+        }
+    }
+
+
+    // applicationVariants are e.g. debug, release
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            // For each separate APK per architecture, set a unique version code as described here:
+            // http://tools.android.com/tech-docs/new-build-system/user-guide/apk-splits
+            def versionCodes = ["armeabi-v7a": 1, "x86": 2]
+            def abi = output.getFilter(output.ABI)
+            if (abi != null) {  // null for the universal-debug, universal-release variants
+                output.versionCodeOverride =
+                        versionCodes.get(abi) * 1048576 + defaultConfig.versionCode
+            }
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    dataBinding {
+        enabled = true
+    }
+    aaptOptions {
+        cruncherEnabled = false
+        useNewCruncher = false
+    }
+    lintOptions {
+        abortOnError false
+    }
+    repositories {
+        flatDir{
+            dirs 'libs'
+        }
+    }
+}
+
+//百度统计配置
+MtjCirclePluginConfig {
+    // 设置appkey，必须设置，否则插件使用无效
+    appkey = '3e06c80bee'
+    // 设置debug 开关，默认关闭，如果需要查看日志则打开开关（true），建议正式版关闭以避免影响性能
+    debug = false
+    // 默认启动此插件，如果开发者不需要可以禁用（false）
+    enabled = true
+}
+
+dependencies {
+    compile project(':react-native-view-shot')
+    compile project(':react-native-svg')
+    compile project(':react-native-spring-scrollview')
+    compile project(':react-native-picker')
+    compile project(':react-native-linear-gradient')
+    compile project(':react-native-image-picker')
+    compile project(':react-native-fs')
+    compile project(':react-native-fast-image')
+    compile project(':jpush-react-native')
+    implementation project(':react-native-spring-scrollview')
+    implementation project(':react-native-svg')
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support:cardview-v7:27.1.1'
+    implementation 'com.android.support:design:27.1.1'
+
+    implementation 'com.facebook.react:react-native:+'
+    // From node_modules
+    implementation project(':react-native-fs')
+    implementation files('libs/BaiduLBS_Android.jar')
+    implementation files('libs/gson-2.3.1.jar')
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    implementation (name: 'alipaySdk-15.6.5-20190718211148', ext: 'aar')
+    implementation files('libs/corelib.jar')
+    implementation 'com.android.support:multidex:1.0.1'
+    implementation project(':react-native-view-shot')
+    implementation project(':react-native-picker')
+    implementation project(':react-native-image-picker')
+    //友盟统计7.5.4以下的写法
+    implementation files('libs/umeng-asms-armeabi-v1.1.3.aar')
+    implementation files('libs/umeng-common-9.1.6.jar')
+    implementation files('libs/umeng-crash-armeabi-v0.0.5.aar')
+    implementation files('libs/umeng-share-sina-simplify-6.9.3.jar')
+    //glide
+    implementation 'com.github.bumptech.glide:glide:4.7.1'
+    //支持gif
+    implementation 'com.facebook.fresco:fresco:1.10.0'
+    implementation 'com.facebook.fresco:animated-gif:1.10.0'
+    implementation 'android.arch.lifecycle:extensions:1.1.1'
+    //图表
+//    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
+    implementation 'androidx.annotation:annotation:1.0.0'
+    implementation files('libs/volley.jar')
+    implementation 'pub.devrel:easypermissions:0.2.0'
+    //极光独立统计
+    implementation 'cn.jiguang.sdk:janalytics:1.2.2'
+    // 此处以JAnalytics 1.1.1 版本为例。
+    implementation project(':react-native-linear-gradient')
+
+    //极光推送依赖开始
+    implementation project(':jpush-react-native')
+    implementation project(':jcore-react-native')
+    implementation files('libs/jpush-android-plugin-xiaomi-v3.6.0.jar')
+    implementation files('libs/MiPush_SDK_Client_3_7_5.jar')
+    implementation 'cn.jiguang.sdk.plugin:oppo:3.6.0'
+    implementation 'cn.jiguang.sdk.plugin:meizu:3.6.0'
+    implementation 'com.huawei.hms:push:4.0.2.300'
+    implementation 'cn.jiguang.sdk.plugin:huawei:3.6.0'
+    implementation 'com.huawei.agconnect:agconnect-core:1.4.1.300'
+
+    implementation 'com.squareup.okhttp3:okhttp:3.6.0'
+    implementation 'com.squareup.picasso:picasso:2.5.2'
+    implementation  'com.sobot.chat:sobotsdk:2.8.9'
+    implementation 'com.android.support:recyclerview-v7:27.1.1'
+    //一键登录
+    implementation(name: 'geetest_onelogin_android_v0.6.2_20190821', ext: 'aar')
+    //京东支付
+    implementation(name: 'jdPaySDK_Android_JDMall_JDJR_2.5.0', ext: 'aar')
+    implementation project(path: ':react-native-fast-image')
+    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:5.5.8'
+    //移动安全联盟OAID
+    implementation files('libs/miit_mdid_1.0.10.aar')
+    //数美天网指纹SDK
+    implementation files('libs/smantifraud.aar')
+}
+
+// Run this once to be able to run the application with BUCK
+// puts all compile dependencies into folder libs for BUCK to use
+task copyDownloadableDepsToLibs(type: Copy) {
+    from configurations.compile
+    into 'libs'
+}
+
+def releaseTime() {
+    return new Date().format("yyMMddHHmm")
+}

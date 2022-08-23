@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<resources
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="MissingTranslation"
+    >
+
+    <string-array name="feed_icons">
+        <item>@mipmap/l10001</item>
+        <item>@mipmap/l10002</item>
+        <item>@mipmap/l10003</item>
+        <item>@mipmap/l10004</item>
+        <item>@mipmap/l10005</item>
+        <item>@mipmap/l10006</item>
+        <item>@mipmap/l10007</item>
+        <item>@mipmap/l10008</item>
+        <item>@mipmap/l10009</item>
+        <item>@mipmap/l10010</item>
+        <item>@mipmap/l10011</item>
+        <item>@mipmap/l10012</item>
+        <item>@mipmap/l10013</item>
+        <item>@mipmap/l10014</item>
+        <item>@mipmap/l10015</item>
+        <item>@mipmap/l10016</item>
+        <item>@mipmap/l10017</item>
+        <item>@mipmap/l10018</item>
+        <item>@mipmap/l10019</item>
+        <item>@mipmap/l10020</item>
+    </string-array>
+    <string-array name="feed_icons3">
+        <item>@mipmap/l20004</item>
+        <item>@mipmap/l20006</item>
+        <item>@mipmap/l20008</item>
+        <item>@mipmap/l20010</item>
+        <item>@mipmap/l20012</item>
+        <item>@mipmap/l20014</item>
+        <item>@mipmap/l20016</item>
+        <item>@mipmap/l20018</item>
+        <item>@mipmap/l20020</item>
+        <item>@mipmap/l20022</item>
+
+        <item>@mipmap/l20024</item>
+        <item>@mipmap/l20026</item>
+        <item>@mipmap/l20028</item>
+        <item>@mipmap/l20030</item>
+        <item>@mipmap/l20032</item>
+        <item>@mipmap/l20034</item>
+        <item>@mipmap/l20036</item>
+        <item>@mipmap/l20038</item>
+
+        <item>@mipmap/l20040</item>
+        <item>@mipmap/l20042</item>
+        <item>@mipmap/l20044</item>
+        <item>@mipmap/l20046</item>
+        <item>@mipmap/l20048</item>
+        <item>@mipmap/l20050</item>
+        <item>@mipmap/l20052</item>
+        <item>@mipmap/l20054</item>
+        <item>@mipmap/l20056</item>
+        <item>@mipmap/l20058</item>
+        <item>@mipmap/l20060</item>
+        <item>@mipmap/l20062</item>
+        <item>@mipmap/l20064</item>
+        <item>@mipmap/l20066</item>
+        <item>@mipmap/l20068</item>
+        <item>@mipmap/l20070</item>
+        <item>@mipmap/l20072</item>
+        <item>@mipmap/l20074</item>
+        <item>@mipmap/l20076</item>
+        <item>@mipmap/l20078</item>
+        <item>@mipmap/l20080</item>
+        <item>@mipmap/l20082</item>
+        <item>@mipmap/l20084</item>
+        <item>@mipmap/l20086</item>
+        <item>@mipmap/l20088</item>
+        <item>@mipmap/l20090</item>
+        <item>@mipmap/l20095</item>
+    </string-array>
+
+    <string-array name="feed_icoxs2">
+        <item>@mipmap/x0001</item>
+        <item>@mipmap/x0002</item>
+        <item>@mipmap/x0003</item>
+        <item>@mipmap/x0004</item>
+        <item>@mipmap/x0005</item>
+        <item>@mipmap/x0006</item>
+        <item>@mipmap/x0007</item>
+        <item>@mipmap/x0008</item>
+        <item>@mipmap/x0009</item>
+        <item>@mipmap/x0010</item>
+        <item>@mipmap/x0011</item>
+        <item>@mipmap/x0012</item>
+        <item>@mipmap/x0013</item>
+        <item>@mipmap/x0014</item>
+        <item>@mipmap/x0015</item>
+        <item>@mipmap/x0016</item>
+    </string-array>
+</resources>

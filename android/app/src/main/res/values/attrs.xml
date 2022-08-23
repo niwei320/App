@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="CircleImageView">
+        <attr name="civ_border_width" format="dimension" />
+        <attr name="civ_border_color" format="color" />
+        <attr name="civ_border_overlay" format="boolean" />
+        <attr name="civ_fill_color" format="color" />
+    </declare-styleable>
+
+    <!-- Defines the custom XML attributes supported for a HorizontalListView -->
+    <declare-styleable name="HorizontalListView">
+        <attr name="dividerWidth" format="dimension" />
+        <attr name="android:divider" />
+        <attr name="android:requiresFadingEdge" />
+        <attr name="android:fadingEdgeLength" />
+    </declare-styleable>
+
+    <!--<attr name="borderRadius" format="dimension" />-->
+    <!--<attr name="type">-->
+    <!--<enum name="circle" value="0" />-->
+    <!--<enum name="round" value="1" />-->
+    <!--</attr>-->
+    <!--<declare-styleable name="XCRoundRectImageView">-->
+    <!--<attr name="borderRadius" />-->
+    <!--<attr name="type" />-->
+    <!--</declare-styleable>-->
+
+    <declare-styleable name="XCRoundRectImageView">
+        <attr name="ml_border_color" format="color" />
+        <attr name="ml_border_width" format="dimension" />
+        <attr name="ml_press_alpha" format="integer" />
+        <attr name="ml_press_color" format="color" />
+        <attr name="ml_radius" format="dimension" />
+        <attr name="ml_shape_type" format="enum">
+            <enum name="none" value="0" />
+            <enum name="round" value="1" />
+            <enum name="rectangle" value="2" />
+        </attr>
+    </declare-styleable>
+
+    //add 2017-4-12
+    <declare-styleable name="ProgressActivity">
+
+        <attr name="loadingProgressBarWidth" format="dimension" />
+        <attr name="loadingProgressBarHeight" format="dimension" />
+        <attr name="loadingBackgroundColor" format="color" />
+
+        <attr name="emptyImageWidth" format="dimension" />
+        <attr name="emptyImageHeight" format="dimension" />
+        <attr name="emptyTitleTextSize" format="dimension" />
+        <attr name="emptyContentTextSize" format="dimension" />
+        <attr name="emptyTitleTextColor" format="color" />
+        <attr name="emptyContentTextColor" format="color" />
+        <attr name="emptyBackgroundColor" format="color" />
+
+        <attr name="errorImageWidth" format="dimension" />
+        <attr name="errorImageHeight" format="dimension" />
+        <attr name="errorTitleTextSize" format="dimension" />
+        <attr name="errorContentTextSize" format="dimension" />
+        <attr name="errorTitleTextColor" format="color" />
+        <attr name="errorContentTextColor" format="color" />
+        <attr name="errorButtonTextColor" format="color" />
+        <attr name="errorBackgroundColor" format="color" />
+    </declare-styleable>
+
+    <!--自定义圆角图片-->
+    <declare-styleable name="AbsRoundImageView">
+        <attr name="riv_borderWidth" format="dimension|reference" />
+        <attr name="riv_borderColor" format="color|reference" />
+    </declare-styleable>
+    <!--自定义圆角图片-->
+    <declare-styleable name="RoundImageView">
+        <attr name="riv_leftTopRadius" format="dimension|reference" />
+        <attr name="riv_rightTopRadius" format="dimension|reference" />
+        <attr name="riv_rightBottomRadius" format="dimension|reference" />
+        <attr name="riv_leftBottomRadius" format="dimension|reference" />
+    </declare-styleable>
+
+    <!--设置指示条的个数的自定义属性-->
+    <attr name="item_count" format="integer"></attr>
+    <!--设置指示条宽度的放大系数-->
+    <attr name="item_magnification" format="float"></attr>
+
+    <declare-styleable name="ViewPagerIndicator">
+        <attr name="item_count" />
+        <attr name="item_magnification" />
+    </declare-styleable>
+
+
+    <declare-styleable name="RefreshLoadMoreLayout">
+        <attr name="rll_bg" format="color" />
+        <attr name="rll_textcolor" format="color" />
+        <attr name="rll_header_progress" format="reference" />
+        <attr name="rll_arrow" format="reference" />
+        <attr name="rll_header_progress_size" format="dimension" />
+        <attr name="rll_header_arrow_width" format="dimension" />
+        <attr name="rll_header_arrow_height" format="dimension" />
+        <attr name="rll_header_title_size" format="dimension" />
+        <attr name="rll_header_subtitle_size" format="dimension" />
+        <attr name="rll_header_content_margin" format="dimension" />
+        <attr name="rll_header_hint_normal" format="string" />
+        <attr name="rll_header_hint_ready" format="string" />
+        <attr name="rll_header_hint_loading" format="string" />
+        <attr name="rll_header_last_time" format="string" />
+        <attr name="rll_header_time_justnow" format="string" />
+        <attr name="rll_header_time_minutes" format="string" />
+        <attr name="rll_header_time_hours" format="string" />
+        <attr name="rll_header_time_days" format="string" />
+        <attr name="rll_header_height" format="dimension" />
+        <attr name="rll_footer_content_margin" format="dimension" />
+        <attr name="rll_footer_progress_size" format="dimension" />
+        <attr name="rll_footer_title_size" format="dimension" />
+        <attr name="rll_footer_progress" format="reference" />
+        <attr name="rll_footer_hint_normal" format="string" />
+        <attr name="rll_footer_hint_ready" format="string" />
+        <attr name="rll_footer_hint_loading" format="string" />
+        <attr name="rll_footer_no_more_data" format="string" />
+        <attr name="rll_footer_height" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="ProperRatingBar">
+
+        <!-- Total number of ticks to show. Default is '5' -->
+        <attr name="prb_totalTicks" format="integer" />
+
+        <!-- Use this to set rating from xml. Default is '3' -->
+        <attr name="prb_defaultRating" format="integer" />
+
+        <!-- If set to 'true' - use will be able to change rating by clicking. Default is 'false' -->
+        <attr name="prb_clickable" format="boolean" />
+
+
+        <!-- Symbol to be used as a tick. Default is '$' -->
+        <attr name="prb_symbolicTick" format="string" />
+
+        <!-- Text size of symbolic tick. Default is '15sp' -->
+        <attr name="android:textSize" />
+
+        <!-- Text style of symbolic tick. Possible: 'bold', 'italic', 'normal'. Default is 'normal'. -->
+        <attr name="android:textStyle" />
+
+        <!-- Color of symbolic tick that is not selected (not rated). Default is '#FF000000' (black). -->
+        <attr name="prb_symbolicTickNormalColor" format="reference|color" />
+
+        <!-- Color of symbolic tick that is selected (rated). Default is '#FF888888' (gray). -->
+        <attr name="prb_symbolicTickSelectedColor" format="reference|color" />
+
+
+        <!-- Drawable resource to use as a tick that is not selected (not rated). No default value. -->
+        <attr name="prb_tickNormalDrawable" format="reference" />
+
+        <!-- Drawable resource to use as a tick that is selected (rated). No default value. -->
+        <attr name="prb_tickSelectedDrawable" format="reference" />
+
+        <!-- Margin to be applied to tick drawables. Only applies to drawable-type ticks. Default is '1dp' (gray). -->
+        <attr name="prb_tickSpacing" format="dimension" />
+    </declare-styleable>
+
+    <item name="prb_tick_tag_id" type="id" />
+    <!--悬浮按钮-->
+    <declare-styleable name="free" >
+        <attr name="millisInFuture" format="integer" />
+        <attr name="toAlpha" format="float" />
+        <attr name="moveable" format="boolean"/>
+        <attr name="autoBack" format="boolean"/>
+    </declare-styleable>
+    <!--悬浮按钮-->
+
+    <!--订单详情中用到的-->
+    <declare-styleable name="SlideDetailsLayout">
+        <!-- float value for indicate the moment of switch panel-->
+        <attr name="percent" format="float"/>
+        <!-- how long the animation keep-->
+        <attr name="duration" format="integer"/>
+        <!-- default panel to show after init-->
+        <attr name="default_panel" format="enum">
+            <enum name="front" value="0"/>
+            <enum name="behind" value="1"/>
+        </attr>
+    </declare-styleable>
+    <!--订单详情中用到的-->
+</resources>

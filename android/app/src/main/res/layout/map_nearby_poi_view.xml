@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.baidu.mapapi.map.MapView
+        android:id="@+id/bmapView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+
+    <LinearLayout
+        android:layout_above="@id/centerAnchorPoint"
+        android:paddingBottom="34dp"
+        android:id="@+id/location_label"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:visibility="invisible"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/location_tv_q"
+            android:background="@drawable/location_label"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="3dp"
+            android:gravity="center"
+            android:textColor="#000"
+            android:textSize="14sp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:text=""
+            />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/inverted_triangle"
+            />
+
+    </LinearLayout>
+
+
+    <ImageView
+        android:id="@+id/location_anchor"
+        android:layout_above="@id/centerAnchorPoint"
+        android:layout_centerHorizontal="true"
+        android:layout_width="20dp"
+        android:layout_height="43dp"
+        android:scaleType="fitEnd"
+        android:src="@drawable/icon_location_ok"/>
+
+    <View
+        android:layout_centerInParent="true"
+        android:id="@+id/centerAnchorPoint"
+        android:layout_width="1dp"
+        android:layout_height="1dp"/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/location_bt"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="10dp"
+        app:fabSize="mini"
+        app:elevation="5dp"
+        app:backgroundTint='#fff'
+        android:tint="#333"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</RelativeLayout>

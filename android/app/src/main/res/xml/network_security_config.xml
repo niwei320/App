@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <!--todo: 药房网域名较多以下未验证 暂都允许明文传输，后续需要验证补充后放开-->
+    <!--除了domain-config 的标签下的域名都不允许明文传输-->
+    <!--<base-config cleartextTrafficPermitted="false" />-->
+    <!--允许有多个 domain-confing 该domain-config 下的domain 域名允许明文传输-->
+    <!--<domain-config cleartextTrafficPermitted="true">-->
+        <!--数美天网SDK-->
+        <!--<domain includeSubdomains="true">fengkongcloud.com</domain>-->
+        <!--药房网域名较多以下未验证-->
+        <!--<domain includeSubdomains="true">app.yaofangwang.com</domain>-->
+        <!--<domain includeSubdomains="true">upload.yaofangwang.com</domain>-->
+        <!--<domain includeSubdomains="true">cdn.yaofangwang.com</domain>-->
+        <!--<domain includeSubdomains="true">192.168.2.19</domain>-->
+    <!--</domain-config>-->
+
+    <!--除了domain-config 的标签下的域名,都允许明文传输-->
+    <base-config cleartextTrafficPermitted="true" >
+
+        <trust-anchors>
+            <!--trust system while release only-->
+            <certificates src="system" />
+        </trust-anchors>
+    </base-config>
+
+
+    <!-- todo: 支持 Android 7.0 以上调试时，信任 Charles 等抓包工具的证书 -->
+    <!--<debug-overrides>-->
+        <!--<trust-anchors>-->
+            <!--<certificates src="system" />-->
+            <!--<certificates src="user" />-->
+        <!--</trust-anchors>-->
+    <!--</debug-overrides>-->
+
+</network-security-config>

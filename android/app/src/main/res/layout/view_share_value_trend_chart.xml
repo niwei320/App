@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="bean"
+            type="com.yaofangwang.mall.bean.ValueTrendChartInfoBean" />
+
+        <import type="com.yaofangwang.mall.TUtils.TUtils" />
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorFDFDFD"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/color_appgreen">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/share_poster_logo" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="12dp"
+                android:elevation="20dp"
+                android:orientation="vertical"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                app:cardCornerRadius="8dp"
+                app:cardPreventCornerOverlap="false"
+                tools:targetApi="lollipop">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingLeft="17dp"
+                    android:paddingTop="10dp"
+                    android:paddingRight="17dp">
+
+                    <TextView
+                        android:id="@+id/goodsNameTv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:gravity="center_vertical"
+                        android:lineSpacingExtra="2dp"
+                        android:textColor="@color/color333333"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:text="@{bean.goods_name}"
+                        tools:text="健胃消食片" />
+
+                    <TextView
+                        android:id="@+id/companyTv"
+                        android:layout_width="match_parent"
+                        android:layout_height="32dp"
+                        android:ellipsize="end"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/color999999"
+                        android:lineSpacingExtra="2dp"
+                        android:textSize="8sp"
+                        tools:text="沈阳制药厂沈阳制药厂沈阳制" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="2dp"
+                    android:orientation="horizontal">
+
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="均价"
+                                android:textColor="@color/color999999"
+                                android:textSize="10sp" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/string_RNB"
+                                    android:textColor="#ff3300"
+                                    android:textSize="12sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/averageBigTv"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@{TUtils.priceBig(Double.valueOf(bean.price))}"
+                                    android:textColor="#ff3300"
+                                    android:textSize="12sp"
+                                    android:textStyle="bold"
+                                    tools:text="121.11" />
+                                <TextView
+                                    android:id="@+id/averageTv"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@{TUtils.priceSmall(Double.valueOf(bean.price))}"
+                                    android:textColor="#ff3300"
+                                    android:textSize="10sp"
+                                    android:textStyle="bold"
+                                    tools:text="121.11" />
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical">
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="浏览次数"
+                                android:textColor="@color/color999999"
+                                android:textSize="10sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:text="@{String.valueOf(bean.visit_count)}"
+                                android:textColor="@color/color333333"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                tools:text="121.11" />
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:gravity="center_horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="在售商家"
+                                android:textColor="@color/color999999"
+                                android:textSize="10sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
+                                android:text="@{String.valueOf(bean.shop_count)}"
+                                android:textColor="@color/color333333"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                tools:text="121.11" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+            </LinearLayout>
+            </android.support.v7.widget.CardView>
+            <com.yaofangwang.mall.widgtes.chart.ExtraLineChart
+                android:id="@+id/chart"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp" />
+
+
+            <TextView
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginBottom="5dp"
+                android:text="近一个月价格趋势图"
+                android:textSize="9sp" />
+
+        </LinearLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorF4F4F4"
+            android:paddingBottom="10dp"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp"
+            android:paddingTop="10dp">
+
+            <RelativeLayout
+                android:background="@color/colorFDFDFD"
+                android:id="@+id/qrcodeRlty"
+                android:layout_width="55dp"
+                android:layout_height="55dp">
+
+                <ImageView
+                    android:id="@+id/qrcodeIv"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_centerInParent="true" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/checkQrcodeTv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="8dp"
+                android:layout_toRightOf="@+id/qrcodeRlty"
+                android:text="扫码或长按二维码查看"
+                android:textColor="@color/color999999"
+                android:textSize="10sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/checkQrcodeTv"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="12dp"
+                android:layout_toRightOf="@+id/qrcodeRlty"
+                android:text="更多产品价格趋势"
+                android:textColor="@color/colorFF16BF8D"
+                android:textSize="10sp" />
+
+        </RelativeLayout>
+    </LinearLayout>
+</layout>

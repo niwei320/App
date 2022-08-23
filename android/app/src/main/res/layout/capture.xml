@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <SurfaceView
+        android:id="@+id/preview_view"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_gravity="center" />
+
+    <com.yaofangwang.zxing.ViewfinderView
+        android:id="@+id/viewfinder_view"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom" >
+
+        <View
+            android:background="#FFFFFF"
+            android:id="@+id/status_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"/>
+
+        <RelativeLayout
+            android:layout_below="@+id/status_view"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:background="@color/color_appwhite"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/top_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:maxLines="1"
+                android:maxWidth="230dp"
+                android:text=""
+                android:textColor="@color/color_appblack"
+                android:textSize="16sp"/>
+
+            <ImageView
+                android:id="@+id/top_left"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/top_back_green" />
+
+            <TextView
+                android:id="@+id/top_right_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:padding="10dp"
+                android:text=""
+                android:textColor="@color/color_appgreen"
+                android:textSize="14sp"
+                android:visibility="gone"/>
+
+            <TextView
+                android:id="@+id/top_right_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/top_right_tv"
+                android:contentDescription="@null"
+                android:padding="10dp"
+                android:text=""
+                android:textColor="@color/color_appgreen"
+                android:textSize="16sp"
+                android:visibility="gone"/>
+
+            <View
+                android:id="@+id/splite_tv"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/color_split_line"/>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_alignParentBottom="true"
+            android:padding="10dp" >
+
+            <!--<TextView-->
+                <!--android:id="@+id/open_pic"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_marginRight="10dp"-->
+                <!--android:layout_weight="1"-->
+                <!--android:gravity="center"-->
+                <!--android:padding="10dp"-->
+                <!--android:text="图片识别"-->
+                <!--android:textColor="@color/color_appwhite" />-->
+
+            <TextView
+                android:id="@+id/open_light"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="打开闪光灯"
+                android:textColor="@color/color_appwhite" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</FrameLayout>

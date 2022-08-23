@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="changIp"
+            type="com.yaofangwang.mall.activity.ChangeIpViewModel"/>
+        <variable
+            name="ipName"
+            type="com.yaofangwang.mall.bean.IpBean"/>
+        <variable
+            name="CustomIp"
+            type="String"/>
+        <variable
+            name="HotUpdateUrl"
+            type="String"/>
+        <import type="android.databinding.ObservableInt"/>
+        <variable
+            name="progress"
+            type="ObservableInt"/>
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/color_appwhite"
+        tools:context="com.yaofangwang.mall.activity.ChangeIpActivity">
+        <View
+            android:id="@+id/status_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"/>
+        <LinearLayout
+            android:id="@+id/ip_show"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/jdpay_success_green"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="当前配置:" />
+
+            <TextView
+                android:id="@+id/ip_show_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:text="@{changIp.getTcpSetting()}" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:onClick="@{()->changIp.changIpToDest(ipName.XiaoPeng)}"
+            android:id="@+id/ip_xiaopeng"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/color_appwhite"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="小彭:" />
+
+            <TextView
+                android:id="@+id/ip_xiaopeng_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:text="http://192.168.2.66" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:onClick="@{()->changIp.changIpToDest(ipName.WUlu)}"
+            android:id="@+id/ip_wulu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/color_appwhite"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="吴路:" />
+
+            <TextView
+                android:id="@+id/ip_wulu_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:text="http://192.168.2.13" />
+            />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:onClick="@{()->changIp.changIpToDest(ipName.XiaoZhuang)}"
+            android:id="@+id/ip_xiaozhuang"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/color_appwhite"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="小壮:" />
+
+            <TextView
+                android:id="@+id/ip_xiaozhuang_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:text="http://192.168.2.15" />
+            />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:onClick="@{()->changIp.changIpToDest(ipName.YaLin)}"
+            android:id="@+id/ip_yalin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/color_appwhite"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="亚林:" />
+
+            <TextView
+                android:id="@+id/ip_yalin_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:text="http://192.168.2.16" />
+            />
+
+        </LinearLayout>
+        <LinearLayout
+            android:onClick="@{()->changIp.changIpToDest(ipName.LikaiHua)}"
+            android:id="@+id/ip_likaihua"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/color_appwhite"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="李凯华:" />
+
+            <TextView
+                android:id="@+id/ip_likaihua_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:text="http://192.168.2.8" />
+        </LinearLayout>
+        <LinearLayout
+            android:onClick="@{()->changIp.changIpToDest(ipName.LiHui)}"
+            android:id="@+id/ip_lihui"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/color_appwhite"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="李辉:" />
+
+            <TextView
+                android:id="@+id/ip_lihui_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:text="http://192.168.2.59" />
+        </LinearLayout>
+        <LinearLayout
+            android:onClick="@{()->changIp.changIpToDest(ipName.SunQiChao)}"
+            android:id="@+id/ip_sunqichao"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/color_appwhite"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="孙启超:" />
+
+            <TextView
+                android:id="@+id/ip_sunqichao_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:text="http://192.168.3.106" />
+        </LinearLayout>
+        <LinearLayout
+            android:onClick="@{()->changIp.changIpToDest(ipName.LocalTest)}"
+            android:id="@+id/ip_localTest"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/color_appwhite"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="本地测试服务器:" />
+
+            <TextView
+                android:id="@+id/ip_localTest_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:text="http://192.168.2.252" />
+        </LinearLayout>
+        <LinearLayout
+            android:onClick="@{()->changIp.changIpToDest(ipName.OnLineTest)}"
+            android:id="@+id/ip_onLineTest"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/color_appwhite"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="线上测试服务器:" />
+
+            <TextView
+                android:id="@+id/ip_onLineTest_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:text="http://114.116.222.136" />
+        </LinearLayout>
+        <LinearLayout
+            android:onClick="@{()->changIp.changIpToDest(ipName.OnLine)}"
+            android:id="@+id/ip_onLine"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/color_appwhite"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="线上服务器:" />
+
+            <TextView
+                android:id="@+id/ip_onLine_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:text="yaofangwang.com" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/ip_custom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/color_appwhite"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_weight="2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="自定义服务器:" />
+
+            <EditText
+                android:layout_weight="4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="输入服务器IP"
+                android:text="@={CustomIp}" />
+
+            <TextView
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/size10dp"
+                android:background="@color/gray"
+                android:onClick="@{()->changIp.changIpToDest(CustomIp)}"
+                android:text="确定" />
+        </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="100"
+            android:progress="@{progress}" />
+
+        <LinearLayout
+            android:id="@+id/hot_update_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/color_appwhite"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_weight="2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="热更新测试:" />
+
+            <EditText
+                android:layout_weight="4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="输入热更新BundleURL"
+                android:text="@={HotUpdateUrl}" />
+
+            <TextView
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/size10dp"
+                android:background="@color/gray"
+                android:onClick="@{()->changIp.hotLoadBundle(HotUpdateUrl)}"
+                android:text="确定" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:background="@color/gray"
+            android:gravity="center"
+            android:onClick="@{()->changIp.cancleChange()}"
+            android:padding="@dimen/size10dp"
+            android:text="取消（返回上一页面）"
+            android:textColor="@color/color_appred" />
+
+    </LinearLayout>
+</layout>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:background="@color/color_appwhite"
+                android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/top_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:maxLines="1"
+        android:maxWidth="230dp"
+        android:text=""
+        android:textColor="@color/color_appblack"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/top_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:drawableLeft="@drawable/top_back_green"
+        android:paddingBottom="10dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp"
+        android:text=""/>
+
+    <TextView
+        android:id="@+id/top_right_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:padding="10dp"
+        android:text=""
+        android:textColor="@color/color_appgreen"
+        android:textSize="14sp"
+        android:visibility="gone"
+        tools:text="确定"
+        tools:visibility="visible"/>
+
+    <TextView
+        android:id="@+id/top_right_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@id/top_right_tv"
+        android:contentDescription="@null"
+        android:padding="10dp"
+        android:text=""
+        android:textColor="@color/color_appgreen"
+        android:textSize="16sp"
+        android:visibility="gone"
+        tools:visibility="visible"/>
+
+    <View
+        android:id="@+id/splite_tv"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/color_split_line"/>
+
+</RelativeLayout>
